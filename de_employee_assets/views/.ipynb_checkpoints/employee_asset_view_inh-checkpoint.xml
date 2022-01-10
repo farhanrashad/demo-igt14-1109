@@ -1,0 +1,67 @@
+<odoo>
+    <record model="ir.ui.view" id="view_hr_employee_form_asset">
+        <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='hr_settings']" position="after">
+                    <page name="assets" string="Assets">
+                            <field name="asset_lines">
+                            <tree editable="bottom">
+                                <field name="asset_id" string="Asset" required="1"/>
+                                <field name="code"/>
+                                <field name="serial"/>
+                                <field name="delivery_date"/>
+                                <field name="return_date"/>
+                                <field name="comment"/>
+                            </tree>
+                        </field>
+                    </page>
+            </xpath>
+       </field>
+    </record>
+    
+    <record model="ir.ui.view" id="view_hr_employee_form_teambuilding">
+        <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='hr_settings']" position="after">
+                    <page name="Team Building" string="Team Building">
+                            <field name="tb_lines">
+                            <tree editable="bottom">
+                                <field name="tb_id" string="Activity" required="1"/>
+                                <field name="code"/>
+                                <field name="winner"/>
+                                <field name="comment"/>
+                            </tree>
+                        </field>
+
+                    </page>
+            </xpath>
+       </field>
+    </record>
+    
+    
+    <record model="ir.ui.view" id="view_hr_employee_form_incident">
+        <field name="name">hr.employee.form.inherit</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+            <xpath expr="//notebook/page[@name='hr_settings']" position="after">
+                    <page name="Incident" string="Incident">
+                            <field name="incident_lines">
+                            <tree editable="bottom">
+                                <field name="date"/>
+                                <field name="incident_id" string="Incident" required="1"/>
+                                <field name="comment"/>
+                            </tree>
+                        </field>
+
+                    </page>
+            </xpath>
+       </field>
+    </record>
+    
+    
+</odoo>

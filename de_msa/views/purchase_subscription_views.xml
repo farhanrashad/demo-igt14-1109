@@ -1,0 +1,21 @@
+<odoo>
+  <data>
+      <record id="purchase_subcription_form_view_inherit_msa" model="ir.ui.view">
+            <field name="name">purchase.subscription.form.view.inherit.msa</field>
+            <field name="model">purchase.subscription</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subcription_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+					<page string="Related MSA" name="related_msa" >
+                        <field name="purchase_subscription_msa_line">
+							<tree editable="bottom" >
+								<field name="msa_id"/>
+								<field name="active_billing" />
+							</tree>
+						</field>
+                    </page>
+                </xpath>
+          </field>
+      </record>
+    </data>
+</odoo>

@@ -1,0 +1,106 @@
+<odoo>
+	<data>
+		<record id="purchase_requistion_form_view_inherit_revision" model="ir.ui.view">
+			<field name="name">purchase.requisition.form.inehrit.revision</field>
+			<field name="model">purchase.requisition</field>
+			<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//header" position="inside">
+					<button name="action_revision" states="draft,ongoing,in_progress" type="object" string="Revision"/>
+				</xpath>
+				
+
+				<xpath expr="//form/sheet/notebook/page[1]" position="after">
+					<page string="Revisions" attrs="{'invisible': [('old_revision_ids' , '=', [])]}">
+						<field name="old_revision_ids">
+							<tree>
+								<field name='name'/>
+								<field name='create_date' string="Superseeded on"/>
+								<field name='create_uid' string="Superseeded by"/>
+								<field name='state' invisible='1'/>
+							</tree>
+						</field>
+						<group>
+							<field name="current_revision_id" invisible='1'/>
+							<field name="active" invisible='1'/>
+							<field name="revised" invisible='1'/>
+
+						</group>
+
+					</page>
+				</xpath>
+				<xpath expr="//form/header/button[@name='action_draft']" position="replace">
+					 <button name="action_draft" type="object" string="Set to Quotation" 
+						attrs="{'invisible': ['|', ('revised' , '!=', False),('state', '!=', 'cancel')]}"/>
+				</xpath>
+
+				<!-- Readonly in Sent State -->
+				<xpath expr="//field[@name='line_ids']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='vendor_id']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+				
+				<xpath expr="//field[@name='date_end']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+				<xpath expr="//field[@name='ordering_date']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+                <xpath expr="//field[@name='schedule_date']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+				
+				
+				<xpath expr="//field[@name='currency_id']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+				
+				<xpath expr="//field[@name='description']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+
+				<xpath expr="//field[@name='user_id']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+				
+				<xpath expr="//field[@name='company_id']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+				
+				
+				<xpath expr="//field[@name='origin']" position="attributes">
+					<attribute name="attrs">{'readonly':[('state', '=', 'sent')]}</attribute>
+				</xpath>
+			</field>
+		</record>
+
+		
+		<record model="ir.actions.act_window" id="action_purchase_requisition_revision">
+        <field name="name">Purchase Agreements</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.requisition</field>
+        <field name="view_mode">tree,kanban,form</field>
+        <field name="context">{}</field>
+        <field name="search_view_id" ref="purchase_requisition.view_purchase_requisition_filter"/>
+        <field name="help" type="html">
+          <p class="o_view_nocontent_smiling_face">
+            Start a new purchase agreement
+          </p><p>
+            Example of purchase agreements include call for tenders and blanket orders.
+          </p><p>
+            In a call for tenders, you can record the products you need to buy
+            and generate the creation of RfQs to vendors. Once the tenders have
+            been registered, you can review and compare them and you can
+            validate some and cancel others.
+          </p><p>
+            For a blanket order, you can record an agreement for a specifc period
+            (e.g. a year) and you order products within this agreement, benefiting
+            from the negotiated prices.
+          </p>
+        </field>
+    </record>
+		
+	</data>
+</odoo>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_subscription_action_filtered" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="res_model">purchase.subscription</field>
+        <field name="view_mode">tree,form,kanban,pivot,graph,activity</field>
+        <field name="context">{
+            'search_default_subscription_plan_id': [active_id],
+            'default_subscription_plan_id': active_id,
+        }
+        </field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new subscription
+            </p><p>
+                Use subscriptions to follow tasks, issues, timesheets or invoicing based on
+                work done, expenses and/or sales orders. Odoo will automatically manage
+                the alerts for the renewal of the subscriptions to the right salesperson.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Subscriptions Plans -->
+    <record id="purchase_subscription_plan_view_list" model="ir.ui.view">
+        <field name="name">purchase.subscription.plan.list</field>
+        <field name="model">purchase.subscription.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Subscription Plans">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="recurring_interval_type"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </tree>
+        </field>
+    </record>
+    <record id="purchase_subscription_template_view_kanban" model="ir.ui.view">
+        <field name="name">purchase.subscription.template.kanban</field>
+        <field name="model">purchase.subscription.plan</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_subscription_kanban">
+                <field name="active"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="recurring_interval"/>
+                <field name="recurring_interval_type"/>
+                <field name="subscription_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="o_subscription_kanban_main">
+                                <div class="o_kanban_card_content">
+                                    <div class="o_kanban_record_title">
+                                        <t t-if="record.code.value"><t t-esc="record.code.value"/> - </t>
+                                        <t t-esc="record.name.value"/>
+                                    </div>
+                                    <div>Recurrence:<t t-esc="record.recurring_interval.value"/>&amp;nbsp;
+                                        <t t-esc="record.recurring_interval_type.value"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ml16" t-if="!selection_mode">
+                                <a name="%(purchase_subscription_action_filtered)d" type="action">
+                                    <span><t t-esc="record.subscription_count.value"/></span>
+                                    <span>Subscriptions</span>
+                                </a>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="purchase_subscription_plan_view_form" model="ir.ui.view">
+        <field name="name">purchase.subscription.plan.form.view</field>
+        <field name="model">purchase.subscription.plan</field>
+        <field name="arch" type="xml">
+            <form string="Subscription">
+                <sheet string="Subscription">
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-book" name="%(product_template_action_purchase_subscription)d" type="action">
+                            <field name="product_count" widget="statinfo" string="Products"/>
+                        </button>
+                            
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="e.g. Monthly Subscription"/>
+                        </h1>
+                    </div>
+                    <group name="invoicing">
+                        <group>
+                            <label for="recurring_interval"/>
+                            <div class="o_row">
+                                <span class="mr-1">Every</span>
+                                <field name="recurring_interval" required="1"/>
+                                <field name="recurring_interval_type" class="field_rule_type" required="1"/>
+                            </div>
+                            <field name="recurring_interval_rule" widget="radio" options="{'horizontal':true}"/>
+                            <span class="o_form_label" attrs="{'invisible': [('recurring_interval_rule','=','unlimited')]}"/>
+                            <div class="o_row" attrs="{'invisible': [('recurring_interval_rule','=','unlimited')]}">
+                                <span class="mr-1">For</span>
+                                <field name="recurring_interval_count"/>
+                                <field class="mr-1" name="recurring_interval_type" readonly="1" />
+                            </div>
+                            
+                            <field name="invoicing_mode" string="Create Invoice" widget="radio"/>
+                            
+                        </group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                            <field name="code" />
+                            <field name="journal_id" />
+                            <field name="company_id" />
+                        </group>
+                    </group>
+                    <group name="description">
+                        <field name="description" placeholder="Terms and Conditions"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_purchase_subscription_plan" model="ir.actions.act_window">
+			<field name="name">Subscription Plan</field>
+			<field name="res_model">purchase.subscription.plan</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new plan of subscription
+				</p>
+                <p>
+                    Plans are used to prefigure subscription that can be selected by the salespeople to quickly configure the terms and conditions of the subscription.
+                </p>
+			</field>
+		</record>
+		
+		<menuitem id="purchase_subscription_config_plan_menu" name="Subscription Plan" parent="purchase_subscription_config_menu"
+			action="action_purchase_subscription_plan"
+			sequence="1" />
+		
+			
+</odoo>
+
+

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+	<record id="create_project_appraisal" model="project.project">
+		<field name="name">Appraisal</field>
+	</record>
+</odoo>

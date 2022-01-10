@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+    <!-- Subscriptions Stage -->
+    <record id="purchase_subscription_stage_view_list" model="ir.ui.view">
+        <field name="name">purchase.subscription.stage.list</field>
+        <field name="model">purchase.subscription.stage</field>
+        <field name="arch" type="xml">
+            <tree string="Subscription Stages">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="purchase_subscription_stage_view_form" model="ir.ui.view">
+        <field name="name">purchase.subscription.stage.form</field>
+        <field name="model">purchase.subscription.stage</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Stage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <field name="subscription_type_ids" widget="many2many_tags" groups="base.group_no_one"/>
+                            <field name="next_stage_id"/>
+                            <field name="prv_stage_id"/>
+                        </group>
+                        <group>
+                            <field name="fold"/>
+                            <field name="stage_category" widget="radio"/>
+                            <field name="group_id" options="{'no_create': True,'no_open':True}" />
+                        </group>
+                    </group>
+                    <separator string="Requirements"/>
+                    <field name="description"
+                           placeholder="Give your team the requirements to move a subscription to this stage."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_purchase_subscription_stage" model="ir.actions.act_window">
+			<field name="name">Subscription Stage</field>
+			<field name="res_model">purchase.subscription.stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new subscription stage
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="purchase_subscription_config_stage_menu" name="Subscription Stages" parent="purchase_subscription_config_menu"
+			action="action_purchase_subscription_stage"
+			sequence="1" />
+		
+			
+</odoo>
+
+

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id='service_category_form' model='ir.ui.view'>
+        <field name="name">service.category.form</field>
+        <field name="model">service.category</field>
+        <field name="arch" type="xml">
+            <form string="Service Category">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="service_category_tree" model="ir.ui.view">
+		<field name="name">service.category.tree</field>
+		<field name="model">service.category</field>
+		<field name="arch" type="xml">
+			<tree string="Service Category">
+                <field name="name"/>
+			</tree>
+		</field>
+	</record>
+    
+    <record id="service_category_search" model="ir.ui.view">
+		<field name="name">service.category.search</field>
+		<field name="model">service.category</field>
+		<field name="arch" type="xml">
+			<search string="Service Category">
+                <field name="name"/>
+			</search>
+		</field>
+	</record>
+    
+    <record id="action_service_categories" model="ir.actions.act_window">
+		<field name="name">Service Category</field>
+		<field name="res_model">service.category</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+        <field name="view_id" ref="service_category_tree" />
+		<field name="search_view_id" ref="service_category_search" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Add Service Categories ...
+			</p>
+		</field>
+	</record> 
+    
+    <record id="service_category_inherit" model="ir.ui.view">
+		<field name="name">service.category.inherit</field>
+		<field name="model">fleet.service.type</field>
+        <field name="inherit_id" ref="fleet.fleet_vehicle_service_types_view_tree"/>
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='category']" position='replace'>
+                <field name="category_id" widget="many2many_tags"/>
+            </xpath>
+        </field>
+     </record>
+    
+    <record id='service_type_form' model='ir.ui.view'>
+        <field name="name">service.type.form</field>
+        <field name="model">fleet.service.type</field>
+        <field name="arch" type="xml">
+            <form string="Service Types">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                            <field name="category_id" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <menuitem id="service_category" name="Service Category" parent="fleet.fleet_configuration"
+              action="action_service_categories"
+                sequence="7" />
+    
+</odoo>

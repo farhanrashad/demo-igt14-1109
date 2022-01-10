@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_requisition,access.purchase.requisition,model_purchase_requisition,,1,1,1,1
+access_purchase_requisition_type,access.purchase.requisition.type,model_purchase_requisition_type,,1,1,1,1
+access_res_partner,access.res.partner,model_res_partner,,1,1,1,1
+access_res_users,access.res.users,model_res_users,,1,1,1,1

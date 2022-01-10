@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+
+    <record id="view_payment_form_inherit_custom_entry" model="ir.ui.view">
+        <field name="name">view.payment.form.inherit.custom.entry</field>
+        <field name="model">account.payment</field>
+        <field name="inherit_id" ref="account.view_account_payment_form"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="after">
+                <field name="custom_entry_id" invisible="1" />
+            </field>
+            
+        </field>
+    </record>
+
+</odoo>

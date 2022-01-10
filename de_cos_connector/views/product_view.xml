@@ -1,0 +1,42 @@
+<odoo>
+	
+	<record id="product_product_form_view_inherit_cos" model="ir.ui.view">
+	        <field name="name">product.product.form</field>
+	        <field name="model">product.product</field>
+	        <field name="inherit_id" ref="product.product_normal_form_view"/>
+	        <field name="arch" type="xml">
+	
+	            <xpath expr="//field[@name='barcode']" position="after">
+	                <field name="cos_categ_id" attrs="{'required': [('is_cos_product','=',True)]}"
+	                	options="{'no_create': True, 'no_create_edit':True}"/>
+	                <field name="cos_manufact_id" attrs="{'required': [('is_cos_product','=',True)]}"
+	                	options="{'no_create': True, 'no_create_edit':True}"/>
+	                <field name="cos_entity_id" readonly="True"/>
+	                <field name="is_cos_product" />
+	            </xpath>
+	            
+	            <xpath expr="//field[@name='default_code']" position="attributes">
+	                <attribute name="attrs">{'required': [('is_cos_product','=',True)]}</attribute>
+	            </xpath>
+	
+	        </field>
+	    </record>
+	
+	
+	<record id="product_normal_action_cos" model="ir.actions.act_window">
+            <field name="name">COS Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">product.product</field>
+            <field name="view_mode">kanban,form,tree,activity</field>
+			<field name="domain">[('is_cos_product', '=', True)]</field>
+			<field name="context">{'default_is_cos_product': True}</field>
+            <field name="search_view_id" ref="product.product_search_form_view"/>
+            <field name="view_id" eval="False"/> <!-- Force empty -->
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                Create a new cos product here....
+              </p>
+            </field>
+        </record>
+
+</odoo>

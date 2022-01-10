@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tags -->
+        <record id="account_journal_form_view_inherit_approvals" model="ir.ui.view">
+			<field name="name">account.journal.form.view.inherit.approvals</field>
+			<field name="model">account.journal</field>
+			<field name="inherit_id" ref="account.view_account_journal_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='advanced_settings']" position="inside">
+                    <group>
+                        <group name="approvals" string="Approvals">
+                            <field name="category_id" string="Approval Category"/>
+                        </group>
+                    </group>
+				</xpath>
+			</field>
+		</record>
+
+      
+
+    </data>
+</odoo>

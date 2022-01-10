@@ -1,0 +1,672 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<odoo>
+
+            <template id="portal_custom_entry_type" name="Custom Entry Documents type">
+        <t t-call="portal.portal_layout">
+               <div id="wrap">
+                            <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[1]">
+                                <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                                    <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/portal.s_banner_default_image'); background-position: 50% 0;"></span>
+                                    <div class="o_we_bg_filter bg-black-50"></div>
+                                    <div class="container">
+                                        <h1>Third Party Billing Request</h1>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="container mt-4 mb-5">
+
+                                <div class="row">
+                                    <div class="col-lg-7 col-xl-6 mr-lg-auto">
+                                        <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[2]/div[1]/div[1]/div[1]">
+                                            <section class="s_text_block" data-snippet="s_text_block">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <p>
+                                                                Submit Third Party Billing From Here.
+                                                            </p>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <span class="hidden" data-for="contactus_form" data-oe-id="2822" data-oe-xpath="/data/xpath/span" data-oe-model="ir.ui.view" data-oe-field="arch" data-values="{'leave_type_id': '', 'employee_id': '', 'date_start': '', 'date_end': '', 'description': ''}"></span>
+            <div id="docs_section" data-oe-id="3374" data-oe-xpath="/data/xpath[2]/div" data-oe-model="ir.ui.view" data-oe-field="arch">
+                    <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                         <div class="container">
+          <form action="/entry/type" method="post"  id="task_form1" enctype="multipart/form-data"  >
+            <div class="s_website_form_rows row s_col_no_bgcolor">
+              <div class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="xpkcz5sny2s">
+                    <span class="s_website_form_label_content">Billing Type</span>
+                  </label>
+                  <div class="col-sm">
+                        <select class="form-control  o_website_form_input" name="entry_type_id" readonly="1"  id ='get_entry_type'>
+                            <t t-foreach="custom_entry_types" t-as="type">
+                                <option t-att-value="type.id">
+                                    <t t-esc="type.name"    />
+                                </option>
+                            </t>
+                        </select>
+
+
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                  <div style="width: 200px;" class="s_website_form_label"></div>
+                  <button type="submit" class="btn btn-primary pull-left">Next</button>
+                  <span id="s_website_form_result"></span>
+              </div>
+            </div>
+          </form>
+        </div>
+                    </section>
+                </div>
+			</div>
+                                    <div class="col-lg-4 mt-4 mt-lg-0">
+
+
+
+
+    <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+        <div data-oe-model="res.company" data-oe-id="1" data-oe-field="partner_id" data-oe-type="contact" data-oe-expression="res_company.partner_id" data-oe-many2one-id="1" data-oe-many2one-model="res.partner" data-oe-contact-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;address&quot;, &quot;phone&quot;, &quot;mobile&quot;, &quot;email&quot;], &quot;tagName&quot;: &quot;div&quot;, &quot;expression&quot;: &quot;res_company.partner_id&quot;, &quot;type&quot;: &quot;contact&quot;, &quot;inherit_branding&quot;: true, &quot;translate&quot;: false}" data-oe-field-xpath="/t[1]/address[1]/div[1]">
+    <address class="mb-0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+
+
+
+    <div>
+
+            <span itemprop="name"><t t-esc="company_info.company_id.name"/></span>
+
+
+
+    </div>
+
+
+        <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+            <div class="d-flex align-items-baseline">
+                <i class="fa fa-map-marker fa-fw" role="img" aria-label="Address" title="Address"></i>
+                <span class="w-100 o_force_ltr d-block" itemprop="streetAddress"><t t-esc="company_info.company_id.street"/> <t t-esc="company_info.company_id.street2"/><br/><t t-esc="company_info.company_id.city"/><br/><t t-esc="company_info.company_id.country_id.name"/></span>
+            </div>
+
+            <div><i class="fa fa-phone fa-fw" role="img" aria-label="Phone" title="Phone"></i> <span class="o_force_ltr" itemprop="telephone"><t t-esc="company_info.company_id.phone"/> </span></div>
+
+
+
+            <div><i class="fa fa-envelope fa-fw" role="img" aria-label="Email" title="Email"></i> <span itemprop="email"><t t-esc="company_info.company_id.email"/></span></div>
+        </div>
+        <div>
+
+
+
+        </div>
+
+
+
+    </address>
+</div>
+
+            <span class="fa fa-map-marker fa-fw mt16" role="img" aria-label="Address" title="Address" data-oe-model="ir.ui.view" data-oe-id="2175" data-oe-field="arch" data-oe-xpath="/t[1]/address[1]/t[1]/span[1]"></span> <a target="_BLANK" data-oe-model="ir.ui.view" data-oe-id="2175" data-oe-field="arch" data-oe-xpath="/t[1]/address[1]/t[1]/a[1]" href="https://maps.google.com/maps?q=250+Executive+Park+Blvd%2C+Suite+3400%2C+San+Francisco+94134%2C+United+States&amp;z=8"> Google Maps</a>
+
+    </address>
+
+            <div class="alert alert-warning" data-oe-model="ir.ui.view" data-oe-id="2176" data-oe-field="arch" data-oe-xpath="/data/xpath/t[2]/div[1]">
+                <i class="fa fa-plus-circle"></i>
+                The Google map option is enabled but <a href="/web#action=portal.action_website_configuration">not properly configured</a>.
+            </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_structure mt-2" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[3]"></div>
+                        </div>
+
+
+
+
+
+
+        </t>
+    </template>
+
+
+    <template id="portal_custom_entry_final" name="Custom Entry final">
+        <t t-call="portal.portal_layout">
+               <div id="wrap">
+
+                            <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[1]">
+                                <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                                    <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/portal.s_banner_default_image'); background-position: 50% 0;"></span>
+                                    <div class="o_we_bg_filter bg-black-50"></div>
+                                    <div class="container">
+                                        <h1><span t-esc="entry_name" />  Request</h1>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="container mt-4 mb-5">
+
+                                <div class="row">
+                                    <div class="col-lg-7 col-xl-6 mr-lg-auto">
+                                        <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[2]/div[1]/div[1]/div[1]">
+                                            <section class="s_text_block" data-snippet="s_text_block">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <p>
+                                                                <span t-esc="entry_name" /> Request  From Here.
+                                                            </p>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <span class="hidden" data-for="contactus_form" data-oe-id="2822" data-oe-xpath="/data/xpath/span" data-oe-model="ir.ui.view" data-oe-field="arch" data-values="{'leave_type_id': '', 'employee_id': '', 'date_start': '', 'date_end': '', 'description': ''}"></span>
+            <div id="docs_section" data-oe-id="3374" data-oe-xpath="/data/xpath[2]/div" data-oe-model="ir.ui.view" data-oe-field="arch">
+                    <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                         <div class="container">
+          <form action="/website_form/" method="post"  id="task_form" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-model_name="project.task">
+            <div class="s_website_form_rows row s_col_no_bgcolor">
+
+
+                <t t-if='reference == 1'>
+              <div id ="reference" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1">
+                    <span class="s_website_form_label_content">Reference</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="text" class="form-control s_website_form_input" name="reference" id="entry11"/>
+                  </div>
+                </div>
+              </div>
+            </t> 
+                
+             <t t-if='supplier_iv_num == 1'>   
+              <div id ="supplier_bill_ref" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1">
+                    <span class="s_website_form_label_content">Supplier Bill Ref</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="text" class="form-control s_website_form_input" name="supplier_bill_ref" id="entry12"/>
+                  </div>
+                </div>
+              </div>
+            </t>    
+             
+            <t t-if='month == 1'>    
+              <div id ="date_entry_month" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1">
+                    <span class="s_website_form_label_content">Month</span>
+                  </label>
+                  <div class="col-sm">
+                    <select  id="date_entry_month" class="form-control  s_website_form_input" name="date_entry_month" >
+                                                            <option value="1">Jan</option>
+                                                            <option value="2">Feb</option>
+                                                            <option value="3">Mar</option>
+                                                            <option value="4">Apr</option>
+                                                            <option value="5">May</option>
+                                                            <option value="6">Jun</option>
+                                                            <option value="7">July</option>
+                                                            <option value="8">Aug</option>
+                                                            <option value="9">Sep</option>
+                                                            <option value="10">Oct</option>
+                                                            <option value="11">Nov</option>
+                                                            <option value="12">Dec</option>
+                                                           
+                                                            
+                                                </select>
+                  </div>
+                </div>
+              </div>  
+                </t>
+                  <div id ="currency" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="currency">
+                    <span class="s_website_form_label_content">Currency</span>
+                  </label>
+                  <div class="col-sm">
+                    <select class="form-control  o_website_form_input" name="tcurrency_id" readonly="1">
+                                                                    <t t-foreach="currencies" t-as="currency">
+                                                                        <option t-att-value="currency.id">
+                                                                            <t t-esc="currency.name"    />
+                                                                        </option>
+                                                                    </t>
+                                                                </select>
+                  </div>
+                </div>
+              </div>
+                
+            <t t-if='date_subscription == 1'>
+              <div id ="date_subscription" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1sub11">
+                    <span class="s_website_form_label_content">Date of Subscription</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="date" class="form-control s_website_form_input" name="date_subscription" id="entrysub11"/>
+                  </div>
+                </div>
+              </div>
+               </t>
+              <t t-if='date_effective == 1'>
+              <div id ="date_effective" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="date_effective">
+                    <span class="s_website_form_label_content">Effective Date</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="date" class="form-control s_website_form_input" name="date_effective" id="date_effective"/>
+                  </div>
+                </div>
+              </div>
+               </t>  
+             
+                 <t t-if='f_duration_from == 1'>
+              <div id ="f_duration_from" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="f_duration_from">
+                    <span class="s_website_form_label_content">Duration From</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="date" class="form-control s_website_form_input" name="f_duration_from" id="f_duration_from"/>
+                  </div>
+                </div>
+              </div>
+               </t>  
+                
+            
+                
+             <t t-if='f_duration_to == 1'>
+              <div id ="f_duration_to" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="f_duration_to">
+                    <span class="s_website_form_label_content">Duration To</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="date" class="form-control s_website_form_input" name="f_duration_to" id="f_duration_to"/>
+                  </div>
+                </div>
+              </div>
+               </t>   
+                
+                
+              <t t-if='customer_type == 1'>    
+              <div id ="customer_type" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1ct">
+                    <span class="s_website_form_label_content">Customer Type</span>
+                  </label>
+                  <div class="col-sm">
+                    <select  id="date_entry_month" class="form-control  s_website_form_input" name="customer_type" >
+                                                            <option value="local">Local</option>
+                                                            <option value="expat">Expat</option>
+                                                           
+                                                            
+                                                </select>
+                  </div>
+                </div>
+              </div>  
+                </t>  
+                <t t-if='t_travel_by == 1'>    
+              <div id ="t_travel_by" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1t">
+                    <span class="s_website_form_label_content">Travel By</span>
+                  </label>
+                  <div class="col-sm">
+                    <select  id="date_entry_month" class="form-control  s_website_form_input" name="t_travel_by" >
+                                                            <option value="ticket">Flight Ticket</option>
+                                                            <option value="Vehicle">Vehicle Rental</option>                                                          
+                                                            
+                                                </select>
+                  </div>
+                </div>
+              </div>  
+                </t>  
+                
+                <t t-if='year == 1'>
+                 <div id ="date_entry_year" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1">
+                    <span class="s_website_form_label_content">Year</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="text" class="form-control s_website_form_input" name="date_entry_year" id="entry13"/>
+                  </div>
+                </div>
+              </div>  
+            </t>
+             <t t-if='description == 1'>
+              <div id ="description" class="form-group s_website_form_field col-12 pt16" data-type="char" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px" for="entry1">
+                    <span class="s_website_form_label_content">Description</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="text" class="form-control s_website_form_input" name="description" id="entry1"/>
+                  </div>
+                </div>
+              </div>
+               </t>
+
+               <t t-if="has_attachment == 1">  
+              <div id="data_entry_attach"  class="form-group s_website_form_field col-12 pt24" data-type="many2many"  data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class=" col-sm-auto s_website_form_label " style="width: 200px" for="xl89fa1ymg">
+                    <span class="s_website_form_label_content">Reference Attachment</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="file" class="form-control-file s_website_form_input"  required="1" name="has_attachment_id" multiple="1" />
+                  </div>
+                </div>
+              </div>
+             </t> 
+             
+              
+              <div id="entry_attach"  class="form-group s_website_form_field col-12 pt24" data-type="many2many"  data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class=" col-sm-auto s_website_form_label " style="width: 200px" for="xl89fa1ymg">
+                    <span class="s_website_form_label_content">Data File</span>
+                  </label>
+                  <div class="col-sm"> 
+                       
+                       <input type="file" class="form-control-file s_website_form_input" name="entry_attachment_id" required="1" multiple="1" />
+                     
+                  </div>
+                </div>
+              </div>
+              
+
+              <div class="form-group s_website_form_field col-12    s_website_form_dnone" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px">
+                    <span class="s_website_form_label_content"/>
+                  </label>
+                  <div class="col-sm">
+                      
+                      <input type="hidden" class="form-control s_website_form_input" name="user_id" t-att-value="user"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="entry_partner_id" t-att-value="partner"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="custom_entry_type_id" t-att-value="entry_types.id"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="name" t-att-value="title"/>
+
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                <div style="width: 200px;" class="s_website_form_label"/>
+                <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">Submit</a>
+                <span id="s_website_form_result"/>
+              </div>
+            </div>
+          </form>
+        </div>
+                    </section>
+                </div>
+			</div>
+                                    <div class="col-lg-4 mt-4 mt-lg-0">
+
+
+
+
+    <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+        <div data-oe-model="res.company" data-oe-id="1" data-oe-field="partner_id" data-oe-type="contact" data-oe-expression="res_company.partner_id" data-oe-many2one-id="1" data-oe-many2one-model="res.partner" data-oe-contact-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;address&quot;, &quot;phone&quot;, &quot;mobile&quot;, &quot;email&quot;], &quot;tagName&quot;: &quot;div&quot;, &quot;expression&quot;: &quot;res_company.partner_id&quot;, &quot;type&quot;: &quot;contact&quot;, &quot;inherit_branding&quot;: true, &quot;translate&quot;: false}" data-oe-field-xpath="/t[1]/address[1]/div[1]">
+    <address class="mb-0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+
+
+
+    <div>
+
+            <span itemprop="name"><t t-esc="company_info.company_id.name"/></span>
+
+
+
+    </div>
+
+
+        <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+            <div class="d-flex align-items-baseline">
+                <i class="fa fa-map-marker fa-fw" role="img" aria-label="Address" title="Address"></i>
+                <span class="w-100 o_force_ltr d-block" itemprop="streetAddress"><t t-esc="company_info.company_id.street"/> <t t-esc="company_info.company_id.street2"/><br/><t t-esc="company_info.company_id.city"/><br/><t t-esc="company_info.company_id.country_id.name"/></span>
+            </div>
+
+            <div><i class="fa fa-phone fa-fw" role="img" aria-label="Phone" title="Phone"></i> <span class="o_force_ltr" itemprop="telephone"><t t-esc="company_info.company_id.phone"/> </span></div>
+
+
+
+            <div><i class="fa fa-envelope fa-fw" role="img" aria-label="Email" title="Email"></i> <span itemprop="email"><t t-esc="company_info.company_id.email"/></span></div>
+        </div>
+        <div>
+
+
+
+        </div>
+
+
+
+    </address>
+</div>
+
+            <span class="fa fa-map-marker fa-fw mt16" role="img" aria-label="Address" title="Address" data-oe-model="ir.ui.view" data-oe-id="2175" data-oe-field="arch" data-oe-xpath="/t[1]/address[1]/t[1]/span[1]"></span> <a target="_BLANK" data-oe-model="ir.ui.view" data-oe-id="2175" data-oe-field="arch" data-oe-xpath="/t[1]/address[1]/t[1]/a[1]" href="https://maps.google.com/maps?q=250+Executive+Park+Blvd%2C+Suite+3400%2C+San+Francisco+94134%2C+United+States&amp;z=8"> Google Maps</a>
+
+    </address>
+
+            <div class="alert alert-warning" data-oe-model="ir.ui.view" data-oe-id="2176" data-oe-field="arch" data-oe-xpath="/data/xpath/t[2]/div[1]">
+                      <a
+                            role="button"
+                            t-attf-href="/web/content/#{entry_types.attachment_id.id}?download=true"
+                            class="btn-primary"
+                            style="margin: 0 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; padding: 8px 10px; color: #ffffff;"
+                        >
+                            <i class="fa fa-download" /> Third Party Bill CSV file
+                        </a>            
+            </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_structure mt-2" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[3]"></div>
+                        </div>
+
+
+
+
+
+
+        </t>
+    </template>
+    
+    
+    <template id="portal_custom_entry_final_update" name="Custom Entry final update"> 
+        <t t-call="portal.portal_layout">
+               <div id="wrap">
+
+                            <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[1]">
+                                <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                                    <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/portal.s_banner_default_image'); background-position: 50% 0;"></span>
+                                    <div class="o_we_bg_filter bg-black-50"></div>
+                                    <div class="container">
+                                        <h1><span t-esc="entry_name" /> Request</h1>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="container mt-4 mb-5">
+
+                                <div class="row">
+                                    <div class="col-lg-7 col-xl-6 mr-lg-auto">
+                                        <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[2]/div[1]/div[1]/div[1]">
+                                            <section class="s_text_block" data-snippet="s_text_block">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-lg-12">
+                                                            <p>
+                                                                Submit <span t-esc="entry_name" /> Request  From Here.
+                                                            </p>
+
+
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+                                        <span class="hidden" data-for="contactus_form" data-oe-id="2822" data-oe-xpath="/data/xpath/span" data-oe-model="ir.ui.view" data-oe-field="arch" data-values="{'leave_type_id': '', 'employee_id': '', 'date_start': '', 'date_end': '', 'description': ''}"></span>
+            <div id="docs_section" data-oe-id="3374" data-oe-xpath="/data/xpath[2]/div" data-oe-model="ir.ui.view" data-oe-field="arch">
+                    <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                         <div class="container">
+          <form action="/website_form/" method="post"  id="task_form" enctype="multipart/form-data" class="o_mark_required" data-mark="*" data-success-mode="redirect" data-success-page="/contactus-thank-you" data-model_name="project.task">
+            <div class="s_website_form_rows row s_col_no_bgcolor">
+
+
+              <t t-if="has_update_attachment == 1">  
+              <div id="data_entry_attach"  class="form-group s_website_form_field col-12 pt24" data-type="many2many"  data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class=" col-sm-auto s_website_form_label " style="width: 200px" for="xl89fa1ymg">
+                    <span class="s_website_form_label_content">Reference Attachment</span>
+                  </label>
+                  <div class="col-sm">
+                    <input type="file" class="form-control-file s_website_form_input" required="1" name="has_attachment_id" multiple="1" />
+                  </div>
+                </div>
+              </div>
+             </t> 
+             
+             
+              <div id="data_entry_attach"  class="form-group s_website_form_field col-12 pt24" data-type="many2many"  data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class=" col-sm-auto s_website_form_label " style="width: 200px" for="xl89fa1ymg">
+                    <span class="s_website_form_label_content">Data File</span>
+                  </label>
+                  <div class="col-sm"> 
+                     
+                       <input type="file" class="form-control-file s_website_form_input" name="entry_attachment_id" required="1" multiple="1" />
+                      
+                  </div>
+                </div>
+              </div>
+              
+
+              <div class="form-group s_website_form_field col-12    s_website_form_dnone" data-name="Field">
+                <div class="row s_col_no_resize s_col_no_bgcolor">
+                  <label class="col-form-label col-sm-auto s_website_form_label " style="width: 200px">
+                    <span class="s_website_form_label_content"/>
+                  </label>
+                  <div class="col-sm">
+                      <input type="hidden" class="form-control s_website_form_input" name="custom_entry_id" t-att-value="custom_entry"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="user_id" t-att-value="user"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="entry_partner_id" t-att-value="partner"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="custom_entry_type_id" t-att-value="entry_types.id"/>
+                      <input type="hidden" class="form-control s_website_form_input" name="name" t-att-value="title"/>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                <div style="width: 200px;" class="s_website_form_label"/>
+                <a href="#" role="button" class="btn btn-primary btn-lg s_website_form_send o_default_snippet_text">Submit</a>
+                <span id="s_website_form_result"/>
+              </div>
+            </div>
+          </form>
+        </div>
+                    </section>
+                </div>
+			</div>
+                                    <div class="col-lg-4 mt-4 mt-lg-0">
+
+
+
+
+    <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+        <div data-oe-model="res.company" data-oe-id="1" data-oe-field="partner_id" data-oe-type="contact" data-oe-expression="res_company.partner_id" data-oe-many2one-id="1" data-oe-many2one-model="res.partner" data-oe-contact-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;address&quot;, &quot;phone&quot;, &quot;mobile&quot;, &quot;email&quot;], &quot;tagName&quot;: &quot;div&quot;, &quot;expression&quot;: &quot;res_company.partner_id&quot;, &quot;type&quot;: &quot;contact&quot;, &quot;inherit_branding&quot;: true, &quot;translate&quot;: false}" data-oe-field-xpath="/t[1]/address[1]/div[1]">
+    <address class="mb-0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+
+
+
+    <div>
+
+            <span itemprop="name"><t t-esc="company_info.company_id.name"/></span>
+
+
+
+    </div>
+
+
+        <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress">
+            <div class="d-flex align-items-baseline">
+                <i class="fa fa-map-marker fa-fw" role="img" aria-label="Address" title="Address"></i>
+                <span class="w-100 o_force_ltr d-block" itemprop="streetAddress"><t t-esc="company_info.company_id.street"/> <t t-esc="company_info.company_id.street2"/><br/><t t-esc="company_info.company_id.city"/><br/><t t-esc="company_info.company_id.country_id.name"/></span>
+            </div>
+
+            <div><i class="fa fa-phone fa-fw" role="img" aria-label="Phone" title="Phone"></i> <span class="o_force_ltr" itemprop="telephone"><t t-esc="company_info.company_id.phone"/> </span></div>
+
+
+
+            <div><i class="fa fa-envelope fa-fw" role="img" aria-label="Email" title="Email"></i> <span itemprop="email"><t t-esc="company_info.company_id.email"/></span></div>
+        </div>
+        <div>
+
+
+
+        </div>
+
+
+
+    </address>
+</div>
+
+            <span class="fa fa-map-marker fa-fw mt16" role="img" aria-label="Address" title="Address" data-oe-model="ir.ui.view" data-oe-id="2175" data-oe-field="arch" data-oe-xpath="/t[1]/address[1]/t[1]/span[1]"></span> <a target="_BLANK" data-oe-model="ir.ui.view" data-oe-id="2175" data-oe-field="arch" data-oe-xpath="/t[1]/address[1]/t[1]/a[1]" href="https://maps.google.com/maps?q=250+Executive+Park+Blvd%2C+Suite+3400%2C+San+Francisco+94134%2C+United+States&amp;z=8"> Google Maps</a>
+
+    </address>
+
+            <div class="alert alert-warning" data-oe-model="ir.ui.view" data-oe-id="2176" data-oe-field="arch" data-oe-xpath="/data/xpath/t[2]/div[1]">
+                      <a
+                            role="button"
+                            t-attf-href="/web/content/#{entry_types.update_attachment_id.id}?download=true"
+                            class="btn-primary"
+                            style="margin: 0 10px; font-size: 12px; line-height: 1.5; border-radius: 3px; padding: 8px 10px; color: #ffffff;"
+                        >
+                            <i class="fa fa-download" /> Third Party Bill CSV file
+                        </a>            
+            </div>
+
+
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_structure mt-2" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[3]"></div>
+                        </div>
+
+
+
+
+
+
+        </t>
+    </template>
+
+
+
+
+</odoo>
+
+

@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_custom_entry_stage_portal,access.account.custom.entry.stage.manager,model_account_custom_entry_stage,base.group_portal,1,1,1,1
+access_account_custom_entry_portal,access.account.custom.entry,model_account_custom_entry,base.group_portal,1,1,1,1
+access_account_custom_entry_line_portal,access.account.custom.entry.line,model_account_custom_entry_line,base.group_portal,1,1,1,1
+access_entry_correction_reason,access.entry.correction.reason,model_entry_correction_reason,,1,1,1,1

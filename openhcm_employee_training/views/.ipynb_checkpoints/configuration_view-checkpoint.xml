@@ -1,0 +1,46 @@
+<odoo>
+  <data>
+      <record model="ir.ui.view" id="delivery_method_tree_view">
+            <field name="name">hr.employee.training.course.delivery.method.tree</field>
+            <field name="model">hr.employee.training.course.delivery.method</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+
+                </tree>
+            </field>
+        </record>
+      
+      
+      <record model="ir.ui.view" id="delivery_method_form_view">
+            <field name="name">hr.employee.training.course.delivery.method.form</field>
+            <field name="model">hr.employee.training.course.delivery.method</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Name..."/>
+                            </h1>
+                        </div>
+                    </sheet> 
+                </form>
+            </field>
+        </record>
+      
+    <record id="delivery_method_menu_action" model="ir.actions.act_window">
+        <field name="name">Delivery Method</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">hr.employee.training.course.delivery.method</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add a New Sessions  method
+            </p>
+        </field>
+    </record>
+      
+    <menuitem name="Configuration" id="sessions_method_main_menu" parent="training_root_menu" sequence="4"/>
+    <menuitem name="Delivery Methods" id="sessions_method_sub_menu" parent="sessions_method_main_menu" action="sessions_menu_action" sequence="1"/>
+  </data>
+</odoo>

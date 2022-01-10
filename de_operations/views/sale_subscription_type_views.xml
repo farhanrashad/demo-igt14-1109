@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+    <!-- Subscriptions Type -->
+    <record id="sale_subscription_type_view_list" model="ir.ui.view">
+        <field name="name">sale.subscription.type.list</field>
+        <field name="model">sale.subscription.agreement.type</field>
+        <field name="arch" type="xml">
+            <tree string="Subscription Stages">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="sale_subscription_type_view_form" model="ir.ui.view">
+        <field name="name">sale.subscription.type.form</field>
+        <field name="model">sale.subscription.agreement.type</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Stage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                        </group>
+                        <group>
+                           
+                        </group>
+                    </group>
+                  
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_sale_subscription_type" model="ir.actions.act_window">
+			<field name="name">Subscription Type</field>
+			<field name="res_model">sale.subscription.agreement.type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new subscription type
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="sale_subscription_config_type_menu" name="Subscription Types" parent="operations_sale_config_menu"
+			action="action_sale_subscription_type"
+			sequence="3" />
+		
+			
+</odoo>
+
+

@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        
+        <record id="view_custom_entry_type_import_template" model="ir.ui.view">
+            <field name="name">account.custom.entry.type.import</field>
+            <field name="model">account.custom.entry.type</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_type_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]" position="after">
+                    <group>
+                        <group string="Example Templates" name="entry_type_examples">
+                            <field name="csv_import_template_id"  widget="many2many_binary"></field>
+                            <field name="excel_import_template_id"  widget="many2many_binary"></field>
+                        </group>
+                    </group>
+                </xpath>
+           </field>
+        </record>
+    </data>
+</odoo>

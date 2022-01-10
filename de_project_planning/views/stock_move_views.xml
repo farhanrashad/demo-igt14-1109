@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- inherit Stock Move form view -->
+        <record id="view_move_form_inherit" model="ir.ui.view">
+            <field name="name">view.move.form.inherit</field>
+            <field name="model">stock.move</field>
+            <field name="inherit_id" ref="stock.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="company_id" />
+                </xpath>
+                
+            </field>
+        </record>
+        
+        <record model="ir.actions.act_window" id="action_job_order_consumption_moves">
+            <field name="name">Inventory Moves</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.move.line</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">['|', ('move_id.raw_material_production_id', '=', active_id), ('move_id.production_id', '=', active_id)]</field>
+        </record>
+        
+    </data>
+</odoo>

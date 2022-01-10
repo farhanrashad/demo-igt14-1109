@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="purchase_pricelist_tree_view" model="ir.ui.view">
+        <field name="name">purchase.pricelist.tree.view</field>
+        <field name="model">purchase.pricelist</field>
+        <field name="arch" type="xml">
+            <tree string="Pricelist" multi_edit="1" sample="1">
+                <field name="name" />
+               
+            </tree>
+        </field>
+    </record>
+    
+    <record id="purchase_pricelist_form_view" model="ir.ui.view">
+        <field name="name">purchase.pricelist.form.view</field>
+        <field name="model">purchase.pricelist</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Stage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <label for="date_start" string="Validity"/>
+                                <div class="o_row"><field name="date_start"/> to <field name="date_end"/></div>
+                            
+                            <field name="currency_id"/>
+                             <field name="company_id"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Vendor Pricelist" name="vendor_pricelist" >
+                            
+                            <field name="supplierinfo_ids" context="{'default_name':partner_id,'default_date_start':date_start, 'default_date_end':date_end}">
+                                <tree editable="bottom">
+                                    <field name="name" optional="hide"/>
+                                    <field name="product_tmpl_id" string="Product" required="1"/>
+                                    <field name="min_qty" />
+                                    <field name="price" />
+                                    <field name="delay" />
+                                    <field name="product_name" />
+                                    <field name="product_code" />
+                                    <field name="date_start"  optional="hide"/>
+                                    <field name="date_end"  optional="hide"/>
+                                    <field name="company_id" optional="hide"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <record id="action_purchase_pricelist" model="ir.actions.act_window">
+			<field name="name">Pricelist</field>
+			<field name="res_model">purchase.pricelist</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new purchase pricelist
+				</p>
+               
+			</field>
+		</record>
+    
+    <menuitem id="menu_product_purchase_pricelist_action"
+            action="action_purchase_pricelist" name="Pricelist"
+            parent="purchase.menu_procurement_management"  groups="purchase.group_purchase_manager" sequence="1"/>
+</odoo>

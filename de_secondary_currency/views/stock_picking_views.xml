@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Picking List view -->
+        
+        <record id="stock_picking_view_tree_inherit_base_currency" model="ir.ui.view">
+            <field name="name">stock.picking.view.tree.inherit.base.currency</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="company_currency_id" invisible="1"/>
+                     <field name="total_base_signed" sum="Total base" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+      
+        
+        <record id="view_picking_form_inherit_base_currency" model="ir.ui.view">
+            <field name="name">view.picking.form.inherit.base.currency</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form" />
+            <field name="arch" type="xml">
+                    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='operations']/field[@name='move_ids_without_package']/tree[1]" position="inside">
+                        <field name="currency_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                        <field name="price_unit" AVG="Price" optional="hide"/>
+                        <field name="price_total" sum="Total" optional="show"/>
+                     <field name="price_unit_base" AVG="BC Price" optional="hide"/>
+                      <field name="price_total_base" sum="BC Total" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

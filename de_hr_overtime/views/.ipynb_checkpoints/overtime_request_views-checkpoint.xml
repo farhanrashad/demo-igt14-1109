@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_overtime_req" model="ir.sequence">
+            <field name="name">Overtime Sequencer</field>
+            <field name="code">hr.overtime</field>
+            <field name="prefix">OVT-</field>
+            <field eval="1" name="number_next"/>
+            <field eval="1" name="number_increment"/>
+            <field name="padding">5</field>
+        </record>
+    </data>
+    <data>
+        <!-- Views -->
+        <!-- Form View -->
+        <record id="hr_overtime_form_view" model="ir.ui.view">
+            <field name="name">Time In Lieu</field>
+            <field name="model">hr.overtime.request</field>
+            <field name="arch" type="xml">
+                <form string="Overtime Request">
+                    <header>
+                        <field name="state" widget="statusbar"                             statusbar_visible="draft,approve1,approve2,approved"/>
+                        
+                        <button name="action_submit" string="Submit Request" states='draft' type="object" class="btn-primary"/>
+                        <button name="action_aprove1" string="Manager Approval" type="object" class="btn-primary" attrs="{'invisible':['|',('state','!=','approve1'),('is_manager','!=',True)]}" />
+                        <button name="action_approved" string="HR Manager Approval" type="object" class="btn-primary" states='approve2' groups="hr.group_hr_manager" />
+                        <button name="action_hold" string="Hold Request" type="object" class="btn-primary" groups="hr.group_hr_manager" attrs="{'invisible':[('state','not in',['approve1','approve2','approved'])]}"/>
+                        <button name="action_release" string="Release Request" type="object" class="btn-primary" groups="hr.group_hr_manager" attrs="{'invisible':[('state','not in',['hold'])]}"/>
+
+
+                        
+                        <button name="reject" string="Refuse" type="object" class="btn-primary" attrs="{'invisible':['|',('state','not in',['approve1','approve2']),('is_manager','!=',True)]}" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" required="0"
+                                       placeholder="Reference ...."/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="is_manager" invisible="1" />
+                                <field name='employee_id' options="{'no_quick_create': True, 'no_create_edit' : True}" />
+                                <field name='department_id'/>
+                                <field name='job_id'/>
+                                <field name='manager_id'/>
+                                <field name='user_id'/>
+                                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}"/>
+                                <field name='currency_id' invisible="1"/>
+                            </group>
+                            <group>
+                                <field name="contract_id" options="{'no_create': True}"/>
+                                <field name='overtime_type_id' options="{'no_create': True}"/>
+                                 <field name='type' invisible="0"/>
+                                <field name='duration_type' invisible="0"/>
+                                <field name='total_leaves' invisible="0" attrs="{'invisible':[('type','!=','leave')]}"/>
+
+                                <field name='pay_rule' invisible="0" attrs="{'invisible':[('type','!=','cash')]}"/>
+                                <label for="overtime_rate" attrs="{'invisible':[('type','!=','cash')]}"/>
+                                <div class="o_row" attrs="{'invisible':[('type','!=','cash')]}">
+                                    <field name="overtime_rate"/>/
+                                    <field class="mr-1" name="duration_type" readonly="1"/>
+                                </div>
+                                <label for="overtime_amount" attrs="{'invisible':[('type','!=','cash')]}"/>
+                                <div class="o_row" attrs="{'invisible':[('type','!=','cash')]}">
+                                    <field name="overtime_amount"/>/
+                                    <field class="mr-1" name="duration_type" readonly="1"/>
+                                </div>
+                                                               
+                                <field name='date_request' />
+                                <field name='date_submit' />
+                                <field name='date_approve' />
+                                <field name="leave_id" attrs="{'invisible': [('leave_id', '=', False)],'readonly': [('state', '!=', 'draft')]}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Overtime Lines" name="overtime_lines">
+                                <field name="overtime_line" widget="one2many_list">
+                                    <tree string="Overtime Line" editable="bottom">
+                                        <field name="employee_id" />
+                                        <field name="date_from" attrs="{'column_invisible':[('parent.duration_type','!=','hours')]}"/>
+                                        <field name="date_to" attrs="{'column_invisible':[('parent.duration_type','!=','hours')]}"/>
+                                        <field name="date_overtime" attrs="{'readonly':[('parent.duration_type','!=','days')]}"/>
+                                        
+                                        <field name="overtime_hours" widget="timesheet_uom_no_toggle" sum="Total Hrs" attrs="{'column_invisible':[('parent.duration_type','!=','hours')],'required':[('parent.duration_type','=','hours')]}"/>
+                                        <field name="overtime_days" sum="Total Days" attrs="{'column_invisible':[('parent.duration_type','!=','days')],'required':[('parent.duration_type','=','days')]}"/>
+
+                                        <field name="overtime_amount" sum="Total Overtime" attrs="{'column_invisible':[('parent.type','!=','cash')]}"/>
+                                        <field name="approved_amount" required="1" groups="hr.group_hr_manager" sum="Total Approved" attrs="{'column_invisible':[('parent.type','!=','cash')]}"/>
+
+
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Note" name="note">
+                                <field name="desc"/>
+                            </page>
+                            
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"
+                               widget="mail_followers"
+                               groups="base.group_user"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <!-- Tree View -->
+        <record id="hr_overtime_tree_view" model="ir.ui.view">
+            <field name="name">Overtime</field>
+            <field name="model">hr.overtime.request</field>
+            <field name="arch" type="xml">
+                <tree string="Overtime Request">
+                    <field name="name"/>
+                    <field name="employee_id"/>
+                    <field name="date_request"/>
+                    <field name="state"/>
+                    <field name="type" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Actions -->
+        <!-- overtime request-->
+        <record id="hr_overtime_request_action" model="ir.actions.act_window">
+            <field name="name">Overtime Request</field>
+            <field name="res_model">hr.overtime.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new Pre Approval Overtime Request.
+                </p>
+            </field>
+        </record>
+
+
+        <!-- MenuItems -->
+        <menuitem id="hr_overtime_request_menu" name="Overtime Request"
+                  parent="hr_overtime_main_menu"
+                  action="hr_overtime_request_action" sequence="1"
+                  groups="base.group_user"/>
+        
+        <!-- Pending request-->
+        <record id="hr_overtime_pending_request_action" model="ir.actions.act_window">
+            <field name="name">Overtime To Approve</field>
+            <field name="res_model">hr.overtime.request</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('state','in',['approve1','approve2'])]</field>
+            <field name="context">{'create':False}</field>
+        </record>
+        <menuitem id="hr_overtime_pending_request_menu" name="Pending Overtime"
+                  parent="hr_overtime_main_menu"
+                  action="hr_overtime_pending_request_action" sequence="2"
+                  groups="base.group_user"/>
+
+
+    </data>
+</odoo>

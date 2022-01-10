@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <!--<record id="msa_report_xlsx" model="ir.actions.report">-->
+            <!--<field name="name">Commercial Invoice</field>-->
+            <!--<field name="model">master.service.agreement</field>-->
+            <!--<field name="report_type">xlsx</field>-->
+            <!--<field name="report_name">de_msa_report.msa_report_xlsx</field>-->
+            <!--<field name="report_file">MSA Report</field>-->
+            <!--<field name="binding_model_id" ref="de_msa.model_master_service_agreement"/>-->
+            <!--<field name="binding_type">report</field>-->
+        <!--</record>-->
+
+        <report
+                id="msa_report_xlsx"
+                model="master.service.agreement"
+                string="MSA Report"
+                report_type="xlsx"
+                name="de_msa_report.msa_report_xlsx"
+                file="MSA Report"
+        />
+
+    </data>
+</odoo>

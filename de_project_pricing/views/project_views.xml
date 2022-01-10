@@ -1,0 +1,28 @@
+<odoo>
+    <data>
+        <record id="edit_project_inherit_fuel_product" model="ir.ui.view">
+            <field name="name">edit_project.inherit.fuel.product</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="priority">24</field>
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='settings']" position="after">
+                    <page name="pricelist" string="Purchase Pricelist">
+                        <field name="vendor_pricelist_ids" widget="many2many" 
+                                   domain="[('project_id', '=', id)]"
+                                   context="{'default_project_id':id}" >
+                                <tree string="pricelist" >
+                                    <field name="name" />
+                                    <field name="product_id" />
+                                    <field name="min_qty" />
+                                    <field name="price" />
+                                    <field name="date_start" />
+                                    <field name="date_end" />
+                                </tree>
+                            </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+  </data>
+</odoo>

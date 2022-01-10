@@ -1,0 +1,20 @@
+<odoo>
+  <data>
+<!--     <record id="view_stock_transfer_order" model="ir.ui.view">
+      <field name="name">stock.transfer.order.form</field>
+      <field name="model">stock.transfer.order</field>
+      <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view"/>
+      <field name="arch" type="xml">
+        <xpath expr="//header" position="inside">
+          <button name="%(de_gtn_dgn_mrf_spmrf_line_report.action_gtn_dgn_mrf_spmrf_wizard)d" string="Create MRF/SPMRF Report" type="action" class="btn-primary"/>
+        </xpath>
+      </field>
+    </record> -->
+      
+      <menuitem action="action_gtn_dgn_mrf_spmrf_wizard" id="mrf_spmrf_line_report" name="MRF/SPMRF Line Report" parent="de_stock_material_transfer.stock_requisition_main_menu" sequence="12"/>
+      
+      		<menuitem id="menu_report_stock_valuation_xlsx" action="action_report_stock_valuation_xlsx" parent="stock.menu_warehouse_report"/>
+
+      
+  </data>
+</odoo>

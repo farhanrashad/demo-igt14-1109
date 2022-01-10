@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="po_deviation_report" model="ir.actions.report">
+            <field name="name">PO Deviation Report</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_po_deviation_report.po_deviation_report_xlsx</field>
+            <field name="report_file">Purchase Order Deviation Report</field>
+            <field name="binding_model_id" ref="de_po_deviation_report.model_purchase_order"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

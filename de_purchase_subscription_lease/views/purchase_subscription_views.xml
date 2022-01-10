@@ -1,0 +1,184 @@
+<odoo>
+  <data>
+      <!-- Adjustment Views --> 
+    <record model="ir.actions.act_window" id="action_purchase_subscription_to_adjustment">
+        <field name="name">Lease Adjustment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.subscription</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('adj_purchase_subscription_id','=',active_id)]</field>
+        <field name="context">{
+            "default_adj_purchase_subscription_id":active_id,
+            "default_user_id": False,
+            }
+        </field>
+    </record>
+      
+    <record model="ir.actions.act_window" id="action_purchase_subscription_to_adjustment_list">
+        <field name="name">Lease Adjustment</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.subscription</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('adj_purchase_subscription_id','=',active_id)]</field>
+        <field name="context">{
+            "default_adj_purchase_subscription_id":active_id,
+            "default_user_id": False,
+            }
+        </field>
+    </record>
+
+    <!-- Purchase Subscription Type-->
+        <record id="purchase_subcription_type_form_view_inherit" model="ir.ui.view">
+            <field name="name">purchase.subscription.type.form.view.inherit</field>
+            <field name="model">purchase.subscription.type</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_type_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[2]/group[1]" position="inside">
+                    <field name="allow_lease" />
+                </xpath>
+            </field>
+        </record>
+      
+    <!-- Purchase Subscription Plan-->
+        <record id="purchase_subcription_plan_form_view_inherit_limit" model="ir.ui.view">
+            <field name="name">purchase.subscription.plan.form.view.inherit.limit</field>
+            <field name="model">purchase.subscription.plan</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_plan_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoicing_mode']" position="after">
+                    <field name="allow_payment_schedule" />
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Payment Schedules" id="payment_schedules" attrs="{'invisible':[('allow_payment_schedule','!=',True)]}">
+                            <field name="subscription_plan_schedule_ids" attrs="{'invisible':[('allow_payment_schedule','!=',True)]}">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="recurring_interval" sum="Internals"/>
+                                   
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    
+                </xpath>
+                
+            </field>
+        </record>
+      
+      <!-- Purchase Subscription -->
+        <record id="purchase_subcription_form_view_inherit_project" model="ir.ui.view">
+            <field name="name">purchase.subscription.form.view.inherit.project</field>
+            <field name="model">purchase.subscription</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subcription_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button string="Create Bill" name="create_bill" type="object" class="btn-primary" attrs="{'invisible':['|',('allow_payment_schedule','!=',True),('stage_category','!=','confirm')]}"/>
+                    <button name="action_revision" type="object" string="Revision" invisible="1"/>
+                    <button name="%(action_purchase_subscription_to_adjustment)d" type="action"
+                    string="Adjustment"
+                    attrs="{'invisible':['|',('allow_payment_schedule','!=',True),('stage_category','!=','confirm')]}"/>
+ <!--
+                    <button name="%(action_purchase_subscription_plan_wizard)d" string="Populate" type="action" class="btn-primary"  />-->
+                </xpath>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="%(action_purchase_subscription_to_adjustment_list)d" type="action" class="oe_stat_button" icon="fa-list-alt">
+                        <field name="subscription_adjustment_count" widget="statinfo" string="Adjustments"/>
+                    </button>
+                    <!--
+                    <button class="oe_stat_button" icon="fa-book" name="action_subscription_adjustments" type="object">
+                        <field name="subscription_adjustment_count" widget="statinfo" string="Adjustments"/>
+                    </button>
+                    -->
+                </xpath>
+                <xpath expr="//sheet" position="inside">
+                    <field name="allow_lease" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='subscription_date']" position="before">
+                    <field name="amount_lease_original" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                    <field name="amount_lease_current" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                    <field name="amount_lease_total" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="lease_hunter_partner_id" options="{'no_create':True, 'no_edit':True}" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                    <field name="lease_saq_partner_id" options="{'no_create':True, 'no_edit':True}" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+
+                    <field name="project_id" options="{'no_create':True, 'no_edit':True}" attrs="{'invisible':[('allow_lease','!=',True)], 'required':[('allow_lease','=',True)]}"/>
+                    <field name="product_id" options="{'no_create':True, 'no_edit':True}" domain="[('purchase_subscription','=',True)]" attrs="{'invisible':[('allow_lease','!=',True)], 'required':[('allow_lease','=',True)]}"/>
+                    <field name="analytic_account_id" options="{'no_create':True, 'no_edit':True}" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                    
+                </xpath>
+                <xpath expr="//group[1]/group[1]" position="inside">
+                    <field name="allow_registration" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                    <field name="date_registration" attrs="{'invisible':[('allow_registration','!=',True)]}"/>
+                    <field name="allow_stamp_duty" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                    <field name="date_stamp_duty" attrs="{'invisible':[('allow_stamp_duty','!=',True)]}"/>
+                </xpath>
+                <xpath expr="//group[1]/group[2]" position="inside">
+                    <field name="candidate" attrs="{'invisible':[('allow_lease','!=',True)]}"/>
+                </xpath>
+                
+                <xpath expr="//field[@name='subscription_plan_id']" position="after">
+                    <field name="allow_payment_schedule" invisible="1"/>
+                    <field name="adj_purchase_subscription_id" invisible="1"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+					<page string="Revisions" name="revisions" invisible="1">
+						<field name="old_revision_ids">
+							<tree>
+								<field name='name'/>
+								<field name='create_date' string="Superseeded on"/>
+								<field name='create_uid' string="Superseeded by"/>
+							</tree>
+						</field>
+						<group>
+							<field name="current_revision_id" invisible='1'/>
+							<field name="active" invisible='1'/>
+							<field name="revised" invisible='1'/>
+
+						</group>
+
+					</page>
+				</xpath>
+                <xpath expr="//page[@name='subscription_lines']" position="before">
+                    <page string="Payment Schedules" id="payment_schedules" attrs="{'invisible':[('allow_payment_schedule','!=',True)]}">
+                        <group>
+                            <field name="select_all" nolabel="1"/>
+                        </group>
+                        <field name="purchase_subscription_schedule_line" options="{'create':False}" attrs="{'invisible':[('allow_payment_schedule','!=',True)]}">
+                            <tree editable="bottom" >
+                                <field name="record_selection" nolabel="1" attrs="{'readonly':[('invoice_id','!=',False)]}"/>
+                                 <field name="date_from" readonly="1"/>
+                                <field name="date_to" readonly="1"/>
+                                <field name="recurring_intervals" sum="Intervals" attrs="{'readonly':[('invoice_id','!=',False)]}"/>
+                                <field name="escalation" attrs="{'readonly':[('invoice_id','!=',False)]}"/>
+                                 <field name="discount" attrs="{'readonly':[('invoice_id','!=',False)]}"/>
+                                <field name="recurring_price" invisible="1" sum="Recurring" attrs="{'readonly':[('invoice_id','!=',False)]}"/>
+                                <field name="recurring_monthly_total" sum="Recurring" attrs="{'readonly':[('invoice_id','!=',False)]}"/>
+                                <field name="recurring_sub_total" invisible="1" sum="Subtotal"/>
+                               
+                                <field name="escalation_amount" invisible="1"/>
+                                <field name="accum_escalation" invisible="1"/>
+                                <field name="recurring_total" sum="Total"/>
+                                <field name="schedule_note"/>
+                                <field name="is_refunded"/>
+                                 <field name="invoice_id" readonly="1"/>
+                                <field name="company_id" invisible="1"/>
+                                 <field name="invoice_status"/>
+                                <field name="payment_details"/>
+                                <field name="is_overlap"/>
+                                 <field name="state" invisible="1"/>
+                            </tree>
+                        </field>
+                       
+                            <button name="add_record" string="Add a Line" type="object" class="btn-primary"  attrs="{'invisible':[('allow_payment_schedule','!=',True)]}" />
+                        &#x2063;&#x2063;
+                            <button name="%(action_purchase_subscription_plan_wizard)d" string="Populate" type="action" class="btn-primary"  attrs="{'invisible':[('allow_payment_schedule','!=',True)]}"/>
+                       
+                    </page>
+                </xpath>
+            </field>
+        </record>
+      
+  </data>
+</odoo>

@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+  <record id="view_account_anlytic_default_form" model="ir.ui.view">
+        <field name="name">view.account.analytic.default.form</field>
+        <field name="model">account.analytic.default</field>
+        <field name="inherit_id" ref="account.view_account_analytic_default_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="project_id"  />
+                <field name="department_id"  />
+                <field name="employee_id"  />
+            </xpath>
+        </field>
+    </record>
+      
+      <record id="view_account_anlytic_default_tree" model="ir.ui.view">
+        <field name="name">view.account.analytic.default.tree</field>
+        <field name="model">account.analytic.default</field>
+        <field name="inherit_id" ref="account.view_account_analytic_default_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="employee_id"  />
+                <field name="department_id"  />
+                <field name="project_id"  />
+            </xpath>
+        </field>
+    </record>
+      
+  </data>
+</odoo>

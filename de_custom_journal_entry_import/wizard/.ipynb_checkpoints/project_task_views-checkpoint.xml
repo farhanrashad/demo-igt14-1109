@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        
+        <record id="view_project_task_requisition_import" model="ir.ui.view">
+            <field name="name">project.task.requisition.import</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                        <button name="action_material_import" string="Material Requisition" type="object" class="oe_highlight" />
+
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="attachment_id"  widget="many2many_binary"></field> 
+                </xpath>
+              
+           </field>
+        </record>
+
+       
+    </data>
+</odoo>

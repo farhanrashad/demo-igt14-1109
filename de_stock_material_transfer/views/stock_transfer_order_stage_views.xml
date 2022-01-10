@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+    <!-- Stock Transfer Stage -->
+    <record id="stock_transfer_order_stage_list_view" model="ir.ui.view">
+        <field name="name">stock.transfer.order.stage.list.view</field>
+        <field name="model">stock.transfer.order.stage</field>
+        <field name="arch" type="xml">
+            <tree string="Custom Entry Stages">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="transfer_order_type_ids" widget="many2many_tags" />
+                <field name="transfer_order_category_ids" widget="many2many_tags" />
+                <field name="stage_category" />
+                <field name="next_stage_id"/>
+                <field name="prv_stage_id"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="stock_transfer_order_stage_form_view" model="ir.ui.view">
+        <field name="name">stock.transfer.order.stage.form.view</field>
+        <field name="model">stock.transfer.order.stage</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Stage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" required="1"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <field name="stage_code" required="1"/>
+                            <field name="transfer_order_type_ids" widget="many2many_tags" />
+                            <field name="transfer_order_category_ids" widget="many2many_tags" />
+                            <field name="next_stage_id"/>
+                            <field name="prv_stage_id"/>
+                        </group>
+                        <group>
+                            <field name="fold"/>
+                            <field name="stage_category" widget="radio"/>
+                            <field name="allow_transactions"/>
+                            <field name="group_id" options="{'no_create':True}"/>
+                            <field name="allow_special_edit" />
+                        </group>
+                    </group>
+                    <separator string="Requirements"/>
+                    <field name="description"
+                           placeholder="Give your team the requirements to move a subscription to this stage."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_stock_transfer_order_stage" model="ir.actions.act_window">
+			<field name="name">Transfer Order Stage</field>
+			<field name="res_model">stock.transfer.order.stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new custom entry stage
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem action="action_stock_transfer_order_stage" name="Stages" id="stock_requisition_config_stages_menu" groups="group_stock_requisition_manager" parent="stock_requisition_config_menu" sequence="3"/>
+
+		
+			
+</odoo>
+
+

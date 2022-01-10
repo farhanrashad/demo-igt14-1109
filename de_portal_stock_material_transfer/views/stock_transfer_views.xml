@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="stock_transfer_order_type_form_view_editable" model="ir.ui.view">
+			<field name="name">stock.transfer.form.view.editable</field>
+			<field name="model">stock.transfer.order</field>
+			<field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='date_request']" position="after">
+					<field name="is_entry_edited"/>
+				</xpath>
+
+			</field>
+		</record>
+	</data>
+</odoo>

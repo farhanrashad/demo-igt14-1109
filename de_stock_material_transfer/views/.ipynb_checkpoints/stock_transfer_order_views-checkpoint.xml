@@ -1,0 +1,695 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="stock_transfer_order_calendar_view" model="ir.ui.view">
+            <field name="name">stock.transfer.order.calendar.view</field>
+            <field name="model">stock.transfer.order</field>
+            <field name="arch" type="xml">
+                <calendar string="Transfer Order" date_start="date_order" color="stage_category" hide_time="true" event_limit="5">
+                    <field name="user_id" avatar_field="image_128" invisible="1"/>
+                    <field name="stage_category" filters="1" invisible="1"/>
+                </calendar>
+            </field>
+    </record>
+      
+    <record id="stock_transfer_order_tree_view" model="ir.ui.view">
+            <field name="name">stock.transfer.order.tree.view</field>
+            <field name="model">stock.transfer.order</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Transfer Order" decoration-danger="stage_category == 'progress'" decoration-muted="stage_category == 'close' or stage_category == 'cancel'" decoration-success="stage_category == 'confirm' or stage_category == 'transfer'">
+                <!--<tree string="Transfer Order" multi_edit="1" sample="1">-->
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="date_order" string="Order Date" widget="date" optional="show"/>
+                    <field name="date_scheduled" optional="show"/>
+                    <field name="delivery_deadline" optional="hide"/>
+                    <field name="date_delivered" optional="hide"/>
+                    <field name="return_deadline" optional="hide"/>
+                    <field name="date_returned" optional="hide"/>
+                    <field name="partner_id" />
+                    <field name="user_id" optional="show" widget="many2one_avatar_user" invisible="1"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
+                    <field name="stage_id" />
+                    <field name="stage_category" optional="hide" />
+                    <field name="stage_code" invisible="1" />
+                </tree>
+            </field>
+    </record>
+      
+    <record id="stock_transfer_order_form_view" model="ir.ui.view">
+        <field name="name">stock.transfer.order.form.view</field>
+        <field name="model">stock.transfer.order</field>
+        <field name="arch" type="xml">
+            <form string="transfer.order Order" class="" >
+                <header>
+                    <button name="action_submit" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['draft'])]}"/>
+                    
+                    <button name="action_confirm" string="Confirm" type="object" class="oe_highlight"
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                    
+                    <button name="action_special_edit" string="Special Edit" type="object" class="oe_highlight" groups="de_stock_material_transfer.group_stock_requisition_special_edit" attrs="{'invisible': [('allow_special_edit', '=', False)]}"/>/>
+                    
+                    <button name="action_refuse" string="Refuse" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                    <button name="action_cancel" string="Cancel" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress','confirm'])]}"/>
+                    <button name="action_draft" string="Set to draft" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['cancel'])]}"/>
+                    
+                    <!--<button name="%(action_move_in_refund_type_transfer_order)d" type="action" states="confirm,delivery,return" context="{'default_stock_transfer_order_id':id,'default_move_type':'in_refund', 'default_partner_id': partner_id}" string="Penalty Bills" class="btn-primary"/>-->
+                    
+                    <button name="create_delivery" type="object" class="oe_highlight" string="Create Transfer" attrs="{'invisible': [('stage_category', 'not in', ['confirm'])]}"/>
+                    
+                    <!--<button name="cron_expire_order" type="object" class="oe_highlight" string="Test Cron" />-->
+
+                    
+                    <!--<button name="create_delivery" type="object" class="oe_highlight" string="Create Return" attrs="{'invisible':['|',('state','!=','delivery'),('action_type','=','normal')]}"/>-->
+                    
+                    <button name="%(transfer_order_close_reason_wizard_action)d" type="action"  string="Close" attrs="{'invisible': [('stage_category', 'not in', ['transfer'])]}"/>
+                    
+                    
+                    
+                    <!--
+                    <field name="stage_id" widget="statusbar" domain="[('transfer_order_type_ids', '=', transfer_order_type_id)]" attrs="{'invisible':[('disallow_staging','=',False)]}"/> -->
+                    <!--
+                    <field name="stage_id" widget="statusbar" domain="[ ('transfer_order_category_ids', '=', transfer_order_category_id),('transfer_order_type_ids','=',transfer_order_type_id)]" attrs="{'invisible':[('picking_state','!=',False)]}"/>
+-->
+                    <field name="stage_id" widget="statusbar" domain="['|',('transfer_order_category_ids', '=', transfer_order_category_id),'&amp;', ('transfer_order_type_ids','=',transfer_order_type_id),('transfer_order_category_ids','=',False)]" />
+                    
+
+
+
+
+                </header>
+                <sheet>
+                    <field name="stage_category" invisible="1" />
+                    <field name="allow_transactions" invisible="1" />
+                    <field name="disallow_staging" invisible="1" />
+                    <field name="next_stage_category" invisible="1" />
+                    
+                    <!--
+                     <field name="txn_stage_id" invisible="1" /> -->
+                    <field name="curr_txn_stage_id" invisible="1" />
+                    
+                    <field name="health_check_form" invisible="1" />
+                    <field name="fir_report" invisible="1" />
+                    <field name="accident_report" invisible="1" />
+                    <field name="hoto_checklist" invisible="1" />
+                    <field name="proof_attachment" invisible="1" />
+                    <!--
+                    <field name="has_penalty" invisible="1"/>
+                    <field name="has_closed" invisible="1"/>
+-->
+                    
+                    <field name="filter_products" invisible="1"/>
+                    <field name="has_reference" invisible="1"/>
+                    <field name="has_partner" invisible="1"/>
+                    <field name="has_purchase_order" invisible="1"/>
+                    <field name="has_transfer_order" invisible="1"/>
+                    <field name="has_transporter" invisible="1"/>
+                    <field name="has_supplier" invisible="1"/>
+                    <field name="has_analytic_account" invisible="1"/>
+                    <field name="has_analytic_tags" invisible="1"/>
+                    <field name="has_tower_info" invisible="1"/>
+                    
+                    <field name="allow_special_edit" invisible="1"/>
+                    <field name="special_edit_mode" invisible="1"/>
+                    
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_delivery" type="object" class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('delivery_count', '=', 0)]}">
+                        <field name="delivery_count" widget="statinfo" string="Delivery"/>
+                        </button>
+                        <button name="action_view_receipt" type="object" class="oe_stat_button" icon="fa-truck" attrs="{'invisible': [('return_count', '=', 0)]}">
+                        <field name="return_count" widget="statinfo" string="Receipt"/>
+                        </button>
+                        <!--
+                        <button class="oe_stat_button" icon="fa-book" name="action_view_credit_note" type="object">
+                            <field name="bill_count" widget="statinfo" string="Bills"/>
+                        </button>
+                        -->
+                       
+                    </div>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group name="transfer_order_header">
+                        <group name="partner_details">
+                            <field name="partner_category_ids" invisible="1"/>
+                            <field name="partner_id" widget="res_partner_many2one" options='{"always_reload": True}' attrs="{'invisible':[('has_partner','==','no')], 'required': [('has_partner','==','required')],'readonly':[('stage_category','!=', 'draft')]}" domain="['|', ('category_id','in',partner_category_ids),('category_id','=',False)]"/>
+                            
+                            <field name="date_request" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+
+                        </group>
+                        <group name="transfer_order_details">
+                            <field name="transfer_order_type_id" options="{'no_create':True, 'no_open':True}" readonly="1"/>
+                            <field name="transfer_order_category_id" options="{'no_create':True, 'no_open':True}" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                            <field name="action_type" invisible="1" />
+                            <field name="code" invisible="1" />
+                            <field name="sequence_code" invisible="1" />
+                            <field name="sequence_id" invisible="1" />
+                            <field name="categ_control_ids" widget='many2many_tags' invisible="1"/>
+                            <field name="user_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}" />
+                            <field name="user_id" domain="[('share', '=', False)]" widget="many2one_avatar_user" invisible="1"/>
+                            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" attrs="{'readonly': [('stage_category', '!=', 'draft')]}" />
+                            <field name="disable_close" />
+                            <field name="curr_txn_type_id" string="Transaction" invisible="1"/>
+                            <field name="txn_stage_ids" string="TXN Stages" invisible="1" widget="many2many_tags"/>
+                            <field name="curr_txn_stage_id" invisible="1" />
+                            <div class="o_row no-gutters d-flex">
+                                <div class="o_row">
+                                    <field name="transfer_exception_type_ids" string="Transaction" nolabel="1" invisible="0" widget="many2many_checkboxes" domain="[('transfer_order_category_ids', '=', transfer_order_category_id),('apply_stage_id', '=', stage_id)]" attrs="{'invisible': ['|',('transfer_order_category_id', '=', False),('allow_transactions', '=', False)]}"/>
+                                </div>
+                            </div>
+                            <!--
+                            <field name="transaction_code" string="T Code" invisible="1"/>
+-->
+                            <field name="picking_ids" widget="many2many_tags" invisible="1"/>
+                            <field name="picking_state" invisible="1"/>
+
+                            <field name="message_type" invisible="1"/>
+                            <field name="exception_message" attrs="{'invisible':[('message_type','!=','none')]}"/>
+
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="date_order" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                            <field name="date_scheduled" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                            <field name="delivery_deadline" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                            <field name="date_delivered" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                            <field name="order_deadline" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                            <field name="return_deadline" attrs="{'invisible':[('action_type','=','normal')]}" />
+                            <field name="date_returned" />
+                            <field name="close_reason_id" attrs="{'invisible':[('close_reason_id','=',False)]}" decoration-danger="close_reason_id != False" />
+                            <field name="close_reason_message" decoration-danger="close_reason_message != False" attrs="{'invisible':[('close_reason_message','=',False)]}"/>
+
+                            <field name="date_closed" attrs="{'invisible':[('close_reason_id','=',False)]}"/>
+                            
+                        </group>
+                        <group string="Reference" name="order_ref">
+                            <field name="purchase_id" attrs="{'invisible':[('has_purchase_order','==','no')], 'required': [('has_purchase_order','==','required')]}"/>
+                            <field name="stock_transfer_order_id" attrs="{'invisible':[('has_transfer_order','==','no')], 'required': [('has_transfer_order','==','required')]}"/>
+                            <field name="reference" attrs="{'invisible':[('has_reference','==','no')], 'required': [('has_reference','==','required')]}"/>
+                            <field name="transporter_id" attrs="{'invisible':[('has_transporter','==','no')], 'required': [('has_transporter','==','required')]}" domain="[('category_id','in',transporter_category_ids)]"/>
+                            <field name="transporter_category_ids" invisible="1"/>
+                            <field name="next_stage_id" invisible="0" />
+                            <field name="prv_stage_id" invisible="0" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products" name="transfer_order_order_line">
+                            <field name="stock_transfer_order_line" widget="one2many_list" attrs="{'readonly': [('stage_category', '!=', 'draft')]}">
+                                <tree string="Transfer Order lines" editable="bottom">
+                                    <field name="product_id" id="product_filtered" domain="[('categ_id', 'in', categ_control_ids)]" options="{'no_create':True}" required="1"/>
+                                    <field name="categ_control_ids" invisible="1"/>
+                                    <field name="name"/>
+                                    <field name="project_id" optional="show" />
+                                    <field name="site_type" optional="hide" attrs="{'invisible':[('parent.has_tower_info','==','no')], 'required': [('parent.has_tower_info','==','required')]}"/>
+                                    <field name="tower_height" optional="hide" attrs="{'invisible':[('parent.has_tower_info','==','no')], 'required': [('parent.has_tower_info','==','required')]}"/>
+                                    <field name="kpa" optional="hide" attrs="{'invisible':[('parent.has_tower_info','==','no')], 'required': [('parent.has_tower_info','==','required')]}"/>
+                                    <field name="wind_zone" optional="hide" attrs="{'invisible':[('parent.has_tower_info','==','no')], 'required': [('parent.has_tower_info','==','required')]}"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="delivered_qty" optional="show"/>
+                                    <field name="remaining_qty" optional="hide"/>
+                                    <field name="product_uom"/>
+                                    <field name="date_scheduled" />
+                                    <field name="supplier_id" optional="hide" attrs="{'invisible':[('parent.has_supplier','==','no')], 'required': [('parent.has_supplier','==','required')]}"/>
+                                    <field name="analytic_account_id" optional="hide" attrs="{'invisible':[('parent.has_analytic_account','==','no')], 'required': [('parent.has_analytic_account','==','required')]}" groups="analytic.group_analytic_accounting"/>
+                                    <field name="analytic_tag_ids" widget="many2many_tags" optional="hide" attrs="{'invisible':[('parent.has_analytic_tags','==','no')], 'required': [('parent.has_analytic_tags','==','required')]}" groups="analytic.group_analytic_accounting,analytic.group_analytic_tags"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="location_src_id" required="1" optional="hide" domain="[('id', 'child_of', parent.location_src_id)]" />
+                                    <field name="location_dest_id" required="1" optional="show" domain="[('id', 'child_of', parent.location_dest_id)]" />
+                                    <field name="delivery_status" optional="hide" invisible="1"/>
+                                </tree>
+                            </field>
+                        <separator string="Terms and Conditions"/>
+                        <field name="description" attrs="{'readonly': [('stage_category','not in',('draft','in_progress'))]}"/>
+
+                        </page>
+                        
+                        <page string="Return Products" name="transfer_order_return_line" attrs="{'invisible': [('action_type', '=', 'normal')]}">
+                            <field name="stock_transfer_return_line" widget="one2many_list" >
+                                <tree string="Transfer Return lines" editable="bottom">
+                                    <field name="product_id" id="product_filtered" domain="[('categ_id', 'in', categ_control_ids)]" options="{'no_create':True}" required="1" attrs="{'readonly': [('parent.stage_category', '!=', 'draft'),('parent.special_edit_mode', '!=', True)]}"/>
+                                    <field name="igt_barcode" attrs="{'readonly': [('parent.stage_category', '!=', 'draft'),('parent.special_edit_mode', '!=', True)]}"/>
+                                    <field name="oem_barcode" attrs="{'readonly': [('parent.stage_category', '!=', 'draft'),('parent.special_edit_mode', '!=', True)]}"/>
+
+
+                                    
+
+                                    <field name="categ_control_ids" invisible="1"/>
+                                    <field name="name" attrs="{'readonly': [('parent.stage_category', '!=', 'draft')]}"/>
+                                    <field name="project_id" optional="show" attrs="{'readonly': [('parent.stage_category', '!=', 'draft')]}"/>
+
+                                    <field name="product_uom_qty" attrs="{'readonly': [('parent.stage_category', '!=', 'draft')]}"/>
+                                    <field name="received_qty" attrs="{'column_invisible':[('parent.action_type','=','normal')]}"/>
+                                    <field name="product_uom" attrs="{'readonly': [('parent.stage_category', '!=', 'draft')]}"/>
+                                    <field name="date_scheduled" attrs="{'readonly': [('parent.stage_category', '!=', 'draft')]}"/>
+                                    <field name="supplier_id" optional="hide" attrs="{'invisible':[('parent.has_supplier','==','no')], 'required': [('parent.has_supplier','==','required')],'readonly': [('parent.stage_category', '!=', 'draft')],}"/>
+
+                                    <field name="analytic_account_id" optional="hide" attrs="{'invisible':[('parent.has_analytic_account','==','no')], 'required': [('parent.has_analytic_account','==','required')], 'readonly': [('parent.stage_category', '!=', 'draft')]}" groups="analytic.group_analytic_accounting"/>
+                                    <field name="analytic_tag_ids" widget="many2many_tags" optional="hide" attrs="{'invisible':[('parent.has_analytic_tags','==','no')], 'required': [('parent.has_analytic_tags','==','required')], 'readonly': [('parent.stage_category', '!=', 'draft')]}" groups="analytic.group_analytic_accounting,analytic.group_analytic_tags"/>
+
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="location_src_id" required="1" optional="show" attrs="{'readonly': [('parent.stage_category', '!=', 'draft')]}"/>
+                                    <field name="location_dest_id" required="1" optional="hide" attrs="{'readonly': [('parent.stage_category', '!=', 'draft')]}"/>
+                                    <field name="return_status" invisible="1" optional="hide"/>
+                                </tree>
+                            </field>
+                        <separator string="Terms and Conditions"/>
+                        <field name="description" attrs="{'readonly': [('stage_category','not in',('draft','in_progress'))]}"/>
+
+                        </page>
+                        <page string="Picking Details" name="picking_details" >
+                            <group>
+                                <group>
+                                    <field name="picking_type_id" required="1"/>
+                                    <field name="picking_type_code" invisible="1"/>
+                                    <field name="location_src_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                    <field name="location_dest_id" required="1" attrs="{'readonly': [('stage_category', '!=', 'draft')]}"/>
+                                    <field name="return_location_id" attrs="{'readonly': [('stage_category', '!=', 'draft')],'invisible':[('action_type','=','normal')]}"/>  
+
+                                </group>
+                                <group>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Worfklow" id="workflow" groups="base.group_erp_manager">
+                            <field name="order_stage_ids" groups="base.group_erp_manager">
+                                <tree editable="bottom">
+                                    <field name="sequence" readonly="1"/>
+                                    <field name="transfer_exception_type_id" readonly="1"/>
+                                    <field name="stage_id" required="1" options="{'no_create': True,'no_open':True}" domain="[('transfer_order_category_ids','=',parent.transfer_order_category_id)]"/>
+                                    <field name="next_stage_id" options="{'no_create': True,'no_open':True}" domain="[('transfer_order_category_ids','=',parent.transfer_order_category_id)]"/>
+                                    <field name="prv_stage_id" options="{'no_create': True,'no_open':True}" domain="[('transfer_order_category_ids','=',parent.transfer_order_category_id)]"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Transactions" name="transactions">
+                            <field name="stock_transfer_txn_line" widget="one2many_list" >
+                                <tree string="TXN Lines" editable="bottom">
+                                    <field name="sequence" widget="handle" invisible="1"/>
+                                    <field name="transfer_order_type_id" invisible="1"/>
+                                    <field name="transfer_exception_type_id" attrs="{'readonly':[('txn_action','=','apply')],'required':[('txn_action','!=','apply')]}"/>
+                                    <!--<field name="txn_stage_id" /> -->
+                                    <field name="txn_action" readonly="1"/>
+                                    <field name="stage_id" invisible="1"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Documents" name="documents">
+                            <group string="Required Documents" name="required_documents">
+                                <field filename="file_health_check_filename" name="file_health_check" attrs="{'invisible':[('health_check_form','!=',True)], 'required':[('health_check_form','=',True)]}"/>
+                                
+                                <field filename="file_fir_filename" name="file_fir" attrs="{'invisible':[('fir_report','!=',True)], 'required':[('fir_report','=',True)]}"/>
+                                
+                                <field filename="file_accident_report_filename" name="file_accident_report" attrs="{'invisible':[('accident_report','!=',True)], 'required':[('accident_report','=',True)]}"/>
+                                <field filename="file_hoto_checklist_filename" name="file_hoto_checklist" attrs="{'invisible':[('hoto_checklist','!=',True)], 'required':[('hoto_checklist','=',True)]}"/>
+                                
+                                <field filename="file_proof_attachment_filename" name="file_proof_attachment" attrs="{'invisible':[('proof_attachment','!=',True)], 'required':[('proof_attachment','=',True)]}"/>
+
+
+
+
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <!-- Attachment preview -->
+                    <div class="o_attachment_preview" />
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+      
+    <record id="stock_transfer_order_search_view" model="ir.ui.view">
+        <field name="name">stock.transfer.order.filter.view</field>
+        <field name="model">stock.transfer.order</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search transfer Order">
+                <field name="name" string="Reference" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="user_id" invisible="1"/>
+                <field name="partner_id" operator="child_of"/>
+                <filter string="My Orders" name="my_transfer.order_orders" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('stage_category', '=', 'draft')]" help="New Request"/>
+                <filter string="In Progress" name="progress" domain="[('stage_category', '=', 'progress')]" help="In Progress"/>
+
+                <filter string="Confirmed" name="confirmed" domain="[('stage_category', '=', 'confirm')]" help="Confirmed"/>
+                <filter string="Closed" name="closed" domain="[('stage_category', '=', 'close')]"/>
+                <separator/>
+                <filter invisible="1" string="Late Activities" name="activities_overdue"
+                        domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                        help="Show all records which has next action date is before today"/>
+                <filter invisible="1" string="Today Activities" name="activities_today"
+                        domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Responsible" name="responsible" domain="[]" context="{'group_by': 'user_id'}"/>
+                    <filter string="Stage" name="stage" domain="[]" context="{'group_by': 'stage_id'}"/>
+                    <filter string="Order Date" name="date_order" domain="[]" context="{'group_by': 'date_order'}"/>
+                </group>
+                
+            </search>
+        </field>
+      </record>
+      
+    <record id="action_stock_transfer_order_request" model="ir.actions.act_window">
+            <field name="name">Transfer Requests</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.transfer.order</field>
+            <field name="view_mode">tree,form,pivot,activity</field>
+            <field name="search_view_id" ref="stock_transfer_order_search_view"/>
+            <!--<field name="domain">[('stage_category','=','draft')]</field>-->
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new transfer Order!
+                </p><p>
+                    Once the transfer.order order is confirmed.<br/> You will be able to create picking documents.
+                </p>
+            </field>
+    </record>
+ 
+    <menuitem action="action_stock_transfer_order_request" id="stock_transfer_root_stock_transfer_order_request_menu" parent="stock_requisition_main_menu" sequence="1"/>
+      
+      <record id="action_stock_transfer_order" model="ir.actions.act_window">
+            <field name="name">Transfer Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.transfer.order</field>
+            <field name="view_mode">tree,form,pivot,activity</field>
+            <field name="search_view_id" ref="stock_transfer_order_search_view"/>
+            <field name="domain">[('stage_category','in',['confirm','close','transfer'])]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new contractor material authorization Order!
+                </p><p>
+                    Once the transfer.order order is confirmed.<br/> You will be able to create picking documents.
+                </p>
+            </field>
+    </record>
+ 
+    <menuitem action="action_stock_transfer_order" id="stock_transfer_root_stock_transfer_order_menu" parent="stock_requisition_main_menu" sequence="2"/>
+      
+      <record id="action_stock_transfer_order_pending" model="ir.actions.act_window">
+            <field name="name">Pending Orders</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.transfer.order</field>
+            <field name="view_mode">tree,form,pivot,activity</field>
+            <field name="search_view_id" ref="stock_transfer_order_search_view"/>
+            <field name="domain">[('stage_category','=','progress')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Contractor material authorization Order!
+                </p>
+            </field>
+    </record>
+ 
+    <menuitem action="action_stock_transfer_order_pending" id="stock_transfer_order_root_stock_transfer_order_pending_menu" parent="stock_requisition_main_menu" sequence="3"/>
+
+<!-- Requisition Lines -->
+      
+      <record id="stock_transfer_order_line_search_view" model="ir.ui.view">
+        <field name="name">stock.transfer.order.line.filter.view</field>
+        <field name="model">stock.transfer.order.line</field>
+        <field name="priority" eval="15"/>
+        <field name="arch" type="xml">
+            <search string="Search Transfer Order Line">
+                <field name="name" string="Reference" filter_domain="['|', ('name', 'ilike', self), ('origin', 'ilike', self)]"/>
+                <field name="partner_id" operator="child_of"/>
+                <field name="product_id"/>
+                <field name="stage_id"/>
+                <filter name="my_requisitions" string="My Requisitions" domain="[('user_id', '=', uid)]"/>
+                <separator/>
+                <filter name="filter_draft" string="Draft" domain="[('stage_category', '=', 'draft')]"/>
+                <filter name="filter_pending" string="Pending" domain="[('stage_category', '=', 'progress')]"/>
+                <filter name="filter_confirmed" string="Confirmed" domain="[('stage_category', 'in', ['confirm','transfer'])]"/>
+                <separator/>
+                <filter name="filter_expired" string="Closed" domain="[('stage_category', 'in', ['close'])]"/>
+                <filter name="filter_cancelled" string="Cancelled" domain="[('stage_category', '=', 'cancel')]"/>
+                <separator/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Requisition Type" name="transfer_order_type_id" context="{'group_by': 'transfer_order_type_id'}"/>
+                    <filter string="Category" name="transfer_order_category_id" context="{'group_by': 'transfer_order_category_id'}"/>
+                    <filter string="Action" name="action_type" context="{'group_by': 'action_type'}"/>
+
+                    <separator/>
+                    <filter string="Stage" name="stage" context="{'group_by': 'stage_id'}"/>
+                    <filter string="Stage Category" name="stage_category" context="{'group_by': 'stage_category'}"/>
+                    <separator/>
+                    <filter string="Assigned to" name="user" context="{'group_by': 'user_id'}"/>
+                    <filter string="Partner" name="partner" context="{'group_by': 'partner_id'}"/>
+                    <separator/>
+                    <filter string="Product" name="product" context="{'group_by': 'product_id'}"/>
+                    <filter string="Project" name="project" context="{'group_by': 'project_id'}"/>
+                    <separator/>
+                    <filter string="Date" name="group_date_order" context="{'group_by': 'date_order'}"/>
+                    <filter string="Creation Date" name="group_create_date" context="{'group_by': 'create_date'}"/>
+                </group>
+            </search>
+        </field>
+      </record>
+      
+      <record id="stock_transfer_order_line_tree_view" model="ir.ui.view">
+            <field name="name">stock.transfer.order.line.tree.view</field>
+            <field name="model">stock.transfer.order.line</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="transfer Order line" >
+                    <field name="stock_transfer_order_id" />
+                    <field name="transfer_order_type_id" optional="show"/>
+                    <field name="transfer_order_category_id" optional="show"/>
+                    <field name="date_request" />
+                    <field name="date_order" />
+                    <field name="name" optional="hide"/>
+                    <field name="partner_id" />
+                    <field name="product_id" />
+                    <field name="project_id" optional="hide"/>
+                    <field name="analytic_account_id" optional="hide"/>
+                    <field name="analytic_tag_ids" optional="hide"/>
+                    <field name="product_uom_qty" />
+                    <field name="delivered_qty" optional="show"/>
+                    <field name="location_src_id" optional="hide"/>
+                    <field name="location_dest_id" optional="hide"/>
+                    <field name="date_scheduled" />
+                    <field name="user_id" optional="show" widget="many2one_avatar_user" invisible="1"/>
+                    <field name="stage_id" />
+                    <field name="stage_category" optional="hide"/>
+                </tree>
+            </field>
+    </record>
+    
+      <record id="action_stock_transfer_order_line" model="ir.actions.act_window">
+            <field name="name">Requisition Lines</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.transfer.order.line</field>
+            <field name="view_mode">tree,pivot</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_transfer_order_line_tree_view')})]"/>
+            <field name="search_view_id" ref="stock_transfer_order_line_search_view"/>
+          <field name="context">{'create':False}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Requisition Lines
+                </p>
+            </field>
+    </record>
+ 
+    <menuitem action="action_stock_transfer_order_line" id="stock_transfer_root_stock_transfer_order_line_menu" parent="stock_requisition_main_menu" sequence="4"/>
+      
+      <!-- Return Products -->
+      <record id="stock_transfer_returnable_order_line_tree_view" model="ir.ui.view">
+            <field name="name">stock.transfer.returnable.order.line.tree.view</field>
+            <field name="model">stock.transfer.order.line</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="transfer Order line" >
+                    <field name="stock_transfer_order_id" />
+                    <field name="transfer_order_type_id" optional="show"/>
+                    <field name="transfer_order_category_id" optional="show"/>
+                    <field name="date_order" />
+                    <field name="name" optional="hide"/>
+                    <field name="partner_id" />
+                    <field name="product_id" />
+                    <field name="project_id" optional="hide"/>
+                    <field name="analytic_account_id" optional="hide"/>
+                    <field name="analytic_tag_ids" optional="hide"/>
+                    <field name="categ_id" />
+                    <field name="product_uom_qty" />
+                    <field name="return_product_uom_qty" />
+                    <field name="delivered_qty" optional="show"/>
+                    <field name="location_src_id" optional="hide"/>
+                    <field name="location_dest_id" optional="hide"/>
+                    <field name="date_scheduled" />
+                    <field name="user_id" optional="show" widget="many2one_avatar_user" invisible="1"/>
+                    <field name="stage_id" />
+                    <field name="stage_category" optional="hide"/>
+                </tree>
+            </field>
+    </record>
+      
+      <record id="action_stock_transfer_returnable_order_line" model="ir.actions.act_window">
+            <field name="name">Returnable Products</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">stock.transfer.order.line</field>
+            <field name="view_mode">tree</field>
+            <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'tree', 'view_id': ref('stock_transfer_returnable_order_line_tree_view')})]"/>
+            <field name="search_view_id" ref="stock_transfer_order_line_search_view"/>
+          <field name="context">{'create':False, 'search_default_filter_confirmed':True}</field>
+          <field name="domain">[('action_type','!=','normal')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Returnable Products
+                </p>
+            </field>
+    </record>
+ 
+    <menuitem action="action_stock_transfer_returnable_order_line" id="stock_transfer_root_stock_transfer_returnable_order_line_menu" parent="stock_requisition_main_menu" sequence="10"/>
+      
+      <!-- Actions to call transfer orders -->
+    <record id="action_transfer_order_partially_shipped" model="ir.actions.act_window">
+        <field name="name">Partially Shipped</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_code','=','PS')]</field>
+    </record>
+    <record id="action_transfer_order_fully_shipped" model="ir.actions.act_window">
+        <field name="name">Partially Shipped</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_code','=','FS')]</field>
+    </record>
+      <record id="action_transfer_open_orders" model="ir.actions.act_window">
+        <field name="name">Open Orders</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_category','not in',['draft','cancel','close'])]</field>
+    </record>
+      <record id="action_transfer_pending_orders" model="ir.actions.act_window">
+        <field name="name">Pending Orders</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id),('stage_category','=','progress')]</field>
+    </record>
+      
+      <!-- dashboard -->
+      <record id="stock_order_transfer_action_to_all_transfers" model="ir.actions.act_window">
+        <field name="name">Requisitions</field>
+        <field name="res_model">stock.transfer.order</field>
+        <field name="view_mode">tree,form,pivot,activity</field>
+        <field name="domain">[('transfer_order_type_id', '=', active_id)]</field>
+    </record>
+      
+      <record id="stock_transfer_order_dashboard_view_kanban" model="ir.ui.view">
+        <field name="name">stock.transfer.order.dashbaord.views.kanban</field>
+        <field name="model">stock.transfer.order.type</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_res_partner_kanban" create="0">
+                <field name="name"/>
+                <field name="id"/>
+                <field name="code"/>
+                <field name="image"/>
+                <field name="color"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" name="transfer_order" class="o_res_partner_kanban">
+                            <div>
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <t t-if="record.id">
+                                <img t-att-src="kanban_image('stock.transfer.order.type', 'image', record.id.raw_value)" alt="Approvals Types Image"
+                                    class="oe_kanban_avatar float-left mr-3" width="64" height="64"/>
+                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <a name="%(stock_order_transfer_action_to_all_transfers)d" type="action">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                        <div class="o_primary" t-if="selection_mode">
+                                           <field name="name"/>
+                                        </div>
+                                        <div class="o_secondary">
+                                            <field class="o_secondary" name="description" readonly="1" />
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <button type="object" class="btn btn-primary btn-sm" name="create_requisition" context="{'transfer_order_type_id':'active_id'}"><field name="name"/></button>
+
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section" t-if="!selection_mode">
+                                            <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content" t-if="!selection_mode">
+                                    <div class="row mt16">
+                                        <div class="col-12 o_kanban_primary_left">
+                                             <div class="col-12">
+                                                <a name="%(action_transfer_order_partially_shipped)d" type="action"><field name="partially_shipped_count"/>  Partially Shipped</a>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <a name="%(action_transfer_order_fully_shipped)d" type="action"><field name="fully_shipped_count"/>  Fully Shipped</a>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 mt8 o_kanban_primary_left">
+                                             <div class="col-12">
+                                                <a name="%(action_transfer_open_orders)d" type="action"><field name="open_orders_count"/>  Open Requisitions</a>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <a name="%(action_transfer_pending_orders)d" type="action"><field name="pending_orders_count"/>  Pending for approvals</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="row">
+                                        <div class="col-6" role="menuitem" aria-haspopup="true">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+      
+      <record id="stock_transfer_order_dashboard_action" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">stock.transfer.order.type</field>
+        <field name="view_mode">kanban</field>
+    </record>
+      
+          <menuitem action="stock_transfer_order_dashboard_action" id="stock_transfer_root_stock_transfer_order_dashboard_menu" parent="stock_order_transfer_root_menu" sequence="0"/>
+
+  </data>
+</odoo>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+   <menuitem id="menu_stock_refilling_config_root" name="Refilling" parent="stock.menu_stock_config_settings" sequence="10"/>
+</odoo>

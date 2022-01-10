@@ -1,0 +1,62 @@
+<odoo>
+	<data noupdate="0">
+		
+		<menuitem id="msa_root_menu" name="MSA"
+            active="True" web_icon="de_msa,static/description/icon.png" groups="group_msa_user,group_msa_manager"
+            sequence="5"/>
+
+		<menuitem id="msa_menu" name="Master Service Agreement" parent="msa_root_menu"
+			action="de_msa.action_master_service_agreement_view"
+			sequence="1" />
+			
+		
+		<menuitem id="msa_menu_sites" name="Sites" parent="msa_root_menu"
+			sequence="3" />
+		
+        <menuitem id="msa_menu_project_sites_all" name="Sites" parent="msa_menu_sites"
+			action="de_msa.open_view_site_all"
+			sequence="1" />
+        
+		<menuitem id="msa_menu_billing_info" name="Billing Info" parent="msa_menu_sites"
+			action="de_msa.action_site_billing_info_view"
+			sequence="2" />
+		
+		<menuitem id="msa_menu_monthly_power_model" name="Monthly Power Model" parent="msa_menu_sites"
+			action="de_msa.action_monthly_power_model_view"
+			sequence="3" />
+		
+		<menuitem id="msa_menu_monthly_tower_model" name="Monthly Tower Model" parent="msa_menu_sites"
+			action="de_msa.action_monthly_tower_model_view"
+			sequence="4" />
+			
+		<menuitem id="msa_menu_monthly_load_model" name="Monthly Tower Load" parent="msa_menu_sites"
+			action="de_msa.action_monthly_tower_load_view"
+			sequence="5" />
+		
+		<menuitem id="msa_menu_monthly_sla_factor" name="Monthly SLA Factor" parent="msa_menu_sites"
+			action="de_msa.action_monthly_sla_factor_view"
+			sequence="6" />
+			
+		<menuitem id="msa_menu_config" name="Configuration" parent="msa_root_menu" groups="group_msa_manager"
+			sequence="5" />
+			
+		<menuitem id="msa_menu_towers" name="Towers" parent="msa_menu_config"
+			action="de_msa.product_normal_action_tower"
+			sequence="1" />
+			
+		<menuitem id="msa_menu_powers" name="Powers" parent="msa_menu_config"
+			action="de_msa.product_normal_action_power"
+			sequence="2" />
+			
+        
+        <menuitem id="msa_menu_sla_factors" name="SLA Factors" parent="msa_menu_config"
+			action="de_msa.action_sla_factor_view"
+			sequence="3" />
+			
+		<menuitem id="msa_menu_wind_factors" name="Wind factors" parent="msa_menu_config"
+			action="de_msa.action_wind_factor_view"
+			sequence="4" />
+			
+	</data>
+</odoo>
+

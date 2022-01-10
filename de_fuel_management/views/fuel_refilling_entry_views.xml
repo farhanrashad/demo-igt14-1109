@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="fuel_refilling_entry_view_form" model="ir.ui.view">
+        <field name="name">fuel.refilling.entry.view.form</field>
+        <field name="model">fuel.refilling.entry</field>
+        <field name="arch" type="xml">
+            <form string="Refilling Entries" >
+                <header>
+                    
+                 <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                          <field name="name"/>
+                        </h1>
+                     </div>
+                    <group>
+                        <group>
+                            <field name="location_src_id"/>
+                            <field name="owner_id"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_no_one"/>
+                        </group>
+                        <group>
+                            <field name="refill_date"/>
+                        </group>
+                    
+                    </group>
+                    <notebook>
+                        <page string="Entry Lines">
+                            <field name="refill_line_ids">
+                                <tree editable="bottom">
+                                  <field name="location_id" />
+                                  <field name="product_id" />
+                                  <field name="current_quantity" />
+                                  <field name="refill_quantity" />
+                                  <field name="closing_quantity" />
+                                </tree>
+                            
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fuel_refilling_entry_view_tree" model="ir.ui.view">
+        <field name="name">fuel.refilling.entry.view.tree</field>
+        <field name="model">fuel.refilling.entry</field>
+        <field name="arch" type="xml">
+            <tree string="Subscription Input" >
+                <field name="name" />
+                <field name="location_src_id"/>
+                <field name="company_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="fuel_refilling_entry_view_kanban" model="ir.ui.view">
+        <field name="name">fuel.refilling.entry.kanban.view</field>
+        <field name="model">fuel.refilling.entry</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div>
+                                    <strong class="o_kanban_record_title"><span><field name="name"/></span></strong>
+                                </div>
+                                <div>
+                                    <span class="text-muted o_kanban_record_subtitle"><field name="location_src_id"/></span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_view_refilling_entries" model="ir.actions.act_window">
+        <field name="name">Fuel Refilling Entries</field>
+        <field name="res_model">fuel.refilling.entry</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+</odoo>

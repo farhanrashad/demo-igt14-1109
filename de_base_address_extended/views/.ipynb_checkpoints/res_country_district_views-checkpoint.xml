@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+         <!-- District -->
+        <record id="view_country_district_tree" model="ir.ui.view">
+            <field name="name">res.country.district.tree</field>
+            <field name="model">res.country.district</field>
+            <field name="arch" type="xml">
+                <tree string="District" editable="bottom">
+                    <field name="name"/>
+                    <field name="country_id" options="{'no_create': True}"/>
+                    <field name="state_id" options="{'no_create': True}"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_country_district" model="ir.actions.act_window">
+            <field name="name">Districts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.district</field>
+            <field name="view_id" ref="view_country_district_tree"/>
+            <field name="help">You can manage the different districts you are working on from here. Each district is attached to one state.</field>
+        </record>
+        
+        <menuitem id="menu_localisation_country_districts" name="Districts" parent="contacts.menu_localisation" action="action_country_district" sequence="3" />
+        
+        <!-- Sub District -->
+        <record id="view_country_subdistrict_tree" model="ir.ui.view">
+            <field name="name">res.country.subdistrict.tree</field>
+            <field name="model">res.country.subdistrict</field>
+            <field name="arch" type="xml">
+                <tree string="Sub District" editable="bottom">
+                    <field name="name"/>
+                    <field name="country_id" options="{'no_create': True}"/>
+                    <field name="state_id" options="{'no_create': True}"/>
+                    <field name="district_id" options="{'no_create': True}"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_country_subdistrict" model="ir.actions.act_window">
+            <field name="name">Sub Districts</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.country.subdistrict</field>
+            <field name="view_id" ref="view_country_subdistrict_tree"/>
+            <field name="help">You can manage the different sub districts you are working on from here. Each sub district is attached to one district.</field>
+        </record>
+        
+        <menuitem id="menu_localisation_country_subdistricts" name="Sub Districts" parent="contacts.menu_localisation" action="action_country_subdistrict" sequence="3" />
+
+        
+    </data>
+</odoo>

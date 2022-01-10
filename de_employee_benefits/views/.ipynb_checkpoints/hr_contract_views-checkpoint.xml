@@ -1,0 +1,39 @@
+<odoo>
+  <data>
+     <record id="hr_contract_form_view_contract_type" model="ir.ui.view">
+			<field name="name">hr.contract.form.view</field>
+			<field name="model">hr.contract</field>
+			<field name="inherit_id" ref="hr_contract.hr_contract_view_form"/>
+			<field name="arch" type="xml">
+			    
+                <xpath expr="//field[@name='structure_type_id']" position="after">                  
+                    <field name="contract_type_id" />
+                     <field name="sequence_code"  invisible='1'/>
+                    <field name="code"  invisible='1'/>
+                     <field name="sequence_id"  invisible='1'/>
+				</xpath>
+                <xpath expr="//field[@name='name']" position="attributes">                  
+                    <attribute name='required'>0</attribute>
+				</xpath>
+                <xpath expr="//field[@name='name']" position="attributes">                  
+                    <attribute name='readonly'>1</attribute>
+				</xpath>
+                
+                <xpath expr="//notebook//page[@name='other']" position="after">
+                    <page string='Salary Inputs'>
+                       <field name="benefit_line_ids">
+                           <tree editable="bottom">
+<!--                                <field name='name'/> -->
+                               <field name='input_type_id'/>
+                               <field name='cotract_id' invisible="1"/>
+                               <field name='description'/>
+                               <field name='amount'/>
+                           </tree>   
+                        </field>    
+                    </page>
+				</xpath>
+			</field>
+		</record>
+      
+  </data>
+</odoo>

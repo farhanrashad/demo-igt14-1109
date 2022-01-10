@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="report_stock_move_report" model="ir.actions.report">
+            <field name="name">Stock Move Report</field>
+            <field name="model">stock.quant</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_report_stock_move.report_stock_move</field>
+            <field name="report_file">Stock Move Report</field>
+<!--             <field name="binding_model_id" ref="de_requisition_line_report.model_stock_transfer_order"/>
+            <field name="binding_type">report</field> -->
+        </record>
+    </data>
+</odoo>

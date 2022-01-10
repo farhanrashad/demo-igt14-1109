@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="report_mrf_line_report" model="ir.actions.report">
+            <field name="name">MRF Line Report</field>
+            <field name="model">stock.quant</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_report_mrf_line.report_mrf_line</field>
+            <field name="report_file">MRF Line Report</field>
+        </record>
+    </data>
+</odoo>

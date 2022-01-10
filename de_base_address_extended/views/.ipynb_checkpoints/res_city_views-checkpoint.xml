@@ -1,0 +1,21 @@
+<odoo>
+    <data>
+        <record id="view_city_tree_inherit_district" model="ir.ui.view">
+        <field name="name">view.city.tree.inherit.disctrict</field>
+        <field name="model">res.city</field>
+        <field name="inherit_id" ref="base_address_city.view_city_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state_id']" position="after">
+                <field name="enforce_districts" invisible="1"/>
+                <field name="district_required" invisible="1"/>
+                <field name="enforce_subdistricts" invisible="1"/>
+                <field name="subdistrict_required" invisible="1"/>
+                
+                <field name="district_id" attrs="{'invisible':[('enforce_districts','!=',True)], 'required':[('district_required','=',True)]}" />
+                <field name="subdistrict_id" attrs="{'invisible':[('enforce_subdistricts','!=',True)], 'required':[('subdistrict_required','=',True)]}" />
+            </xpath>
+        </field>
+    </record>
+        
+    </data>
+</odoo>

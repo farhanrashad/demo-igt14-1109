@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_task_portal,access.project.task,model_project_task,base.group_portal,1,1,1,1
+access_project_project_portal,access.project.project,model_project_project,base.group_portal,1,1,1,1
+access_purchase_order_portal,access.purchase.order,model_purchase_order,base.group_portal,1,1,1,1
+
+
+

@@ -1,0 +1,16 @@
+<odoo>
+	<data>
+
+		<menuitem id="menu_report_termination_pdf"
+			name="Employee Termination"
+			action="de_employee_termination_excel.action_employee_termination_wizard"
+			parent="hr.menu_hr_employee_payroll" />
+
+		<report id="action_termination_xlsx" model="hr.employee"
+			string="Print to XLSX" report_type="xlsx"
+			name="de_employee_termination_excel.report_emp_termination_xls"
+			file="Employee Termination Report" />
+
+
+	</data>
+</odoo>

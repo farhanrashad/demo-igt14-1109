@@ -1,0 +1,242 @@
+<odoo>
+    <data>
+        <report
+                id="mrf_report"
+                model="stock.transfer.order"
+                string="MRF Report"
+                report_type="qweb-pdf"
+                name="de_mrf_report.mrf_report_print"
+                file="MRF Report"
+        />
+    <template id="mrf_report_print">
+            <t t-call="web.html_container">
+                <t t-call="web.external_layout">
+                    <table class="table table-condensed"
+                           style="border:2px solid black;">
+                        <tr>
+                            <td colspan="14" style="border:2px solid black;
+                                       text-align: center;
+                                       font-weight:bold">
+                                <b>MATERIAL REQUISITION FORM</b>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border:2px solid black;">
+                                <b> MRF No.</b>
+                            </td>
+                            <td colspan="6" style="border:2px solid black;">
+                                <span t-field="docs.name"/>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <b>Date of MRF Creation</b>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <span t-field="docs.date_order"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border:2px solid black;">
+                                <b> MRF Type</b>
+                            </td>
+                            <td colspan="6" style="border:2px solid black;">
+                                <span t-field="docs.transfer_order_category_id"/>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <b>Date of Pick Up</b>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <span t-field="docs.date_delivered"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border:2px solid black;">
+                                <b>Contractor PO No</b>
+                            </td>
+                            <td colspan="6" style="border:2px solid black;">
+                                <span t-field="docs.purchase_id"/>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <b>Contractor Name</b>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <span t-field="docs.partner_id"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2" style="border:2px solid black;">
+                                <b>Requested Warehouse Name</b>
+                            </td>
+                            <td colspan="6" style="border:2px solid black;">
+                                <span t-field="docs.location_dest_id"/>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <b>Name of the Transporter/ Contractor</b>
+                            </td>
+                            <td colspan="3" style="border:2px solid black;">
+                                <span t-field="docs.transporter_id"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>IGT Site Code</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Site Type</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Tower Type</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Tower/Power Vendor</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Tower Height</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Wind Zone (Kmph)</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>IGT ERP Material Code</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>IGT ERP Material Description</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Required Qty</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>UOM</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Site Address for Delivery</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Cost Centre</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Material Condition on Return</b>
+                            </td>
+                            <td style="border:2px solid black;
+                                       text-align: center">
+                                <b>Reason for Return</b>
+                            </td>
+                        </tr>
+                        <t t-foreach="docs.stock_transfer_order_line" t-as='line'>
+                            <tr>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.project_id"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.site_type"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+<!--                                     <span t-field="line.project_id"/> -->
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.supplier_id"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.tower_height"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.wind_zone"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.product_id"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.name"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.product_uom_qty"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.product_uom"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.site_type"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+                                    <span t-field="line.analytic_tag_ids"/>
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+<!--                                     <span t-field="line.project_id"/> -->
+                                </td>
+                                <td style="border:2px solid black;
+                                           text-align: center">
+<!--                                     <span t-field="line.project_id"/> -->
+                                </td>
+                            </tr>
+                        </t>
+                        <tr>
+                            <td colspan="14" style="border:2px solid black;
+                                       text-align: center;
+                                       font-weight:bold">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="1" style="border:2px solid black;">
+                                <b>MRF Created By</b>
+                            </td>
+                            <td colspan="1" style="border:2px solid black;">
+                                <span t-field="docs.user_id"/>
+                            </td>
+                            <td colspan="2" style="border:2px solid black;">
+                                <b>Mobile No./ Designation</b>
+                            </td>
+                            <td colspan="2" style="border:2px solid black;">
+<!--                                 <span t-field="docs.partner_id"/> -->
+                            </td>
+                            <td colspan="2" style="border:2px solid black;">
+                                <b>MRF Approved By</b>
+                            </td>
+                            <td colspan="2" style="border:2px solid black;">
+<!--                                 <span t-field="docs.user_id"/> -->
+                            </td>
+                            <td colspan="2" style="border:2px solid black;">
+                                <b>Mobile No./ Designation</b>
+                            </td>
+                            <td colspan="2" style="border:2px solid black;">
+<!--                                 <span t-field="docs.partner_id"/> -->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="14" style="border:2px solid black;">
+                                <pre>1. Contractor need to inform the WH team about his arrival to the WH Team in advance so the WH Team can prepare the Materials and make ready for shipment.
+2. MRF for Tower Pick should be in advance i.e minimum 3 days prior to the pick up date.
+3. Tower / Power will only be transported as one, and on one truck, we will not load tower / Power on two or three separate trucks.
+4. Contractor should come to WH with PPE i.e Safety Helment, Safety Shoes when coming to Pick up the Material from WH</pre>
+                            </td>
+                        </tr>
+                    </table>
+                </t>
+            </t>
+    </template>    
+    </data>
+</odoo>

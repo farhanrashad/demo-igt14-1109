@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="po_line_report" model="ir.actions.report">
+            <field name="name">PO Line Report</field>
+            <field name="model">purchase.order</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_po_line_report.po_line_report_xlsx</field>
+            <field name="report_file">PO Line Report</field>
+            <field name="binding_model_id" ref="de_po_line_report.model_purchase_order"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

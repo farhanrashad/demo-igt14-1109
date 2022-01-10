@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_custom_entry_type_correction_reason" model="ir.ui.view">
+            <field name="name">account.custom.entry.corrction.reason</field>
+            <field name="model">account.custom.entry</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='description']" position="after">
+                    <field name="correction_reason" invisible="1"/>
+                    <field name="allow_correction" invisible="1"/>
+                </xpath>
+                <xpath expr="//header" position="inside">
+                    <button string="Request Correction" name="action_correction_entry" type="object" class="btn-primary" attrs="{'invisible': [('stage_category', 'not in', ['confirm','close']),('allow_correction','!=',False)]}"/>
+                    <button string="Request Correction" name="action_correction_entry" type="object" attrs="{'invisible': [('stage_category', 'not in', ['confirm','close']),('allow_correction','=',False)]}"/>
+
+                </xpath>
+           </field>
+        </record>
+           
+</odoo>
+
+
+

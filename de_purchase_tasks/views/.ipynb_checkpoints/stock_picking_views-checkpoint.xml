@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record id="view_picking_form_inherit_milestone" model="ir.ui.view">
+            <field name="name">view.picking.form.inherit.milestone</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+                    <field name="purchase_id" invisible="1"/>
+                    <field name="allow_picking" invisible="1"/>
+                    <div class="o_row no-gutters d-flex">
+                        <label for="task_id" attrs="{'invisible':[('allow_picking','=',False)]}"/>
+                        <div class="o_row" attrs="{'invisible':[('allow_picking','=',False)]}">
+                            <field name="task_id" attrs="{'invisible':[('allow_picking','=',False)]}" class="oe_inline" options="{'no_create':True,'no_open':True}"/>
+                            <field name="purchase_project_id" string="Site"/>
+                            <button name="action_assign_milestone" type="object" class="" aria-label="Assign Milestone" title="Assign Milestone" string="Assign Milestone" attrs="{'invisible':['|',('task_id','!=',False),('state','in',['done','cancel'])]}"/>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

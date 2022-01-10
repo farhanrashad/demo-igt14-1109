@@ -1,0 +1,14 @@
+<odoo>
+    <data>
+        <record id="view_purchase_order" model="ir.ui.view">
+            <field name="name">stock.transfer.order.form</field>
+            <field name="model">stock.transfer.order</field>
+            <field name="inherit_id" ref="de_stock_material_transfer.stock_transfer_order_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='user_id']" position="after">
+                    <field name="mobile_no"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

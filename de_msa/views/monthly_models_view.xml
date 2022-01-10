@@ -1,0 +1,193 @@
+<odoo>
+
+	<record id="view_monthly_power_model_tree" model="ir.ui.view">
+		<field name="name">monthly.power.model.tree</field>
+		<field name="model">monthly.power.model</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="power_model"/>
+				<field name="period"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_monthly_power_model_seach" model="ir.ui.view">
+		<field name="name">monthly.power.model.search</field>
+		<field name="model">monthly.power.model</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="power_model"/>
+				<field name="period"/>
+			</search>
+		</field>
+	</record>
+
+
+	<record id="action_monthly_power_model_view" model="ir.actions.act_window">
+		<field name="name">Monthly Power Model</field>
+		<field name="res_model">monthly.power.model</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_monthly_power_model_seach" />
+		<field name="view_id" ref="view_monthly_power_model_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create Monthly Power Models Here...
+			</p>
+		</field>
+	</record>
+
+
+
+
+
+	<record id="view_monthly_tower_model_tree" model="ir.ui.view">
+		<field name="name">monthly.tower.model.tree</field>
+		<field name="model">monthly.tower.model</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="tower_model"/>
+				<field name="period"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_monthly_tower_model_seach" model="ir.ui.view">
+		<field name="name">monthly.tower.model.search</field>
+		<field name="model">monthly.tower.model</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="tower_model"/>
+				<field name="period"/>
+			</search>
+		</field>
+	</record>
+
+
+	<record id="action_monthly_tower_model_view" model="ir.actions.act_window">
+		<field name="name">Monthly Tower Model</field>
+		<field name="res_model">monthly.tower.model</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_monthly_tower_model_seach" />
+		<field name="view_id" ref="view_monthly_tower_model_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create Monthly Tower Models Here...
+			</p>
+		</field>
+	</record>
+
+
+
+	
+
+
+	<record id="view_monthly_tower_load_tree" model="ir.ui.view">
+		<field name="name">monthly.tower.load.tree</field>
+		<field name="model">monthly.tower.load</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="load_type"/>
+				<field name="period"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_monthly_tower_load_seach" model="ir.ui.view">
+		<field name="name">monthly.tower.load.search</field>
+		<field name="model">monthly.tower.load</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="load_type"/>
+				<field name="period"/>
+			</search>
+		</field>
+	</record>
+
+
+	<record id="action_monthly_tower_load_view" model="ir.actions.act_window">
+		<field name="name">Monthly Tower Load</field>
+		<field name="res_model">monthly.tower.load</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_monthly_tower_load_seach" />
+		<field name="view_id" ref="view_monthly_tower_load_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create Monthly Tower Load Here...
+			</p>
+		</field>
+	</record>
+
+
+
+
+	<record id="view_monthly_sla_factor_tree" model="ir.ui.view">
+		<field name="name">monthly.sla.factor.tree</field>
+		<field name="model">monthly.sla.factor</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="sla_factor"/>
+				<field name="period"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_monthly_sla_factor_seach" model="ir.ui.view">
+		<field name="name">monthly.sla.factor.search</field>
+		<field name="model">monthly.sla.factor</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="sla_factor"/>
+				<field name="period"/>
+			</search>
+		</field>
+	</record>
+
+
+	<record id="action_monthly_sla_factor_view" model="ir.actions.act_window">
+		<field name="name">Monthly SLA Factor</field>
+		<field name="res_model">monthly.sla.factor</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_monthly_sla_factor_seach" />
+		<field name="view_id" ref="view_monthly_sla_factor_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create Monthly SLA Factor Here...
+			</p>
+		</field>
+	</record>
+
+
+
+
+
+
+
+</odoo>

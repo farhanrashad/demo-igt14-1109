@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="new_job_request_email_template" model="mail.template">
+            <field name="name">Invoice: Send by email</field>
+            <field name="model_id" ref="openhcm_job_request.model_hr_job_position_request"/>
+            <field name="email_from">${(object.requested_by.email_formatted) |safe}</field>
+            <field name="email_to">${object.manager_id.id}</field>
+            <field name="subject">Job Request (Ref ${object.requested_by.name})</field>
+            <field name="body_html" type="html">
+                <form action="/routing-value">
+                    <t t-set="access_url" t-value="${object.get_mail_url()}"/>
+                    <div style="margin: 0px; padding: 0px;">
+                        <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                            Hello
+                            <br/><br/>
+                            There is a need to hire into ${object.department.name}.
+                            <br/><br/>
+                            Details listed below.
+                        </p>
+                    </div>
+                    <br/>
+                    <hr/>
+                    <table width="30%" class="border-black">
+                        <thead>
+                            <tr width="50%" class="border-black" style="width=50%; border-bottom: 1px solid black;">
+                                <strong>Job Position :</strong><th width="50%" style="border-bottom: 1px solid black;">${object.name}</th>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td style="border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">
+                                <strong>Requested On</strong>
+                            </td>
+                            <td style="border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">
+                                ${object.date}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">
+                                <strong>Requested By</strong>
+                            </td>
+                            <td style="border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">
+                                ${object.requested_by.name}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">
+                                <strong>Employees Requires</strong>
+                            </td>
+                            <td style="border-right: 1px solid black; border-top: 1px solid black; border-left: 1px solid black; border-bottom: 1px solid black;">
+                                ${object.no_of_person_request}
+                            </td>
+                        </tr>
+                    </table>
+                    <br/><br/>
+                    <button onclick="${object.action_submit}">HTML Tutorial</button>
+                    <a href="${object.get_mail_url()}" style="background-color: #1abc9c; padding: 12px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 12px;\" class="o_default_snippet_text">View Request</a>
+                </form>
+            </field>
+<!--             <field name="user_signature" eval="False"/> -->
+            <field name="auto_delete" eval="True"/>
+        </record>
+
+        <record id="job_position_creation" model="mail.template">
+            <field name="name">Job Position</field>
+            <field name="model_id" ref="openhcm_job_request.model_hr_job_position_request"/>
+            <field name="email_from">${(object.manager_id.email_formatted) |safe}</field>
+            <field name="email_to">${object.requested_by.id}</field>
+            <field name="subject">Job Request (Ref ${object.requested_by.name})</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello,
+                        As per your request, new job position ${object.name} has been created from
+                        ${object.get_id}. Now you can start recruitment process.
+                        Use below button to access your job position request.
+                    </p>
+                </div>
+                <br/><br/>
+                <a href="${object.get_job_position_url()}" style="background-color: #1abc9c; padding: 12px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 12px;\" class="o_default_snippet_text">Job Position</a>
+            </field>
+        </record>
+
+        <record id="job_position_rejection" model="mail.template">
+            <field name="name">Job Position : Rejected</field>
+            <field name="model_id" ref="openhcm_job_request.model_hr_job_position_request"/>
+            <field name="email_from">${(object.manager_id.email_formatted) |safe}</field>
+            <field name="email_to">${object.requested_by.id}</field>
+            <field name="subject">Job Request Rejected (Ref ${object.requested_by.name})</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello,
+                        You job position request ${object.name} has been rejected.
+                        Use below button to access your job position request.
+                    </p>
+                </div>
+                <br/><br/>
+                <a href="${object.get_job_position_url()}" style="background-color: #1abc9c; padding: 12px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 12px;\" class="o_default_snippet_text">Job Position</a>
+            </field>
+        </record>
+        
+        
+        <record id="job_position_approve" model="mail.template">
+            <field name="name">Job Position : Approved</field>
+            <field name="model_id" ref="openhcm_job_request.model_hr_job_position_request"/>
+            <field name="email_from">${(object.manager_id.email_formatted) |safe}</field>
+            <field name="email_to">${object.requested_by.id}</field>
+            <field name="subject">Job Request Approved (Ref ${object.requested_by.name})</field>
+            <field name="body_html" type="html">
+                <div>
+                    <p style="margin: 0px; padding: 0px; font-size: 13px;">
+                        Hello,
+                        You job position request ${object.name} has been approved.
+                        Use below button to access your job position request.
+                    </p>
+                </div>
+                <br/><br/>
+                <a href="${object.get_job_position_url()}" style="background-color: #1abc9c; padding: 12px; text-decoration: none; color: #fff; border-radius: 5px; font-size: 12px;\" class="o_default_snippet_text">Job Position</a>
+            </field>
+        </record>
+    </data>
+</odoo>

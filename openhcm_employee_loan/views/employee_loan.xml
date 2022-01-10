@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+    
+    
+     <record id="create_refuse_form" model="ir.ui.view">
+        <field name="name">refuse.order.wizard</field>
+        <field name="model">refuse.order</field>
+        <field name="arch" type="xml">
+        <form string="Refuse Detail">
+        <group>
+        <field name="refuse_d"/>
+        </group>
+        <footer>
+        <button name="create_rejection" string="Done" type="object" class="btn-primary"/>
+        <button string="Cancel" class="btn-secondary" special="cancel"/>
+        </footer>
+        </form>
+        </field>
+        </record>
+        
+        <record id="create_refuse_wizard" model="ir.actions.act_window">
+        <field name="name">Reject Loan</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">refuse.order</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="create_refuse_form"/>
+        <field name="target">new</field>
+        </record> 
+    
+        <record id="open_employee_loan_form_menu_form" model="ir.ui.view">
+            <field name="name">Employee Loan</field>
+            <field name="model">employee.loan</field>
+            <field name="arch" type="xml">
+                <form string="Employee Loan">
+                 <header>
+                    <button name="draft" string="Send Request" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'draft')]}"  />
+                         />
+                    <button name="compute_sheet" string="Compute Installment" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'draft')]}"  />
+                         />
+                          <button name="submit" string="Line Manager" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'submit')]}" groups="openhcm_employee_loan.l_m" />
+                         />
+                        <button name="%(create_refuse_wizard)d" id="account_refuse_btn" type="action" class="oe_highlight" string="Rejected" states="submit" groups="openhcm_employee_loan.l_m"/>
+
+                         
+                         <button name="h_r" string="Finance Manager" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'dept_approve')]}" groups="openhcm_employee_loan.f_m" />
+                    
+                         
+                          
+                           <button name="done" string="HR Approval" type="object" class="btn-primary"
+                         attrs="{'invisible': [('state', 'not in', 'h_r')]}"  groups="openhcm_employee_loan.h_r" />
+                     
+                         />
+                      <button name="action_paid" string="Paid" type="object" class="btn-primary"
+                         attrs="{'invisible': [('state', 'not in', 'done')]}"  groups="openhcm_employee_loan.f_m" />
+                        
+                         
+    
+                        
+                        <field name="state"  widget="statusbar" statusbar_visible="draft,submit,dept_approve,h_r,done,refuse,paid"/>
+                  </header>
+                  <sheet>
+                 <div class="oe_button_box" name="button_box">
+                    <button name="action_view_lines" type="object" class="oe_stat_button" icon="fa-list" >
+                    <field name="lines_count" widget="statinfo"/>
+                    </button>
+                    <button name="action_view_journal" type="object" string="Journal Entry" attrs="{'invisible': [('state', '!=', 'paid')]}" class="oe_stat_button" icon="fa-share-square" >
+                    </button>
+                </div>
+                   <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                        <group col="4">
+                        <field name="employee_id" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="start_date" attrs="{'readonly': [('state', 'in','done')]}"/>
+                        <field name="end_date" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="date" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="department" />
+                        <field name="payment_method" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="type" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="loan_amount" attrs="{'readonly': [('state', 'in','done')]}"/>
+                         <field name="interest_amount" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="extra_interest_amount" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="paid_amount" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="interest_rate" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="remaining_amount" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="term" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="user" />
+                        <field name="company_id"/>
+
+                         </group>
+                          <notebook>
+                           <page string="Notes">
+                            <field name="reason"/>
+                           </page>
+                        <page string="Installments">
+                            <field name="statements_line" readonly="1">
+                                <tree string="Installments" editable="bottom" >
+                                        <field name="name"/>
+                                        <field name="date"/>
+                                        <field name="loan_amount"/>
+                                        <field name="total_interest"/>
+                                        <field name="installment_amount"/>
+                                        <field name="interest"/>
+                                        <field name="total"/>
+                                        <field name="state"/>
+                                </tree>
+                            </field>
+                           
+                        </page>
+                        <page string="Accounting">
+                            <group>
+                                <group>
+                                    <field name="interest_account_id"/>
+                                    <field name="loan_account_id"/>
+                                    <field name="debit_account_id"/>
+                                </group>
+                                 <group>
+                                    <field name="journal_id"/>
+                                </group>
+                                
+                            </group>   
+                           
+                        </page>      
+                    </notebook>
+                    
+                     
+                    
+                </sheet>
+            
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+               </form>
+            </field>
+            </record>
+        
+        
+         <record id="open_employee_loan_installment_form_menu_form" model="ir.ui.view">
+            <field name="name">Employee Loan Installment</field>
+            <field name="model">employee.loan.installment</field>
+            <field name="arch" type="xml">
+                <form string="Employee Loan" >
+                 <header>
+                    <button name="action_paid" string="Paid" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'draft')]}"  invisible="1"/>
+                      />                              
+                      
+                        <field name="state"  widget="statusbar" statusbar_visible="draft,paid"/>
+                  </header>
+                  <sheet>
+               
+                   <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                        <group>
+                            <group>
+                                <field name="date" attrs="{'readonly': [('state', 'in','paid')]}"  readonly="1"/>
+                                <field name="loan_amount" attrs="{'readonly': [('state', 'in','paid')]}" readonly="1"/>
+                                <field name="total_interest" attrs="{'readonly': [('state', 'in','paid')]}" readonly="1" />
+                                <field name="installment_amount" attrs="{'readonly': [('state', 'in','paid')]}" readonly="1" />
+                            </group> 
+                            <group>
+                                <field name="interest"  readonly="1"/>
+                                <field name="total" attrs="{'readonly': [('state', 'in','paid')]}"  readonly="1"/>
+                            </group>
+                         </group>                     
+                    
+                </sheet>
+            
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+               </form>
+            </field>
+            </record>
+        
+              <record id="open_loan_installmet_form_tree" model="ir.ui.view">
+                <field name="name">Employee Loan Installment</field>
+                <field name="model">employee.loan.installment</field>
+                <field name="arch" type="xml">
+                    <tree string="Employee Loan Installment Tree"   create="false"  >
+                      
+                         <field name="name" readonly="1" />
+                        <field name="date" readonly="1"/>
+                        <field name="loan_amount" readonly="1" />
+                        <field name="installment_amount" readonly="1"/>
+                        <field name="interest" readonly="1"/>
+                        <field name="total"  readonly="1"/>
+                        <field name="state" readonly="1" />
+                    </tree>
+                </field>
+            </record>
+            
+            <record id="open_loan_creation_form_tree" model="ir.ui.view">
+                <field name="name">Employee Loan</field>
+                <field name="model">employee.loan</field>
+                <field name="arch" type="xml">
+                    <tree string="Employee Loan Tree">
+                        <field name="name"/>
+                         <field name="employee_id"/>
+                        <field name="start_date"/>
+                        <field name="end_date"  />
+                        <field name="date" />
+                        <field name="department"/>
+                        <field name="loan_amount" />
+                         <field name="interest_amount"  />
+                        <field name="paid_amount" />
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </record>
+            
+            
+        
+         
+   
+               
+            <record id="open_loan_creation_form_open" model="ir.actions.act_window">
+                <field name="name">Employee Loan</field>
+                <field name="res_model">employee.loan</field>
+                <field name="binding_view_types">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="open_loan_creation_form_tree"/>
+            </record>
+            <menuitem action="open_loan_creation_form_open" name="Employee Loan" id="job_employee_loan_menue"  parent="hr.menu_hr_root" />
+         
+        
+         <record id="open_employee_loan_type_order" model="ir.ui.view">
+            <field name="name">Employee Loan Type Form</field>
+            <field name="model">employee.loan.type</field>
+            <field name="arch" type="xml">
+                <form string="Team Form">
+                  <sheet>
+                    <group col="4">
+                        <field name="name" />
+                      
+                    </group>
+                    
+                </sheet>
+            
+             
+               </form>
+            </field>
+            </record>
+            
+            <record id="open_employee_loan_type_tree" model="ir.ui.view">
+                <field name="name">Employee Loan Type Tree</field>
+                <field name="model">employee.loan.type</field>
+                <field name="arch" type="xml">
+                    <tree string="Employee Loan type Tree">
+                        <field name="name"/>
+                      
+                    </tree>
+                </field>
+            </record>
+            
+            
+          
+   
+            
+               
+            <record id="open_employee_loan_type_form_custom" model="ir.actions.act_window">
+                <field name="name">Employee Loan Type Form</field>
+                <field name="res_model">employee.loan.type</field>
+                <field name="binding_view_types">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="open_employee_loan_type_tree"/>
+            </record>
+            
+
+
+            <menuitem id="menu_view_team"
+            name="Employee Loan Type"
+            action="open_employee_loan_type_form_custom"
+            parent="hr.menu_config_plan_types"
+            />
+       
+            
+       
+            </data>
+            </odoo>
+            
+            

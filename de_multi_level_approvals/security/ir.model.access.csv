@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_approval_category_line_manager,access.approval.category.line.manager,model_approval_category_line,approvals.group_approval_manager,1,1,1,1
+access_approval_stage_manager,access.approval.stage.manager,model_approval_stage,approvals.group_approval_manager,1,1,1,1
+access_approval_category_line_user,access.approval.category.line.user,model_approval_category_line,approvals.group_approval_user,1,0,0,0
+access_approval_stage_user,access.approval.stage.user,model_approval_stage,approvals.group_approval_user,1,0,0,0

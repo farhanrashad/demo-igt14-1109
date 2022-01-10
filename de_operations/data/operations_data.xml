@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+         <!-- ==== Create Purchase Types ==== -->
+        <record id="__external__subscription_type_operations_caretaker" model="purchase.subscription.type">
+            <field name="name">Caretaker Agreement</field>
+        </record>
+        
+        <record id="__external__subscription_type_operations_lease" model="purchase.subscription.type">
+            <field name="name">Lease Agreements</field>
+        </record>
+        
+        <record id="__external__subscription_type_operations_om" model="purchase.subscription.type">
+            <field name="name">OM Agreements</field>
+        </record>
+        <record id="__external__subscription_type_operations_others" model="purchase.subscription.type">
+            <field name="name">Others</field>
+        </record>
+        
+        <!-- ==== Create Jouranals ==== -->
+        <record id="__external__account_journal_operations_caretaker" model="account.journal">
+            <field name="name">Caretaker Bills</field>
+            <field name="type">purchase</field>
+            <field name="code">CTB</field>
+        </record>
+        
+        <record id="__external__account_journal_operations_lease" model="account.journal">
+            <field name="name">Lease Bills</field>
+            <field name="type">purchase</field>
+            <field name="code">LSE</field>
+        </record>
+        
+        <record id="__external__account_journal_operations_om" model="account.journal">
+            <field name="name">OM Bills</field>
+            <field name="type">purchase</field>
+            <field name="code">OM</field>
+        </record>
+        
+        <record id="__external__account_journal_operations_Fuel" model="account.journal">
+            <field name="name">Fuel Bills</field>
+            <field name="type">purchase</field>
+            <field name="code">FUEL</field>
+        </record>
+        
+    </data>
+</odoo>

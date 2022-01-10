@@ -1,0 +1,30 @@
+<odoo>
+  <data>
+
+    <record id="view_stock_cma_order_form_inherit" model="ir.ui.view">
+        <field name="name">stock.cma.order.form</field>
+        <field name="model">stock.cma.order</field>
+        <field name="inherit_id" ref="de_stock_cma_order.stock_cma_order_form_view"/>
+        <field name="arch" type="xml">
+            
+            <xpath expr="//header" position="inside">
+                <field name="is_force_close" invisible="1"/>
+                    <button name="%(de_force_close.action_force_close_wizard_view)d" states="confirm" string="Force Close" type="action" class="oe_highlight"/>               
+            </xpath>
+            
+             <xpath expr="//notebook/page[2]" position="after">
+                <page string="Reason"    attrs="{'invisible':[('is_force_close','=',False)]}">
+                    <form>
+                        <group>
+                            <field name="reason"/>
+                        </group>
+                    </form>
+                </page>               
+            </xpath>
+            
+        </field>
+    </record>
+
+    
+  </data>
+</odoo>

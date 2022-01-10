@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_asset,access.employee.asset,model_employee_asset,base.group_user,1,1,1,1
+access_employee_asset_line,access.employee.asset.line,model_employee_asset_line,,1,1,1,1
+access_employee_teambuilding,access.employee.teambuilding,model_employee_teambuilding,base.group_user,1,1,1,1
+access_employee_teambuilding_line,access.employee.teambuilding.line,model_employee_teambuilding_line,,1,1,1,1
+access_employee_incident,access.employee.incident,model_employee_incident,base.group_user,1,1,1,1
+access_employee_incident_line,access.employee.incident.line,model_employee_incident_line,,1,1,1,1

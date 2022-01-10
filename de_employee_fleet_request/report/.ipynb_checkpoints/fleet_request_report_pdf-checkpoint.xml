@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<report id="report_fleet_request"
+			string="Fleet Request"
+			model="fleet.request"
+			report_type="qweb-pdf"
+			name="de_employee_fleet_request.report_fleet_request_template"
+			file="de_employee_fleet_request.report_fleet_request_template"/>
+</odoo>
+

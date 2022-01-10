@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tags -->
+        <record model="ir.ui.view" id="action_stock_transfer_order_type_search_view">
+            <field name="name">stock.transfer.order.type.search.view</field>
+            <field name="model">stock.transfer.order.type</field>
+            <field name="arch" type="xml">
+                <search string="Transfer Order Type">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="action_stock_transfer_order_type_form_view">
+            <field name="name">stock.transfer.order.type.form.view</field>
+            <field name="model">stock.transfer.order.type</field>
+            <field name="arch" type="xml">
+                <form string="Transfer Order Types">
+                    <sheet>
+                        <field name="active" invisible="1" />
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                        <field name="image" widget="image" class="oe_avatar" options='{"preview_image": "image", "size": [80, 80]}'/>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" placeholder="Approvals Type Name"/>
+                            </h1>
+                            <h3>
+                                <field name="code"/>
+                            </h3>
+                        </div>
+
+                        <group>
+                            <group>
+                                <field name="disallow_staging"/>
+                                <field name="automated_sequence"/>
+                                <field name="sequence_code" attrs="{'invisible':[('automated_sequence','=',False)]}"/>
+                                <field name="sequence_id" attrs="{'invisible':[('automated_sequence','=',False)]}"/>
+
+                            </group>
+                            <group>
+                                <field name="company_id"/>
+                                <field name="sequence_id" invisible="1"/>
+                                <field name="group_id" options="{'no_create':True}"/>
+                            </group>
+                        </group>
+                        <group col="2">
+                             <label for="auto_expiry" />
+                                <div class="o_row no-gutters d-flex">
+                                    <div class="o_row" name="auto_expiry" >
+                                        <field name="auto_expiry" nolabel="1" />                                        
+                                        <field name="expiry_default_reason_id" options="{'no_create':True, 'no_open':True}" attrs="{'invisible':[('auto_expiry','=',False)]}" />
+                                        <span> for </span>
+                                        <field name="expiry_stage_id" options="{'no_create':True, 'no_open':True}" attrs="{'invisible':[('auto_expiry','=',False)]}" />
+                                        <span> Apply on </span>
+                                        <field name="close_allow_on_stage_ids" widget="many2many_tags" options="{'no_create':True, 'no_open':True}" attrs="{'invisible':[('auto_reject','=',False)]}" />
+                                    </div>
+                                </div>
+                                <label for="auto_reject" />
+                                <div class="o_row no-gutters d-flex">
+                                    <div class="o_row" name="auto_reject" >
+                                        <field name="auto_reject" nolabel="1" />
+                                        <field name="reject_default_reason_id" options="{'no_create':True, 'no_open':True}" attrs="{'invisible':[('auto_reject','=',False)]}" />
+                                         <span> for </span>
+                                        <field name="reject_stage_id" options="{'no_create':True, 'no_open':True}" attrs="{'invisible':[('auto_reject','=',False)]}" />
+                                        <span> Apply on </span>
+                                        <field name="rej_allow_on_stage_ids" widget="many2many_tags" options="{'no_create':True, 'no_open':True}" attrs="{'invisible':[('auto_reject','=',False)]}" />
+
+                                    </div>
+                                </div>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Give your team the details for material transfer type."/>
+                        </group>
+                        <notebook>
+                        <page string="Picking Status" name="picking_status">
+                            <field name="stock_transfer_status_line" widget="one2many_list">
+                                <tree string="Picking Status" editable="bottom">
+                                    <field name="picking_state" required="1"/>
+                                    <field name="stage_id" required="1" options="{'no_create':True}"/>
+                                </tree>
+                            </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="action_stock_transfer_order_type_tree_view">
+            <field name="name">stock.transfer.order.type.tree.view</field>
+            <field name="model">stock.transfer.order.type</field>
+            <field name="arch" type="xml">
+                <tree string="Transfer Order Type" >
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_stock_transfer_order_type" model="ir.actions.act_window">
+            <field name="name">Requisition Type</field>
+            <field name="res_model">stock.transfer.order.type</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No requisition type found. Let's create one!
+              </p>
+              <p>
+                  types are perfect to categorize your requisitions.
+              </p>
+            </field>
+        </record>
+        
+        <menuitem action="action_stock_transfer_order_type" name="Type" id="stock_requisition_config_type_menu" groups="group_stock_requisition_manager" parent="stock_requisition_config_menu" sequence="1"/>
+        
+    </data>
+</odoo>

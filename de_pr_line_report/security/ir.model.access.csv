@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_report_de_pr_line_report_pr_line_report_xlsx,access_report_de_pr_line_report_pr_line_report_xlsx,model_report_de_pr_line_report_pr_line_report_xlsx,purchase.group_purchase_user,1,0,0,0

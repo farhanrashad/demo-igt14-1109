@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_custom_entry_wizard_inv,access.custom.entry.wizard.inv,model_account_custom_entry_wizard_inv,de_custom_journal_entry.group_custom_entry_user,1,1,1,1
+access_account_custom_entry_om_deduction_type_user,access.account.custom.entry.om.deduction.type.user,model_account_custom_entry_om_deduction_type,de_custom_journal_entry.group_custom_entry_user,1,1,1,1
+access_account_custom_entry_om_deduction_user,access.account.custom.entry.om.deduction.user,model_account_custom_entry_om_deduction,de_custom_journal_entry.group_custom_entry_user,1,1,1,1
+
+

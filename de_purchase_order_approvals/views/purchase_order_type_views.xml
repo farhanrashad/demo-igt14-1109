@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Order Type -->
+        <record model="ir.ui.view" id="purchase_order_type_tree_view">
+            <field name="name">purchase.order.type.tree.view</field>
+            <field name="model">purchase.order.type</field>
+            <field name="arch" type="xml">
+                <tree string="Order Type" editable="bottom" sample="1">
+                    <field name="name"/>
+                    <field name="category_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_purchase_order_type" model="ir.actions.act_window">
+            <field name="name">Order Type</field>
+            <field name="res_model">purchase.order.type</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No Order type found. Let's create one!
+              </p>
+            </field>
+        </record>
+        
+        <menuitem action="action_purchase_order_type" name="Order Type" id="menu_purchase_order_type_act" groups="purchase.group_purchase_manager" parent="purchase.menu_purchase_config" sequence="5"/>
+        
+    </data>
+</odoo>

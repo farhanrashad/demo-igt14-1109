@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Account Bill -->
+    <record id="purchase_subscription_action_to_draft_bills" model="ir.actions.act_window">
+        <field name="name">Draft Bill</field>
+        <field name="res_model">account.move</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('subscription_type_id', '=', active_id),('state','=','draft')]</field>
+    </record>
+    <record id="purchase_subscription_action_to_paid_bills" model="ir.actions.act_window">
+        <field name="name">Bills to Pay</field>
+        <field name="res_model">account.move</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('subscription_type_id', '=', active_id),('state','=','posted')]</field>
+    </record>
+    
+    <record id="purchase_subscription_action_to_progress_type" model="ir.actions.act_window">
+        <field name="name">Subscription to review</field>
+        <field name="res_model">purchase.subscription</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('subscription_type_id', '=', active_id),('stage_category','=','progress')]</field>
+    </record>
+    <record id="purchase_subscription_action_to_all_subscriptions" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="res_model">purchase.subscription</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('subscription_type_id', '=', active_id)]</field>
+    </record>
+    
+    <record id="purchase_subscription_action_to_review_type" model="ir.actions.act_window">
+        <field name="name">Subscription to review</field>
+        <field name="res_model">purchase.subscription</field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="domain">[('subscription_type_id', '=', active_id)]</field>
+    </record>
+    
+    <!-- Subscriptions Type -->
+    <record id="purchase_subscription_type_view_list" model="ir.ui.view">
+        <field name="name">purchase.subscription.type.list</field>
+        <field name="model">purchase.subscription.type</field>
+        <field name="arch" type="xml">
+            <tree string="Subscription Stages">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="purchase_subscription_type_view_form" model="ir.ui.view">
+        <field name="name">purchase.subscription.type.form</field>
+        <field name="model">purchase.subscription.type</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Stage">
+                <sheet>
+                     <field name="image" widget="image" class="oe_avatar" options='{"preview_image": "image", "size": [80, 80]}'/>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Subscription Type Name"/>
+                        </h1>
+                        <h4>
+                            <field name="label_types" placeholder="Subscription Type Label"/>
+                        </h4>
+                    </div>
+                    
+                    <group>
+                        <field name="description" placeholder="define instruction for your team to categoize subscriptions."/>
+                    </group>
+                    <group>
+                        <group string="Sequence" name="sequence">
+                            <field name="automated_sequence"/>
+                            <field name="sequence_code" attrs="{'invisible': [('automated_sequence', '=', False)],                           'required': [('automated_sequence', '=', True)],}"/>
+                            <field name="sequence_id" attrs="{'invisible': [('automated_sequence', '=', False)],                           'required': [('automated_sequence', '=', True)],}"/>
+
+                        </group>
+                        <group>
+                            <field name="group_id" options="{'no_create': True,'no_open':True}" />
+                            <field name="currency_id" groups="base.group_multi_currency" force_save="1"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                  
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_purchase_subscription_type" model="ir.actions.act_window">
+			<field name="name">Subscription Type</field>
+			<field name="res_model">purchase.subscription.type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new subscription type
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="purchase_subscription_config_type_menu" name="Subscription Types" parent="purchase_subscription_config_menu"
+			action="action_purchase_subscription_type"
+			sequence="3" />
+		
+		<!-- Type dashbaord -->
+    <record id="purchase_subscription_type_view_kanban" model="ir.ui.view">
+        <field name="name">purchase.subscription.type.views.kanban</field>
+        <field name="model">purchase.subscription.type</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="0">
+                <field name="name"/>
+                <field name="id"/>
+                <field name="image"/>
+                <field name="color"/>
+                <field name="label_types"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" name="subscription_type">
+                            <div>
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <t t-if="record.id">
+                                <img t-att-src="kanban_image('purchase.subscription.type', 'image', record.id.raw_value)" alt="Approvals Types Image"
+                                    class="oe_kanban_avatar float-left mr-3" width="64" height="64"/>
+                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <a name="%(purchase_subscription_action_to_all_subscriptions)d" type="action">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                        <div class="o_primary" t-if="selection_mode">
+                                           <field name="name"/>
+                                        </div>
+                                        <div class="o_secondary">
+                                            <field class="o_secondary" name="description" readonly="1" />
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <button type="object" class="btn btn-primary btn-sm" name="create_request" context="{'subscription_type_id':'active_id'}"><field name="label_types"/></button>
+
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section" t-if="!selection_mode">
+                                            <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content" t-if="!selection_mode">
+                                    <div class="row mt16">
+                                        <div class="col-6 o_kanban_primary_left">
+                                             <div class="col-12">
+                                                <a name="%(purchase_subscription_action_to_progress_type)d" type="action"><field name="running_subscription_count"/>  Running</a>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6 o_kanban_primary_right">
+                                             <div class="col-12">
+                                                <a name="%(purchase_subscription_action_to_draft_bills)d" type="action"><field name="draft_bill_count"/>  Bill to Validate</a>
+
+                                            </div>
+                                            <div class="col-12">
+                                                <a name="%(purchase_subscription_action_to_paid_bills)d" type="action"><field name="posted_bill_count"/>  Bill to Pay</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="row">
+                                        <div class="col-6" role="menuitem" aria-haspopup="true">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+     <!-- Subscription Dashbaord -->
+    <record id="subscription_type_action_new_subscription" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">purchase.subscription.type</field>
+        <field name="view_mode">kanban</field>
+    </record>
+    
+    <menuitem id="purchase_subscription_dashboard_menu" name="Dashboard" parent="purchase_subscription_root_menu" action="subscription_type_action_new_subscription" sequence="1" />
+
+    
+</odoo>

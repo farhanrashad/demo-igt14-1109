@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <record id="custom_entry_advance_inv_wizard_view" model="ir.ui.view">
+            <field name="name">Vendor Bill</field>
+            <field name="model">account.custom.entry.wizard.inv</field>
+            <field name="arch" type="xml">
+                <form string="Bill Custom Entry">
+                    <p class="oe_grey">
+                        Bill will be created in draft so that you can review
+                        them before validation.
+                    </p>
+                    <group>
+                        <group>
+                            <field name="product_id" class="oe_inline" invisible="1"/>
+                            <field name="currency_id" class="oe_inline" invisible="1"/>
+                            <field name="amount" string="Completion %" />
+                        </group>
+                        <group>
+                            <field name="supplier_taxes_id" widget="many2many_tags" invisible="1"/>
+                            <field name="amount_bal" invisible="1" attrs="{'invisible':[('stage_category','in',['draft','progress'])]}"/>
+                            <field name="stage_category" invisible="0"/>
+                        </group>
+                    </group>
+                    <footer>
+                        <!--
+                        <button name="create_invoices" id="create_invoice_open" string="Create and View Bill" type="object"
+                            context="{'open_bills': True}" class="btn-primary"/>
+-->
+                        <button name="create_invoices" id="create_invoice" string="Create Bill" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_custom_entry_advance_payment_inv" model="ir.actions.act_window">
+            <field name="name">Create Bills</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.custom.entry.wizard.inv</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <!-- TODO: check if we need this -->
+            <field name="binding_model_id" ref="de_custom_journal_entry.model_account_custom_entry" />
+            <field name="binding_view_types">list</field>
+        </record>
+
+</odoo>

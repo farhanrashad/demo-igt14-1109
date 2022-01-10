@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="report_acc_statement_report" model="ir.actions.report">
+            <field name="name">Account Statement Report</field>
+            <field name="model">stock.quant</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_report_acc_statement.report_acc_statement</field>
+            <field name="report_file">Account Statement Report</field>
+        </record>
+    </data>
+</odoo>

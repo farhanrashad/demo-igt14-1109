@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="report_spmrf_line_wizard_form_view" model="ir.ui.view">
+			<field name="name">report.spmrf.line.wizard.form.view</field>
+			<field name="model">report.spmrf.line.wizard</field>
+			<field name="arch" type="xml">
+				<form string="GDN GTN Report">
+                    <group>
+                        <group>
+                            <field name="from_date" required="1"/>
+                            
+                        </group>
+                        <group>
+                            <field name="to_date" required="1"/>
+                            
+                        </group>
+                    </group>
+                    <group>
+                        
+                        <group>
+                            <field name="categ_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Products">
+                            <field name="product_ids">
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    
+				
+					<footer>
+						<button name="print_report" type="object" string="Print" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_report_spmrf_line_wizard" model="ir.actions.act_window">
+			<field name="name">SPMRF Line Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">report.spmrf.line.wizard</field>
+			<field name="view_id" ref="report_spmrf_line_wizard_form_view" />
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+        
+        <menuitem action="action_report_spmrf_line_wizard" id="report_spmrf_line_report_item" name="SPMRF Line Report" parent="de_stock_material_transfer.stock_requisition_main_menu" sequence="220"/>
+
+
+    </data>
+</odoo>

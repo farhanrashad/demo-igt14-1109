@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<odoo>
+
+   <record id="group_show_taxes_custom_journal_entry" model="res.groups">
+        <field name="name">Tax field display on Custom Bills</field>
+        <field name="comment">Show Period and Tax field on Custom entry bills</field>
+    </record>
+
+</odoo>

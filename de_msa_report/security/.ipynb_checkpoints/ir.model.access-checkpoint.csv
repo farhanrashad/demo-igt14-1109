@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_msa_report_xlsx,access.msa.report.xlsx,model_report_de_msa_report_msa_report_xlsx_1,de_msa.group_msa_user,1,1,1,1
+

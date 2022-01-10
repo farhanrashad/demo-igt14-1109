@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="add_fuel_form" model="ir.ui.view">
+		<field name="name">add.fuel.wizard</field>
+		<field name="model">add.fuel</field>
+        <field name="arch" type="xml">
+			<form string="Add Liters">
+				<sheet>
+					<group>
+						<group>
+                            <field name="liters"/>
+						</group>
+						<group>
+							<field name="price_per_liters" />
+						</group>
+					</group>
+				</sheet>
+				<footer>
+					<button name="add_fuel_wizard" string="Save" type="object" class="oe_highlight" />
+                	or
+					<button string="Cancel" class="oe_link" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+    
+    <record id="action_add_fuel_wizard" model="ir.actions.act_window">
+        <field name="name">Add Fuel</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">add.fuel</field>
+		<field name="view_id" ref="add_fuel_form" />
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+    
+</odoo>

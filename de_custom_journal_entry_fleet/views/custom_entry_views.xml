@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_custom_entry_form_view_inherit_fleet" model="ir.ui.view">
+            <field name="name">account.custom.entry.form.view.inehrit.fleet</field>
+            <field name="model">account.custom.entry</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet[1]" position="inside">
+                    <field name="has_rent_vechile" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet[1]/group[1]/group[2]" position="inside">
+                    <!-- Fleet/Rent Fields -->
+                    <label for="f_duration_from" attrs="{'invisible':[('has_rent_vechile','==','no')]}"/>
+                    <div name="duration_from_div" class="d-flex" attrs="{'invisible':[('has_rent_vechile','==','no')]}">
+                        <field name="f_duration_from" attrs="{'invisible':[('has_rent_vechile','==','no')], 'required': [('has_rent_vechile','==','required')]}"/>
+                        <span class="oe_inline o_form_label mx-3 oe_read_only"> to </span> 
+                        <field name="f_duration_to" attrs="{'invisible':[('has_rent_vechile','==','no')], 'required': [('has_rent_vechile','==','required')]}"/>
+                    </div>
+                </xpath>
+                <xpath expr="//page[@name='custom_entry_line']/field[@name='custom_entry_line']/tree[1]" position="inside">
+                    <!--  Fleet/Rent Vehicle -->
+                    <field name="f_fleet_id" attrs="{'column_invisible':[('parent.has_rent_vechile','==','no')], 'required': [('parent.has_rent_vechile','==','required')]}"/>
+                    <field name="f_driver_id" attrs="{'column_invisible':[('parent.has_rent_vechile','==','no')], 'required': [('parent.has_rent_vechile','==','required')]}"/>
+                    <field name="f_job_scope" attrs="{'column_invisible':[('parent.has_rent_vechile','==','no')], 'required': [('parent.has_rent_vechile','==','required')]}"/>
+                    <field name="f_rent_days" attrs="{'column_invisible':[('parent.has_rent_vechile','==','no')], 'required': [('parent.has_rent_vechile','==','required')]}"/>
+                    <field name="f_amount" attrs="{'column_invisible':[('parent.has_rent_vechile','==','no')], 'required': [('parent.has_rent_vechile','==','required')]}"/>
+                </xpath>
+                
+            </field>
+    </record>
+</odoo>

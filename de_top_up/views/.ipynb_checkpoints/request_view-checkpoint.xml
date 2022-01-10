@@ -1,0 +1,120 @@
+<odoo>
+    <record id="view_top_up_form" model="ir.ui.view">
+        <field name="name">topup.request.form</field>
+        <field name="model">topup.request</field>
+        <field name="arch" type="xml">
+            <form string="Top UP Request">
+                <header>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,waiting for approval,cancelled,distributed"/>
+                    <button name="action_approved" string="Approve" type="object" states='waiting for approval'
+                            class='oe_highlight'/>
+                    <button name="action_submitted" string="Submit" type="object" states='draft'
+                            class='oe_highlight'/>
+                    <button name="action_approved_hr" string="Approve" type="object" states='approved_hr'
+                            class='oe_highlight'/>
+                    <button name="action_approved_admin" string="Approve" type="object" states='approved_admin'
+                            class='oe_highlight'/>
+                    <button name="action_cancel" string="Cancel" type="object" states='draft'
+                            class='oe_highlight'/>
+                    <button name="action_refuse" string="Refuse" type="object" states='waiting for approval,approved_hr,approved_admin'
+                            class='oe_highlight'/>
+                    <button name="action_distributed" string="Distribute" type="object" states='approved'
+                            class='oe_highlight'/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <h3>
+                                <field name="topup_req"/>
+<!--                                <field name="name"/>-->
+                            </h3>
+
+                            <field name='description'/>
+                            <field name='period'/>
+                            <field name='requester'/>
+                            <field name='manager'/>
+                            <field name='department'/>
+                            <field name='representative_batch' attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name='date' attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name='type' attrs="{'readonly': [('state','!=','draft')]}"/>
+                            <field name='is_level' string="Is C-Level?" attrs="{'readonly': ['|',('type','=','category use'),('state','!=','draft')]}"/>
+                            <field name='additional_req'  attrs="{'readonly': [('state','!=','draft')]}"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Employee Benefit" name="employee_benefit"  attrs="{'invisible': [('type','=','category use')]}">
+                            <field name='topup_request_lines' attrs="{'readonly': [('state','!=','draft')]}">
+                                <tree editable='bottom'>
+                                    <field name='employee'/>
+                                    <field name='department'/>
+                                    <field name='telenor' sum="Total Telenor"/>
+                                    <field name='ooredoo' sum="Total Ooredoo"/>
+                                    <field name='mpt' sum="Total MRP"/>
+                                    <field name='mytel' sum="Total Mytel"/>
+                                    <field name='total' sum="Total"/>
+                                    <field name='remarks' attrs="{'required': [('parent.additional_req','=',True)]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Category" name="category" attrs="{'invisible': [('type','!=','category use')]}">
+                            <field name='topup_request_lines_category' attrs="{'readonly':[('state','!=','draft')]}">
+                                <tree editable='bottom'>
+                                    <field name='category'/>
+                                    <field name='description'/>
+                                    <field name='telenor' sum="Total Telenor"/>
+                                    <field name='ooredoo' sum="Total Ooredoo"/>
+                                    <field name='mpt' sum="Total MRP"/>
+                                    <field name='mytel' sum="Total Mytel"/>
+                                    <field name='total' sum="Total"/>
+                                    <field name='remarks' attrs="{'required': [('parent.type','=','category use')]}"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                 <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_topup_request_tree" model="ir.ui.view">
+        <field name="name">topup.request.tree</field>
+        <field name="model">topup.request</field>
+        <field name="arch" type="xml">
+            <tree string="TopUP Request Tree">
+                <field name="topup_req"/>
+                <!--                <field name='employee'/>-->
+                <field name='department'/>
+                <field name="state"/>
+                <field name='description'/>
+                <field name='period'/>
+                <field name='requester'/>
+                <field name='representative_batch'/>
+                <field name='date'/>
+                <field name='type'/>
+                <field name='is_level' string="Is C-Level?"/>
+                <field name='additional_req'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_topup_request_view" model="ir.actions.act_window">
+        <field name="name">TopUp Requests</field>
+        <field name="res_model">topup.request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_topup_request_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Records Here.......
+            </p>
+        </field>
+    </record>
+
+
+</odoo>

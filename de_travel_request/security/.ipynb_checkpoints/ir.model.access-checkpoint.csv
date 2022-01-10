@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_travel_request,access.travel.request,model_travel_request,base.group_user,1,1,1,1
+access_travel_request_line,access.travel.request.line,model_travel_request_line,base.group_user,1,1,1,1
+access_travel_balance,access.travel.balance,model_travel_balance,base.group_user,1,1,1,1
+access_travel_balance_line,access.travel.balance.line,model_travel_balance_line,base.group_user,1,1,1,1
+access_ticket_allocation,access.ticket.allocation,model_ticket_allocation,base.group_user,1,1,1,1
+access_ticket_allocation_line,access.ticket.allocation.line,model_ticket_allocation_line,base.group_user,1,1,1,1

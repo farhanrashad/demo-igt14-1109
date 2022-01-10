@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_purchase_subscription_stage_manager,access.purchase.subscription.stage.manager,model_purchase_subscription_stage,group_purchase_subscription_manager,1,1,1,1
+access_purchase_subscription_type_manager,access.purchase.subscription.type.manager,model_purchase_subscription_type,group_purchase_subscription_manager,1,1,1,1
+access_purchase_subscription_plan_manager,access.purchase.subscription.plan.manager,model_purchase_subscription_plan,group_purchase_subscription_manager,1,1,1,1
+access_purchase_subscription_user,access.purchase.subscription.user,model_purchase_subscription,group_purchase_subscription_user,1,1,1,1
+access_purchase_subscription_line_user,access.purchase.subscription.line.user,model_purchase_subscription_line,group_purchase_subscription_user,1,1,1,1
+access_purchase_subscription_log_user,access.purchase.subscription.log.user,model_purchase_subscription_log,group_purchase_subscription_user,1,1,1,1
+access_purchase_subscription_report_user,access.purchase.subscription.report.user,model_purchase_subscription_report,group_purchase_subscription_user,1,1,1,1
+
+
+
+
+

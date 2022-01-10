@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+         <!-- Town -->
+        <record id="view_city_town_tree" model="ir.ui.view">
+            <field name="name">res.city.town.tree</field>
+            <field name="model">res.city.town</field>
+            <field name="arch" type="xml">
+                <tree string="Town" editable="bottom">
+                    <field name="name"/>
+                    <field name="country_id" options="{'no_create': True}"/>
+                    <field name="city_id" options="{'no_create': True}"/>
+                </tree>
+            </field>
+        </record>
+        <record id="action_city_town" model="ir.actions.act_window">
+            <field name="name">Township</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.city.town</field>
+            <field name="view_id" ref="view_city_town_tree"/>
+            <field name="help">You can manage the different towns or townships you are working on from here. Each town is attached to one city.</field>
+        </record>
+        
+        <menuitem id="menu_localisation_city_towns" name="Townships" parent="contacts.menu_localisation" action="action_city_town" sequence="5" />
+
+        
+    </data>
+</odoo>

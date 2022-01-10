@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Custom Entry -->
+        <record id="custom_entry_action_to_all" model="ir.actions.act_window">
+        <field name="name">Custom Entries</field>
+        <field name="res_model">account.custom.entry</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('custom_entry_type_id', '=', active_id),('move_type', 'in', ['entry','out_invoice','in_invoice','out_receipt','in_receipt'])]</field>
+    </record>
+        <record id="custom_entry_action_to_progress_type" model="ir.actions.act_window">
+        <field name="name">Entry to review</field>
+        <field name="res_model">account.custom.entry</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'create':False}</field>
+        <field name="domain">[('custom_entry_type_id', '=', active_id),('stage_category','=','progress'),('move_type', 'in', ['entry','out_invoice','in_invoice','out_receipt','in_receipt'])]</field>
+    </record>
+        <!-- Type -->
+        <record model="ir.ui.view" id="account_custom_entry_type_form_view">
+            <field name="name">account.custom.entry.type.form.view</field>
+            <field name="model">account.custom.entry.type</field>
+            <field name="arch" type="xml">
+                <form string="Custom Entry Types">
+                    <sheet>
+                        <field name="image" widget="image" class="oe_avatar" options='{"preview_image": "image", "size": [80, 80]}'/>
+                    
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Entry Type Name"/>
+                        </h1>
+                        <h4>
+                            <field name="label_types" placeholder="Entry Label"/>
+                        </h4>
+                    </div>
+                        <group>
+                        <field name="description" placeholder="define instruction for your team to categoize subscriptions."/>
+                    </group>
+                        <group>
+                        <group string="Sequence" name="sequence">
+                            <field name="automated_sequence"/>
+                        <field name="sequence_code" attrs="{
+                            'invisible': [('automated_sequence', '=', False)],
+                            'required': [('automated_sequence', '=', True)],
+                        }"/>
+                            
+                        </group>
+                        <group>
+                            <field name="default_product_id"/>
+                            <field name="generate_accounting"/>
+                            <field name="journal_id" options="{'no_create': True,'no_open':True}" attrs="{'invisible': [('generate_accounting', '=', False)], 'required': [('generate_accounting', '=', True)]}"/>
+                            <field name="journal_type" attrs="{'invisible':[('journal_id','=',False)]}"/>
+                            <field name="move_type" attrs="{'invisible': [('generate_accounting', '=', False)], 'required': [('generate_accounting', '=', True)]}"/>
+                            <field name="account_id" attrs="{'invisible':[('journal_type','!=','general')]}"/>
+                            <field name="counterpart_mode" attrs="{'invisible':[('journal_type','!=','general')]}"/>
+                            <field name="counterpart_account_id" attrs="{'invisible':[('journal_type','!=','general')]}"/>
+                            <field name="entry_reverse" attrs="{'invisible':[('journal_type','!=','general')]}"/>
+
+
+                            <field name="expense_advance" attrs="{'invisible': [('generate_accounting', '=', False)]}"/>
+                            <field name="payment_journal_id" attrs="{'invisible': [('expense_advance', '=', False)], 'required': [('expense_advance', '=', True)]}"/>
+                            <field name="group_id" options="{'no_create': True,'no_open':True}" />
+                            <field name="currency_id" groups="base.group_multi_currency" force_save="1"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                        
+                        <notebook>
+                            <page string="Options" name="options">
+                                <group string="Control Fields" name="control_fields">
+                                    <group string="Header Fields" name="header_fields">
+                                        <field name="has_partner" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_ref" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_supplier_bill" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_period" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_attachment" widget="radio" options="{'horizontal': true}"/>
+
+                                        <field name="has_description" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_purchase_requisition" widget="radio" options="{'horizontal': true}"/>
+
+                                        <field name="has_purchase" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_picking" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_invoice" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_transfer_order" widget="radio" options="{'horizontal': true}"/>
+                                    </group>
+                                    <group string="Line Item Fields" name="line_item_fields">
+                                        <field name="has_line_period" string="Has Period" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_note" string="Has Note" widget="radio" options="{'horizontal': true}"/>
+
+                                        <field name="has_project" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_analytic" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_product" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_employee" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_supplier" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_advanced" widget="radio" options="{'horizontal': true}"/>
+                                    </group>
+                                    
+                                </group>
+                                <group>
+                                    <group string="Control App Fields" name="control_app_fields" attrs="{'invisible':[('move_type', 'in', ['out_refund','in_refund'])]}">         
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_custom_entry_type_tree_view">
+            <field name="name">account.custom.entry.type</field>
+            <field name="model">account.custom.entry.type</field>
+            <field name="arch" type="xml">
+                <tree string="Custom Entry Type" >
+                    <field name="name"/>
+                    <field name="sequence_code" optional="hide"/>
+                    <field name="journal_id" optional="hide"/>
+                    <field name="company_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_account_custom_entry_type" model="ir.actions.act_window">
+            <field name="name">Entry Type</field>
+            <field name="res_model">account.custom.entry.type</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No type found. Let's create one!
+              </p>
+            </field>
+        </record>
+        
+        <menuitem action="action_account_custom_entry_type" name="Entry Type" id="menu_custom_entry_type_config_custom_entry_type" groups="account.group_account_manager" parent="custom_entry_config_menu" sequence="1"/>
+        
+        <!-- Type dashbaord -->
+    <record id="custom_entry_type_dashboard_view_kanban" model="ir.ui.view">
+        <field name="name">custom.entry.type.dashboard.views.kanban</field>
+        <field name="model">account.custom.entry.type</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="0">
+                <field name="name"/>
+                <field name="id"/>
+                <field name="image"/>
+                <field name="color"/>
+                <field name="label_types"/>
+                <field name="move_type"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" name="subscription_type">
+                            <div>
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <t t-if="record.id">
+                                <img t-att-src="kanban_image('purchase.subscription.type', 'image', record.id.raw_value)" alt="Approvals Types Image"
+                                    class="oe_kanban_avatar float-left mr-3" width="64" height="64"/>
+                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <a name="%(custom_entry_action_to_all)d" type="action">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                        <div class="o_primary" t-if="selection_mode">
+                                           <field name="name"/>
+                                        </div>
+                                        <div class="o_secondary">
+                                            <field class="o_secondary" name="description" readonly="1" />
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <button type="object" class="btn btn-primary btn-sm" name="create_request" context="{'custom_entry_type_id':'active_id'}"><field name="label_types"/></button>
+
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section" t-if="!selection_mode">
+                                            <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content" t-if="!selection_mode">
+                                    <div class="row mt16">
+                                        <div class="col-12 o_kanban_primary_left">
+                                             <div class="col-12">
+                                                <a name="%(custom_entry_action_to_all)d" type="action">All Entries</a>
+
+                                            </div>
+                                        </div>
+                                        <div class="col-12 o_kanban_primary_right">
+                                            <div class="col-12">
+                                                <a name="%(custom_entry_action_to_progress_type)d" type="action">Pending Entries</a>
+
+                                            </div>
+                                             
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="row">
+                                        <div class="col-6" role="menuitem" aria-haspopup="true">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+     <!-- Entry Type Dashbaord -->
+    <record id="action_custom_entry_type_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">account.custom.entry.type</field>
+        <field name="view_mode">kanban</field>
+        <field name="domain">[('move_type', 'in', ['entry','out_invoice','in_invoice','out_receipt','in_receipt'])]</field>
+    </record>
+        
+        <menuitem action="action_custom_entry_type_dashboard" name="Dashboard" id="menu_custom_entry_type_dashboard" parent="custom_entry_root_menu" groups="group_custom_entry_user" sequence="1"/>
+        
+    </data>
+</odoo>

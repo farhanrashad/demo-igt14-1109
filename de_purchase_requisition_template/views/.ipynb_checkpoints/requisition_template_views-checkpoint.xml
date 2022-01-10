@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_requisition_template_view_search" model="ir.ui.view">
+        <field name="name">purchase.requisition.template.search</field>
+        <field name="model">purchase.requisition.template</field>
+        <field name="arch" type="xml">
+            <search string="Search Requisition Template">
+                <field name="name"/>
+                <filter string="Archived" name="inactive" domain="[('active','=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="purchase_requisition_template_view_form" model="ir.ui.view">
+        <field name="name">purchase.requisition.template.form</field>
+        <field name="model">purchase.requisition.template</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Requisition Template">
+                <sheet>
+                    <div name="button_box" class="oe_button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" attrs="{'invisible': [('active', '=', True)]}"/>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Requisition Template"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <notebook name="main_book">
+                        <page string="Products" name="products">
+                            <field name="requisition_template_line_ids">
+                                <tree string="requisition Template Lines" editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="name"/>
+                                    <field name="product_uom_qty"/>
+                                    <field name="product_uom_category_id" invisible="1"/>
+                                    <field name="product_uom_id" groups="uom.group_uom"/>
+                                  </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    <field name="note" nolabel="1"
+                        placeholder="The Administrator can set default Terms &amp; Conditions in Sales Settings. Terms set here will show up instead if you select this quotation template."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="purchase_requisition_template_tree_view" model="ir.ui.view">
+        <field name="name">purchase.requisition.template.tree.view</field>
+        <field name="model">purchase.requisition.template</field>
+        <field name="type">tree</field>
+        <field name="arch" type="xml">
+            <tree string="Quotation Template">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_purchase_requisition_template" model="ir.actions.act_window">
+        <field name="name">Requisition Templates</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.requisition.template</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your requisition template
+            </p><p>
+                Use templates to create requisitions in minutes.
+            </p>
+        </field>
+    </record>
+
+    <menuitem
+            id="menu_purchases_in_config_purchase" name="Purchases"
+            parent="purchase.menu_purchase_config" sequence="50"/>
+    
+    <menuitem id="purchase_requisition_template_menu" action="action_purchase_requisition_template" parent="menu_purchases_in_config_purchase" sequence="1" name="Requisition Templates" groups="sale_management.group_sale_order_template"/>
+
+</odoo>

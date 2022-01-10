@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+		<menuitem id="hr_overtime_root_menu" name="HR Overtime" active="True" web_icon="de_hr_overtime,static/description/icon.png" sequence="30"/>
+
+		
+        <menuitem id="hr_overtime_employee_main_menu" name="Employee" parent="hr_overtime_root_menu" sequence="1" />
+        <menuitem id="hr_overtime_main_menu" name="Overtime" parent="hr_overtime_root_menu" sequence="2" />
+        <menuitem id="hr_overtime_report_main_menu" name="Reports" parent="hr_overtime_root_menu" sequence="3" />
+        <menuitem id="hr_overtime_config_main_menu" name="Configuration" parent="hr_overtime_root_menu" sequence="4" />
+        
+        <menuitem
+                id="menu_hr_employee_user_loan"
+                name="Employees"
+                action="hr.open_view_employee_list_my"
+                parent="hr_overtime_employee_main_menu"
+                sequence="1"/>
+        
+         <menuitem
+            id="hr_menu_contract"
+            name="Contracts"
+            action="hr_contract.action_hr_contract"
+            parent="hr_overtime_employee_main_menu"
+            sequence="4"
+            groups="hr_contract.group_hr_contract_manager"/>
+	</data>
+</odoo>
+

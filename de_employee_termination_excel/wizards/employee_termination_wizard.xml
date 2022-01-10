@@ -1,0 +1,37 @@
+<odoo>
+    
+    <record id="view_employee_termination_wizard" model="ir.ui.view">
+        <field name="name">Employee Termination</field>
+        <field name="model">employee.termination.wizard</field>
+		<field name="arch" type="xml">
+			<form string="Employee Termination">
+				<group>
+					<group>
+						<field name="date_from" required="1"/>
+					</group>
+					<group>
+						<field name="date_to" required="1"/>
+					</group>
+                </group>
+                            
+				<footer>
+					<button name="print_employee_termination_xlsx" type="object" string="Generate Excel" class="oe_highlight" />
+                    or
+                    <button name="print_employee_termination_report" type="object" string="Generate PDF" class="oe_highlight" />
+                    or
+                    <button string="Cancel" class="oe_link" special="cancel" />
+				</footer>
+			</form>
+		</field>
+	</record>
+    
+	<record id="action_employee_termination_wizard" model="ir.actions.act_window">
+		<field name="name">Employee Termination</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="res_model">employee.termination.wizard</field>
+		<field name="view_id" ref="view_employee_termination_wizard" />
+		<field name="view_mode">form</field>
+		<field name="target">new</field>
+	</record>
+
+</odoo>

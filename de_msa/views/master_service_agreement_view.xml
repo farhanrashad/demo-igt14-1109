@@ -1,0 +1,443 @@
+<odoo>
+
+	<record id="view_master_service_agreement_form" model="ir.ui.view">
+		<field name="name">master.service.agreement.form</field>
+		<field name="model">master.service.agreement</field>
+		<field name="arch" type="xml">
+			<form>
+				<sheet>
+					<div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Reference"/>
+                        </h1>
+                    </div>
+            		<group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="head_lease_invoicing_limit"/>
+                            <field name="la_extra_special_division"/>
+                            <field name="oml_colo"/>
+                        </group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                        </group>
+                    </group>
+                    <notebook>
+                    	<!-- SITE -->
+                    	<page string="Site">
+                    		<field name="site_billing_info_ids">
+                    			<tree string="Site Billing Informations" editable='bottom'>
+                    				<field name="site_id"/>
+                    				<field name="name"/>
+                                    <field name="network_type_id"/>
+                    				<field name="indoor_bts"/>
+                    				<field name="outdoor_bts"/>
+                    				<field name="site_class"/>
+                    				<field name="ip_start_date" required="True"/>
+                    				<field name="ip_end_date" required="True"/>
+                    				<field name="billable"/>
+                    				<field name="head_lease_full_extra"/>
+                    				<field name="billable_lease_amount"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                    	
+                    	
+                    	<!-- IP FEE -->
+                    	<page string="IP Fee">
+                    		<separator string="Tower w/o Power"/>
+                    		<group>
+                    			<group>
+                    				<field name="tower_currency_id"/>
+                    			</group>
+                    		</group>
+                    		<field name="tower_without_power_ids">
+                    			<tree string="Tower w/o Power" editable='bottom'>
+                    				<field name="tower_type" options="{'no_create': True, 'no_create_edit':True}"/>
+                    				<field name="ip_fee_capex"/>
+                    				<field name="ip_fee_opex"/>
+                    			</tree>
+                    		</field>
+                    		<separator string="Power Prices"/>
+                    		<group>
+                    			<group>
+                    				<field name="power_currency_id"/>
+                    			</group>
+                    		</group>
+                    		<field name="power_prices_ids">
+                    			<tree string="Power Prices" editable='bottom'>
+                    				<field name="power_type" options="{'no_create': True, 'no_create_edit':True}"/>
+                    				<field name="ip_fee_capex"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                    	
+                    	
+                    	<!-- FACTORS -->
+                    	<page string="Factors">
+                    		<separator string="Location Factors"/>
+                    		<field name="location_factor_ids">
+                    			<tree string="Location Factors" editable='bottom'>
+                    				<field name="state_id"/>
+                    				<field name="factor"/>
+                    				<field name="region_number"/>
+                    			</tree>
+                    		</field>
+                    		<separator string="Wind Factors"/>
+                    		<field name="wind_factor_ids">
+                    			<tree string="Wind Factors" editable='bottom'>
+                    				<field name="name"/>
+                    				<field name="factor"/>
+                    			</tree>
+                    		</field>
+                    		<separator string="SLA Factors"/>
+                    		<field name="sla_factor_ids">
+                    			<tree string="SLA Factors" editable='bottom'>
+                    				<field name="name"/>
+                    				<field name="factor"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                        
+<!--                         Collocation -->
+                        <page string="Collocation">
+                    		<separator string="Collocation Discount for Tower CAPEX"/>
+                    		<field name="collocation_capex_ids">
+                    			<tree string="Collocation Discount for Tower CAPEX" editable='bottom'>
+                    				<field name="year"/>
+                    				<field name="factor_for_1"/>
+                    				<field name="factor_for_2"/>
+                    				<field name="factor_for_3"/>
+                    				<field name="factor_for_4"/>
+                    				<field name="factor_for_5"/>
+                    				<field name="factor_for_6"/>
+                    			</tree>
+                    		</field>
+                    		<field name="capex_comment"
+                    		       placeholder="Comment for CAPEX"/>
+                    		<separator string="Collocation Discount for Tower OPEX"/>
+                    		<field name="collocation_opex_ids">
+                    			<tree string="Collocation Discount for Tower OPEX" editable='bottom'>
+                    				<field name="year"/>
+                    				<field name="factor_for_1"/>
+                    				<field name="factor_for_2"/>
+                    				<field name="factor_for_3"/>
+                    				<field name="factor_for_4"/>
+                    				<field name="factor_for_5"/>
+                    				<field name="factor_for_6"/>
+                    			</tree>
+                    		</field>
+                    		<field name="opex_comment"
+                    		       placeholder="Comment for OPEX" />
+
+                            <separator string="Collocation Discount for Power CAPEX"/>
+                            <field name="collocation_power_capex_ids">
+                    			<tree string="Collocation Discount for Power CAPEX" editable='bottom'>
+                    				<field name="year"/>
+                    				<field name="factor_for_1"/>
+                    				<field name="factor_for_2"/>
+                    				<field name="factor_for_3"/>
+                    				<field name="factor_for_4"/>
+                    				<field name="factor_for_5"/>
+                    				<field name="factor_for_6"/>
+                    			</tree>
+                    		</field>
+                            <field name="collocation_power_capex"
+                    		       placeholder="Comment for POWER CAPEX" />
+                    	</page>
+                        
+<!--                         Site Load -->
+                        <page string="Site Load">
+                    		<field name="site_load_ids">
+                    			<tree string="Site Load" editable='bottom'>
+                    				<field name="power_type" options="{'no_create': True, 'no_create_edit':True}"/>
+                    				<field name="access_low"/>
+                    				<field name="access_high"/>
+                    				<field name="dwdm"/>
+                    				<field name="standard_hub"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                        
+<!--                         CPI -->
+                        <page string="CPI">
+                    		<separator string="Opex CPI"/>
+                    		<field name="opex_cpi_ids">
+                    			<tree string="Opex CPI" editable='bottom'>
+                    				<field name="year" />
+                    				<field name="cpi"/>
+                    				<field name="cpio"/>
+                    			</tree>
+                    		</field>
+                    		<separator string="CAPEX Escalation"/>
+                    		<field name="capex_escalation_ids">
+                    			<tree string="CAPEX Escalation" editable='bottom'>
+                    				<field name="year" />
+                    				<field name="cpi"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                        
+<!--                         PENALTIES -->
+                        <page string="Penalties">
+                    		<field name="penalty_ids">
+                    			<tree string="Penalties" editable='bottom'>
+                    				<field name="name"/>
+                    				<field name="penalties"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                        
+<!--                         SIMULATION -->
+                        <page string="Simulation">
+                    		<group>
+                    			<group>
+                    				<field name="diff_billing"/>
+                    				<field name="simulation_date_from"/>
+                                    <field name="simulation_date"/>
+                    				<field name="invoice_date"/>
+                    				<field name="exchange_rate"/>
+                    				<field name="number_days_in_month"/>
+                                    
+                    			</group>
+                    			<group>
+                                    <field name="capex_currency_id" required="1" options="{'no_create': True, 'no_create_edit':True}"/>
+                                    <field name="opex_currency_id" required="1" options="{'no_create': True, 'no_create_edit':True}"/>
+                                    <!--
+                                    <div class="o_row no-gutters d-flex">
+                                        <div class="o_row">
+                                            <button name='refresh_simulation' string="Refresh Simulation" type="object" class='btn-success' />
+                                        </div>
+                                    </div>
+                                    <separator/>
+                                    <div class="o_row no-gutters d-flex mt16">
+                                        <div class="o_row">
+                                            <button name='create_capax_invoice' string="Create Capex Invoice" type="object" class='oe_highlight' />
+                                            <button name='create_opex_invoice' string="Create Opex Invoice" type="object" class='oe_highlight' />
+                                        </div>
+                                    </div>
+-->
+                    			</group>
+                    		</group> 
+                    		<separator string=" Totals"/>
+                    		<group>
+                    			<group>
+                    				<field name="total_gross_capex"/>
+                    			</group>
+                    			<group>
+                    				<field name="total_gross_opex"/>
+                    			</group>
+                    		</group>
+                    		<separator string="Price Details"/>
+                    		<field name="msa_simulation_ids">
+                    			<tree string="Price Details" >
+                    				<field name="site_id"/>
+                    				<field name="year" invisible="0"/>
+                    				<field name="month_year"/>
+                    				<field name="ip_start_date"/>
+                    				<field name="head_lease"/>
+                    				<field name="head_lease_extra"/>
+                    				<field name="region_factor"/>
+                    				<field name="collocation_capex"/>
+                    				<field name="collocation_opex"/>
+                    				<field name="inv_tower_type" />
+                    				<field name="wind_factor"/>
+                    				<field name="sla_factor"/>
+                    				<field name="invoicing_days"/>
+                    				<field name="inv_power_model" />
+                    				<field name="ip_fee_capex"/>
+                    				<field name="ip_fee_opex"/>
+                    				<field name="invoiced_rent_adjustment"/>
+                    				<field name="power_fee_capex"/>
+                    				<field name="capex_escalation"/>
+                    				<field name="opex_cpi"/>
+                    				<field name="gross_ip_fee_capex"/>
+                                    <field name="ip_fee_capex_billed"/>
+                    				<field name="diff_capex"/>
+                    				<field name="gross_ip_fee_opex"/>
+                    				<field name="ip_fee_opex_billed"/>
+                    				<field name="diff_opex"/>
+                    				<field name="gross_ip_fee"/>
+                    				<field name="ip_fee"/>
+                    				<field name="invl_fuel_total"/>
+                    				<field name="invl_enegry_total"/>
+                    				<field name="month_days"/>
+                    				<field name="power_price_capex"/>
+                    				<field name="monthly_lease_amount"/>
+                    				<field name="no_of_tenants_capex"/>
+                                    <field name="lease_amount" />
+                                    <field name="opex_after_cpi" />
+                                    <field name="capex" />
+                                    <field name="opex" />
+                                    <field name="lease_sharing" />
+                                    <field name="final_opex" />
+                    			</tree>
+                    			<form string="Price Details" >
+                    				<group>
+                    					<group>
+                    						<field name="month_year"/>
+                    						<field name="month_days"/>
+                    						<field name="invoicing_days"/>
+                    					</group>
+                    					<group>
+                    						<field name="inv_tower_type" />
+                    						<field name="inv_power_model" />
+                    					</group>
+                    				</group>
+                    				
+                    				<group>
+                    					<group>
+                    						<field name="ip_fee_capex"/>
+                    						<field name="ip_fee_opex"/>
+                    					</group>
+                    					<group>
+                    						<field name="region_factor"/>
+                    						<field name="wind_factor"/>
+                    						<field name="sla_factor"/>
+                    					</group>
+                    				</group>
+                    				
+                    				<group>
+                    					<group>
+                    						<field name="collocation_capex"/>
+                    						<field name="collocation_opex"/>
+                    						<field name="power_price_capex"/>
+                    						<field name="gross_ip_fee"/>
+                    					</group>
+                    					<group>
+                    						<field name="power_fee_capex"/>
+		                    				<field name="capex_escalation"/>
+		                    				<field name="opex_cpi"/>
+		                    				<field name="gross_ip_fee_capex"/>
+		                    				<field name="gross_ip_fee_opex"/>
+                    					</group>
+                    				</group>
+                    				
+                    				
+                    				<group>
+                    					<group>
+                    						<field name="site_id" invisible="1"/>
+		                    				<field name="year" invisible="True"/>
+		                    				<field name="ip_start_date"/>
+		                    				<field name="head_lease"/>
+		                    				<field name="head_lease_extra"/>
+		                    				<field name="invoiced_rent_adjustment"/>
+		                                    <field name="ip_fee_capex_billed"/>
+                    					</group>
+                    					<group>
+                    						<field name="diff_capex"/>
+		                    				<field name="ip_fee_opex_billed"/>
+		                    				<field name="diff_opex"/>
+		                    				<field name="ip_fee"/>
+		                    				<field name="invl_fuel_total"/>
+		                    				<field name="invl_enegry_total"/>
+		                    				<field name="monthly_lease_amount"/>
+		                    				<field name="no_of_tenants_capex"/>
+                    					</group>
+                    				</group>
+                    			</form>
+                    		</field>
+                    	</page>
+                        
+                        <!-- invoicess new -->
+                        <page string="Invoices">
+                    		<field name="invoice_ids"/>
+                    	</page>
+                        
+                        <!-- <page string="*Invoices*">
+                    		<field name="invoice_ids">
+	                    		<tree>
+	                    			<field name="partner_id"/>
+	                    		</tree>
+                    		</field>
+                    	</page>
+                        
+                        
+                        
+                        <page string="Invoices">
+                    		<field name="account_invoice_ids">
+                    			<tree string="Invoice">
+                    				<field name="partner_id"/>
+				                    <field name="supplier_invoice_number"/>
+				                    <field name="date_invoice"/>
+				                    <field name="number"/>
+				                    <field name="category"/>
+				                    <field name="company_id"/>
+				                    <field name="user_id" string="Responsible"/>
+				                    <field name="date_due"/>
+				                    <field name="origin"/>
+				                    <field name="currency_id" string="Invoice Currency"/>
+				                    <field name="amount_untaxed"/>
+				                    <field name="amount_total"/>
+				                    <field name="amount_total_usd"/>
+                                    <field name="msa_id" invisible="1"/>
+                    			</tree>
+                    		</field>
+                    	</page> -->
+                        
+<!--                         Target Pass-Through -->
+                        <page string="Target Pass-Through">
+                    		<field name="target_pass_through_ids">
+                    			<tree string="Target Pass-Through" editable="bottom">
+                    				<field name="power_model_id" context="{'search_product_of_power_category': True}"/>
+				                    <field name="site_load"/>
+				                    <field name="target_fuel_consumption"/>
+				                    <field name="target_eb_consumption"/>
+                    			</tree>
+                    		</field>
+                    	</page>
+                    	
+                    </notebook>
+					
+				</sheet>
+			</form>
+		</field>
+	</record>
+
+	<record id="view_master_service_agreement_tree" model="ir.ui.view">
+		<field name="name">master.service.agreement.tree</field>
+		<field name="model">master.service.agreement</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="head_lease_invoicing_limit"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_master_service_agreement_seach" model="ir.ui.view">
+		<field name="name">master.service.agreemen.search</field>
+		<field name="model">master.service.agreement</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="head_lease_invoicing_limit"/>
+			</search>
+		</field>
+	</record>
+
+
+	<record id="action_master_service_agreement_view" model="ir.actions.act_window">
+		<field name="name">Master Service Agreements</field>
+		<field name="res_model">master.service.agreement</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_master_service_agreement_seach" />
+		<field name="view_id" ref="view_master_service_agreement_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create Master Service Agreements Here...
+			</p>
+		</field>
+	</record>
+
+</odoo>

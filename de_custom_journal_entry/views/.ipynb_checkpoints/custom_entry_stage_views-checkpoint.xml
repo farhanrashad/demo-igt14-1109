@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+    <!-- Custom Entry Stage -->
+    <record id="custom_entry_stage_view_list" model="ir.ui.view">
+        <field name="name">custom.entry.stage.list</field>
+        <field name="model">account.custom.entry.stage</field>
+        <field name="arch" type="xml">
+            <tree string="Custom Entry Stages">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="custom_entry_type_ids"/>
+                <field name="stage_code" optional="hide"/>
+                <field name="stage_category"/>
+                <field name="account_entry_type" optional="hide"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="custom_entry_stage_view_form" model="ir.ui.view">
+        <field name="name">custom.entry.stage.form</field>
+        <field name="model">account.custom.entry.stage</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Stage">
+                <sheet>
+                    <group>
+                        <group>
+                             <field name="active" invisible="1"/>
+                            <field name="name"/>
+                            <field name="stage_code"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <field name="custom_entry_type_ids" widget="many2many_tags" />
+                            <field name="next_stage_id"/>
+                            <field name="prv_stage_id"/>
+                        </group>
+                        <group>
+                            <field name="fold"/>
+                            <field name="stage_category" widget="radio"/>
+                            <field name="account_entry_type" widget="radio"/>
+                            <field name="allow_editing" />
+                            <field name="group_id" options="{'no_create': True,'no_open':True}" />
+                        </group>
+                    </group>
+                    <separator string="Requirements"/>
+                    <field name="description"
+                           placeholder="Give your team the requirements to move a subscription to this stage."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_custom_entry_stage" model="ir.actions.act_window">
+			<field name="name">Custom Entry Stage</field>
+			<field name="res_model">account.custom.entry.stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new custom entry stage
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="custom_entry_config_stage_menu" name="Stages" parent="custom_entry_config_menu"
+			action="action_custom_entry_stage"
+			sequence="2" />
+		
+			
+</odoo>
+
+

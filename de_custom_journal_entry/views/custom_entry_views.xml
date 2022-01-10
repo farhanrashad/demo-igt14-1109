@@ -1,0 +1,231 @@
+<odoo>
+    <data>
+        <!-- Create Vendor Bill -->
+        <record model="ir.actions.act_window" id="action_custom_entry_to_bill">
+        <field name="name">Vendor Bill</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">account.move</field>
+        <field name="view_mode">form,tree</field>
+        <field name="domain">[('custom_entry_id','=',active_id)]</field>
+        <field name="context">{
+            "default_custom_entry_id":active_id,
+            "default_user_id": False,
+            }
+        </field>
+    </record>
+        <!-- Custom Entries Views -->
+        
+        <record id="account_custom_entry_tree_view" model="ir.ui.view">
+            <field name="name">account.custom.entry.tree.view</field>
+            <field name="model">account.custom.entry</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Custom Entry" multi_edit="1" sample="1">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="date_entry" string="Date" widget="date" optional="show"/>
+                   <field name="partner_id" />
+                    <field name="amount_total" />
+                    <field name="currency_id" optional="hide"/>
+                    <field name="user_id" optional="show" widget="many2one_avatar_user" invisible="1"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
+                    <field name="stage_id" />
+                    
+
+                </tree>
+            </field>
+    </record>
+        
+        <record id="account_custom_entry_form_view" model="ir.ui.view">
+            <field name="name">account.custom.entry.form.view</field>
+            <field name="model">account.custom.entry</field>
+            <field name="arch" type="xml">
+                <form string="Custom Journal Entry" class="" >
+                    <header>
+                        <field name="expense_advance" invisible="1"/>
+                        
+                        <button name="button_submit" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['draft'])]}"/>
+                        <button name="button_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible': ['|',('stage_category', 'not in', ['progress']),('account_entry_type', '!=', 'none')]}"/>
+                        
+                        <!--<button name="button_done" type="object" string="Close" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['confirm'])]}"/> -->
+
+                        <button name="button_refuse" string="Refuse" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                    <button name="button_cancel" string="Cancel" type="object" 
+                        attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                        
+                       <!-- <button name="%(action_custom_entry_to_bill)d" string="Create Bill" class="btn-primary" type="action" invisible="0" attrs="{'invisible':['|',('invoice_count','=',1),('account_entry_type','!=','bill')]}"/>-->
+                        <button string="Create Bill" name="create_advance_expense" type="object" class="btn-primary" invisible="1"/>
+                        
+        
+                        <button string="Create Bill" name="create_bill" type="object" class="btn-primary" attrs="{'invisible':['|',('invoice_count','=',1),('account_entry_type','!=','bill')]}" groups="account.group_account_invoice"/>
+                                                
+                        <button string="Journal Entry" name="create_journal_entry" type="object" class="btn-primary" attrs="{'invisible':[('account_entry_type','!=','entry')]}" groups="account.group_account_invoice"/>
+
+                        <button string="Create Payment" name="create_payment" type="object" class="btn-primary" attrs="{'invisible':[('account_entry_type','!=','payment')]}" invisible="0" groups="account.group_account_invoice"/>
+
+                        <field name="stage_id" widget="statusbar" />
+
+                    </header>
+                    <sheet>
+                        <field name="stage_category" invisible="1" />
+                        <field name="stage_code" invisible="1" />
+                        <field name="account_entry_type" invisible="1" />
+                        <field name="journal_type" invisible="1" />
+                        <field name="move_type" invisible="1" />
+                        
+                        
+                        <div class="oe_button_box" name="button_box">
+                        <button type="object"  name="action_view_invoice" groups="account.group_account_invoice" context="{'open_invoices': True}" attrs="{'invisible': [('invoice_count', '=', 0)]}" 
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Bill"/>
+                            <field name='invoice_ids' invisible="1"/>
+                        </button>
+                        <button type="object"  name="action_view_move" groups="account.group_account_invoice" context="{'open_entries': False}" attrs="{'invisible': [('move_count', '=', 0)]}" 
+                            class="oe_stat_button"
+                            icon="fa-pencil-square-o">
+                            <field name="move_count" widget="statinfo" string="Journal Entry"/>
+                            <field name='move_ids' invisible="1"/>
+                        </button>
+                        <button name="action_view_payment" type="object" class="oe_stat_button"  icon="fa-usd"  string="Payment" attrs="{'invisible': [('payment_count', '=', 0)]}" groups="account.group_account_invoice">
+                        </button>  
+                    </div>
+                        <field name="payment_count" invisible="1"/>
+                        <field name="has_partner" invisible="1"/>
+                        <field name="has_ref" invisible="1"/>
+                        <field name="has_supplier_bill" invisible="1"/>
+                        <field name="has_period" invisible="1"/>
+                        <field name="has_attachment" invisible="1"/>
+                        <field name="has_description" invisible="1"/>
+                        <field name="has_purchase_requisition" invisible="1"/>
+                        <field name="has_purchase" invisible="1"/>
+                        <field name="has_picking" invisible="1"/>
+                        <field name="has_invoice" invisible="1"/>
+                        <field name="has_transfer_order" invisible="1"/>
+                        
+                        <field name="has_line_period" invisible="1"/>
+                        <field name="has_note" invisible="1"/>
+                        <field name="has_project" invisible="1"/>
+                        <field name="has_analytic" invisible="1"/>
+                        <field name="has_product" invisible="1"/>
+                        <field name="has_employee" invisible="1"/>
+                        <field name="has_supplier" invisible="1"/>
+                        <field name="has_advanced" invisible="1"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                    <group>
+                        <group>
+                            
+                            <field name="partner_id" attrs="{'invisible':[('has_partner','==','no')], 'required': [('has_partner','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field name="ref" attrs="{'invisible':[('has_ref','==','no')], 'required': [('has_ref','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field name="supplier_bill_ref" attrs="{'invisible':[('has_supplier_bill','==','no')], 'required': [('has_supplier_bill','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field name="currency_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}" />
+                            <field name="company_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}" />
+                            
+                        </group>
+                        <group>
+                            <field name="custom_entry_type_id" />
+                            <field name="date_entry" attrs="{'readonly': [('stage_category', '!=', 'draft')]}" />
+                            <field name="user_id" attrs="{'readonly': [('stage_category', '!=', 'draft')]}" />
+
+                            <label for="date_entry_month" string="Period" attrs="{'invisible':[('has_period','==','no')]}" />
+                            <div class="o_row" attrs="{'invisible':[('has_period','==','no')]}">
+                                <field name="date_entry_month" attrs="{'invisible':[('has_period','==','no')], 'required': [('has_period','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                                <span class="mr-1" attrs="{'invisible':[('has_period','==','no')]}"> - </span>
+                                <field name="date_entry_year" attrs="{'invisible':[('has_period','==','no')], 'required': [('has_period','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            </div>
+                            
+
+                            <field name="date_submit" attrs="{'invisible':[('date_submit','!=',True)]}" />
+                            <field name="date_approved" attrs="{'invisible':[('date_approved','!=',True)]}" />                            
+                            <field name="purchase_requisition_id" attrs="{'invisible':[('has_purchase_requisition','==','no')], 'required': [('has_purchase_requisition','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field name="purchase_id" attrs="{'invisible':[('has_purchase','==','no')], 'required': [('has_purchase','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field name="picking_id" string="Transfer" attrs="{'invisible':[('has_picking','==','no')], 'required': [('has_picking','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field name="invoice_id" string="Invoice" attrs="{'invisible':[('has_invoice','==','no')], 'required': [('has_invoice','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field name="stock_transfer_order_id" string="Transfer Order" attrs="{'invisible':[('has_transfer_order','==','no')], 'required': [('has_transfer_order','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                            <field filename="attachment1_filename" name="attachment1" attrs="{'invisible':[('has_attachment','==','no')], 'required':[('has_attachment','==','required')]}"/>
+
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <field name="description" placeholder="enter narration for entry..." attrs="{'invisible':[('has_description','==','no')], 'required': [('has_description','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                    </group>
+                     <notebook>
+                        <page string="Line" name="custom_entry_line">
+                            <field name="custom_entry_line" widget="one2many_list" attrs="{'readonly': [('stage_category', 'not in', ['draft','progress'])]}" >
+                                <tree string="Custom Entry Line" editable="bottom">
+                                    <field name="company_id" invisible="1" />
+                                    <field name="currency_id" invisible="1" />
+                                    <field name="product_uom_category_id" invisible="1" />
+                                    
+                                    <!-- Line Item -->
+                                    <field name="date_entry_period" attrs="{'column_invisible':[('parent.has_line_period','==','no')], 'required': [('parent.has_line_period','==','required')]}"/>
+                                   <!-- Project --> 
+                                    <field name="project_id" attrs="{'column_invisible':[('parent.has_project','==','no')], 'required': [('parent.has_project','==','required')]}" options="{'no_create':True}" />
+                                    <field name="state_id" attrs="{'column_invisible':[('parent.has_project','==','no')]}" optional="hide" />
+
+                                    <field name="analytic_account_id" attrs="{'column_invisible':[('parent.has_analytic','==','no')], 'required': [('parent.has_analytic','==','required')]}" options="{'no_create':True}" optional="hide"/>
+                                    <field name="analytic_tag_ids" attrs="{'column_invisible':[('parent.has_analytic','==','no')], 'required': [('parent.has_analytic','==','required')]}" widget="many2many_tags" options="{'no_create':True,}" optional="hide"/>
+                                    
+                                    <!-- Product -->
+                                    <field name="product_id" attrs="{'column_invisible':[('parent.has_product','==','no')], 'required': [('parent.has_product','==','required')]}"/>
+                                    <field name="product_uom_id" attrs="{'column_invisible':[('parent.has_product','==','no')], 'required': [('parent.has_product','==','required')]}"/>
+                                    <field name="product_qty" sum="Quantity" attrs="{'column_invisible':[('parent.has_product','==','no')], 'required': [('parent.has_product','==','required')]}"/>
+                                    <field name="price_unit" attrs="{'column_invisible':[('parent.has_product','==','no')], 'required': [('parent.has_product','==','required')]}"/>
+                                    <field name="price_subtotal" attrs="{'column_invisible':[('parent.has_product','==','no')], 'required': [('parent.has_product','==','required')]}"/>
+                                    <field name="taxes_id" widget="many2many_tags" attrs="{'column_invisible':[('parent.has_product','==','no')], 'required': [('parent.has_product','==','required')]}"/>
+                                    <field name="advance_subtotal" attrs="{'column_invisible':[('parent.has_advanced','==','no')], 'required': [('parent.has_advanced','==','required')]}"/>
+
+                                    <field name="employee_id" attrs="{'column_invisible':[('parent.has_employee','==','no')], 'required': [('parent.has_employee','==','required')]}"/>
+                                    <field name="supplier_id" attrs="{'column_invisible':[('parent.has_supplier','==','no')], 'required': [('parent.has_supplier','==','required')]}"/>
+
+
+                                    <field name='note' optional="show" attrs="{'column_invisible':[('parent.has_note','==','no')], 'required': [('parent.has_note','==','required')]}"/>
+
+                                </tree>
+                            </field>
+                            <!-- Totals  -->
+                                <group class="oe_subtotal_footer oe_right" >
+                                    <field name="amount_advanced_total" attrs="{'column_invisible':[('amount_advanced_total','==',0.0)]}"/>
+                                    <field name="amount_total" />
+                                    <field name="amount_balance" class="oe_subtotal_footer_separator" attrs="{'column_invisible':[('amount_balance','==',0)]}"/>
+                                </group>
+                            
+                         </page>
+                    </notebook>
+                    </sheet>
+                    <!-- Attachment preview -->
+                    <div class="o_attachment_preview" />
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="action_custom_entry" model="ir.actions.act_window">
+            <field name="name">Custom Journal Entry</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.custom.entry</field>
+            <field name="view_mode">tree,kanban,form,activity</field>
+            <field name="context">{}</field>
+            <field name="domain">[('move_type', 'in', ['entry','out_invoice','in_invoice','out_receipt','in_receipt'])]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new custom journal entry!
+                </p>
+            </field>
+    </record>
+        
+    <menuitem action="action_custom_entry" name="Custom Entry" id="menu_custom_entry_custom_entry" groups="group_custom_entry_user" parent="custom_entry_menu" sequence="2"/>
+        
+    </data>
+</odoo>

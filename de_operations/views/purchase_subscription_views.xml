@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Purchase Subscription Plan-->
+        <record id="purchase_subcription_plan_form_view_inherit_limit" model="ir.ui.view">
+            <field name="name">purchase.subscription.plan.form.view.inherit.limit</field>
+            <field name="model">purchase.subscription.plan</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_plan_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="inside">
+                    <notebook>
+                        <page string="Limits" id="limits">
+                            <field name="purchase_subscription_plan_limit_ids">
+                                <tree editable="bottom">
+                                    <field name="state_id"/>
+                                    <field name="min_invoice_amount"/>
+                                    <field name="max_invoice_amount"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Payment Schedules" id="payment_schedules" attrs="{'invisible':[('invoicing_mode','!=','scheduled')]}">
+                            <field name="subscription_plan_schedule_ids" attrs="{'invisible':[('invoicing_mode','!=','scheduled')]}">
+                                <tree editable="bottom">
+                                    <field name="name" />
+                                    <field name="recurring_interval" sum="Internals"/>
+                                   
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                    
+                </xpath>
+                
+            </field>
+        </record>
+        
+        <!-- Purchase Subscription -->
+        <record id="purchase_subcription_form_view_inherit_project" model="ir.ui.view">
+            <field name="name">purchase.subscription.form.view.inherit.project</field>
+            <field name="model">purchase.subscription</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subcription_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='subscription_plan_id']" position="after">
+                    <field name="invoicing_mode" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="after">
+                    <field name="project_id" optional="show"/>
+                    <field name="state_id" optional="hide"/>
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Payment Schedules" id="payment_schedules" attrs="{'invisible':[('invoicing_mode','!=','scheduled')]}">
+                        <field name="purchase_subscription_schedule_line" attrs="{'invisible':[('invoicing_mode','!=','scheduled')]}">
+                            <tree editable="bottom">
+                                 <field name="date_from"/>
+                                <field name="date_to"/>
+                                <field name="recurring_intervals" sum="Intervals"/>
+                                <field name="recurring_price" sum="Recurring"/>
+                                <field name="recurring_sub_total" sum="Subtotal"/>
+                                <field name="discount"/>
+                                <field name="escalation"/>
+                                <field name="recurring_total" sum="Total"/>
+                                <field name="invoice_id"/>
+                                <field name="company_id" invisible="1" />
+                                <button type="object" name="create_invoice" string="Create Invoice" icon="fa-arrow-circle-o-right" attrs="{'invisible':[('invoice_id','!=',False)]}"/>
+
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

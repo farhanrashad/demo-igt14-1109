@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+    <!-- Subscriptions Stage -->
+		<record id="action_operations_sale_subscription_stage" model="ir.actions.act_window">
+			<field name="name">Subscription Stage</field>
+			<field name="res_model">sale.subscription.agreement.stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new subscription stage
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="sale_subscription_config_stage_menu" name="Subscription Stages" parent="operations_sale_config_menu"
+			action="action_operations_sale_subscription_stage"
+			sequence="1" />
+    
+    <!-- Subscriptions Plan -->
+    <record id="action_operations_sale_subscription_plan" model="ir.actions.act_window">
+			<field name="name">Subscription Plan</field>
+			<field name="res_model">sale.subscription.plan</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new plan of subscription
+				</p>
+                <p>
+                    Plans are used to prefigure subscription that can be selected by the salespeople to quickly configure the terms and conditions of the subscription.
+                </p>
+			</field>
+		</record>
+		
+		<menuitem id="sale_subscription_config_plan_menu" name="Subscription Plan" parent="operations_sale_config_menu"
+			action="action_operations_sale_subscription_plan"
+			sequence="1" />
+		
+			
+</odoo>
+
+

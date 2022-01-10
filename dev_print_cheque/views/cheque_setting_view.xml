@@ -1,0 +1,219 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<odoo>
+		<record id="cheque_setting_form_view" model="ir.ui.view">
+			<field name="name">cheque.setting.form.view</field>
+			<field name="model">cheque.setting</field>
+			<field name="arch" type="xml">
+				 <form string="Cheque Format">
+                <sheet>
+
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="font_size"/>
+                            <field name="alignment"/>
+                        </group>
+                        <group>
+                            <field name="color"/>
+                        </group>
+                    </group>
+                    <group string="Print Partner">
+                        <group>
+                            <field name='is_partner' />
+                            <field name="is_partner_bold"/>
+                            <field name="partner_text"/>
+                        </group>
+                        <group>
+                            <field name='partner_m_top' attrs="{'required':[('is_partner','=',True)]}"/>
+                            <field name='partner_m_left' attrs="{'required':[('is_partner','=',True)]}"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group string="Print Date" >
+                            <field name='is_date' />
+                            <field name='is_date_bold' />
+                            <field name="date_seprator"/>
+                            <field name="date_formate" attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name='year_formate' attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name='date_m_top' attrs="{'required':[('is_date','=',True)]}"/>
+                        </group>
+                        <group string="Date Digit From Left">
+                            <field name='f_d_m_left' attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name='s_d_m_left' attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name='t_d_m_left' attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name='fo_d_m_left' attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name='fi_d_m_left' attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name='si_d_m_left' attrs="{'required':[('is_date','=',True)]}"/>
+                            <field name="se_d_m_left" attrs="{'required':[('is_date','=',True),('year_formate','=','yyyy')]}"/>
+                            <field name='e_d_m_left' attrs="{'required':[('is_date','=',True),('year_formate','=','yyyy')]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Amount In Digit">
+                        <group>
+                            <field name='is_amount' />
+                            <field name="is_currency"/>
+                            <field name='is_star' />
+                            <field name='is_amount_bold' />
+                        </group>
+                        <group>
+                            <field name='amt_m_top' attrs="{'required':[('is_amount','=',True)]}"/>
+                            <field name='amt_m_left' attrs="{'required':[('is_amount','=',True)]}"/>
+                        </group>
+                    </group>
+
+
+                    <group string="Amount In Words">
+                        <group>
+                            <field name='is_amount_word' />
+                            <field name="is_star_word"/>
+                            <field name="is_word_bold"/>
+                            <field name="word_in_f_line" attrs="{'required':[('is_amount_word','=',True)]}"/>
+                        </group>
+                        <group>
+                            <field name='amt_w_m_top' attrs="{'required':[('is_amount_word','=',True)]}"/>
+                            <field name='amt_w_m_left' attrs="{'required':[('is_amount_word','=',True)]}"/>
+                            <field name='amt_w_s_m_top' attrs="{'required':[('is_amount_word','=',True)]}"/>
+                            <field name='amt_w_s_m_left' attrs="{'required':[('is_amount_word','=',True)]}"/>
+                        </group>
+                    </group>
+                    <group string="Print Company">
+                        <group>
+                            <field name='is_company'/>
+                        </group>
+                        <group>
+                            <field name='c_margin_top' attrs="{'required':[('is_company','=',True)]}"/>
+                            <field name='c_margin_left' attrs="{'required':[('is_company','=',True)]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Print Cheque No">
+                        <group>
+                            <field name='is_cheque_no'/>
+                        </group>
+                        <group>
+                            <field name='cheque_margin_top' attrs="{'required':[('is_cheque_no','=',True)]}"/>
+                            <field name='cheque_margin_left' attrs="{'required':[('is_cheque_no','=',True)]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Print A/C PAY">
+                        <group>
+                            <field name='is_acc_pay'/>
+                            <field name='is_acc_bold'/>
+                        </group>
+                        <group>
+                            <field name='acc_pay_m_top' attrs="{'required':[('is_acc_pay','=',True)]}"/>
+                            <field name='acc_pay_m_left' attrs="{'required':[('is_acc_pay','=',True)]}"/>
+                        </group>
+                    </group>
+                    <group string="Print Fitst Signature">
+                        <group>
+                            <field name='is_f_line_sig'/>
+                        </group>
+                        <group>
+                            <field name='f_sig_m_top' attrs="{'required':[('is_f_line_sig','=',True)]}"/>
+                            <field name='f_sig_m_left' attrs="{'required':[('is_f_line_sig','=',True)]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Print Second Signature">
+                        <group>
+                            <field name='is_s_line_sig'/>
+                        </group>
+                        <group>
+                            <field name='s_sig_m_top' attrs="{'required':[('is_s_line_sig','=',True)]}"/>
+                            <field name='s_sig_m_left' attrs="{'required':[('is_s_line_sig','=',True)]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Print Free Text One">
+                        <group>
+                            <field name='is_free_one'/>
+                        </group>
+                        <group>
+                            <field name='f_one_margin_top' attrs="{'required':[('is_free_one','=',True)]}"/>
+                            <field name='f_one_margin_left' attrs="{'required':[('is_free_one','=',True)]}"/>
+                        </group>
+                    </group>
+
+                    <group string="Print Free Text Two">
+                        <group>
+                            <field name='is_free_two'/>
+                        </group>
+                        <group>
+                            <field name='f_two_margin_top' attrs="{'required':[('is_free_two','=',True)]}"/>
+                            <field name='f_two_margin_left' attrs="{'required':[('is_free_two','=',True)]}"/>
+                        </group>
+                    </group>
+                    <group string="Print Stub">
+                        <group>
+                            <field name='is_stub'/>
+                        </group>
+                        <group>
+                            <field name='stub_margin_top' attrs="{'required':[('is_stub','=',True)]}"/>
+                            <field name='stub_margin_left' attrs="{'required':[('is_stub','=',True)]}"/>
+                        </group>
+                    </group>
+                    <group string="Print Journal">
+                        <group>
+                            <field name='print_journal'/>
+                        </group>
+                        <group>
+                            <field name='journal_margin_top' attrs="{'required':[('print_journal','=',True)]}"/>
+                            <field name='journal_margin_left' attrs="{'required':[('print_journal','=',True)]}"/>
+                        </group>
+                    </group>
+                </sheet>
+
+            </form>
+			</field>
+		</record>
+
+		<record id="cheque_setting_tree_view" model="ir.ui.view">
+			<field name="name">cheque.setting.tree.view</field>
+			<field name="model">cheque.setting</field>
+			<field name="arch" type="xml">
+                <tree string="Cheque Format">
+                    <field name="name"/>
+                    <field name="is_partner"/>
+                    <field name="is_date"/>
+                    <field name="is_amount"/>
+                    <field name="is_amount_word"/>
+                </tree>
+            </field>
+		</record>
+		<record id="cheque_setting_search_view" model="ir.ui.view">
+			<field name="name">cheque.setting.search.view</field>
+			<field name="model">cheque.setting</field>
+			<field name="arch" type="xml">
+				<search string="Cheque Setting Search">
+					<field name="name"/>
+					<field name="is_partner"/>
+					<field name="is_date"/>
+					<field name="is_amount"/>
+					<field name="is_amount_word"/>
+				</search>
+			</field>
+		</record>
+        <record id="cheque_setting_action" model="ir.actions.act_window">
+                <field name="name">Cheque Format</field>
+                <field name="res_model">cheque.setting</field>
+                <field name="type">ir.actions.act_window</field>
+                <field name="view_mode">tree,form</field>
+                <field name="search_view_id" ref="cheque_setting_search_view"/>
+                <field name="view_id" ref="cheque_setting_tree_view"/>
+                <field name="view_id" ref="cheque_setting_tree_view"/>
+                <field name="help" type="html">
+                    <p class="o_view_nocontent_smiling_face"> Cheque Format </p>
+                </field>
+        </record>
+	    <!--  Menu Items-->
+        <menuitem name="Cheque Format" id="cheque_setting_menu" parent="account.menu_finance_configuration" action="cheque_setting_action" sequence="1"/>
+
+</odoo>

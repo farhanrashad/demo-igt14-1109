@@ -1,0 +1,106 @@
+<odoo>
+
+	<record id="action_termination_pdf_report"
+		model="ir.actions.report">
+		<field name="name">Employee Termination</field>
+		<field name="model">hr.employee</field>
+		<field name="report_type">qweb-pdf</field>
+		<field name="report_name">de_employee_termination_excel.termination_template</field>
+	</record>
+
+
+	<template id="termination_template">
+		<t t-call="web.html_container">
+			<t t-call="web.external_layout">
+				<div class="page">
+					<h2 align="center">Termination Report</h2>
+					<br />
+				</div>
+				<br />
+
+
+				<div style="width: 40%; float:right; ">
+					<table align="right" class="table table-condensed"
+						style="border: 1px solid black;">
+						<tr>
+							<td>
+								<b>Date From</b>
+							</td>
+							<td>
+								<b>
+									<span t-esc="date_from" />
+								</b>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<b>Date To</b>
+							</td>
+							<td>
+								<b>
+									<span t-esc="date_to" />
+								</b>
+							</td>
+						</tr>
+					</table>
+				</div>
+
+
+				<table class="table table-condensed">
+					<thead>
+						<tr>
+							<th style="width: 7%;">SNO</th>
+							<th>Employee</th>
+                            <th>Department</th>
+                            <th>Job Title</th>
+                            <th>Date Of Joining</th>
+							<th>Departure Date</th>
+							<th>Reason</th>
+							<th>Additional Info</th>
+						</tr>
+					</thead>
+					<tbody>
+						<t t-set="i" t-value="1" />
+						<tr
+							t-foreach="all_emp" t-as='emp'>
+							<td align="center" style="width: 7%;">
+								<span t-esc="i" />
+							</td>
+							<td>
+								<span t-esc="emp.name" />
+							</td>
+                            <td>
+								<span t-esc="emp.department_id.name" />
+							</td>
+                            <td>
+								<span t-esc="emp.job_title" />
+							</td>
+                            <td>
+								<span t-esc="emp.first_contract_date" />
+							</td>
+							<td>
+								<span t-esc="emp.departure_date" />
+							</td>
+							<td>
+								<span t-esc="emp.departure_reason" />
+							</td>
+							<td>
+								<span t-esc="emp.departure_description" />
+							</td>
+							<t t-set="i" t-value="i+1" />
+						</tr>
+					</tbody>
+				</table>
+			</t>
+		</t>
+
+		<style>
+			table {
+			border-collapse: collapse;
+			}
+			table, td, th {
+			border: 1px solid black;
+			}
+		</style>
+	</template>
+</odoo>

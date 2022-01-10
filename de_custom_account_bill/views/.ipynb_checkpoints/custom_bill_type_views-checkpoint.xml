@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Bill Type -->
+        <record model="ir.ui.view" id="account_custom_bill_type_form_view">
+            <field name="name">account.custom.bill.type.form.view</field>
+            <field name="model">account.custom.bill.type</field>
+            <field name="arch" type="xml">
+                <form string="Custom Entry Types">
+                    <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Entry Type Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="adv_journal_id" options="{'no_create': True,'no_open':True}" />
+                            <field name="adv_account_id" options="{'no_create': True,'no_open':True}" />
+                            <field name="act_journal_id" options="{'no_create': True,'no_open':True}" />
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" placeholder="define instruction for your team to categoize subscriptions."/>
+                    </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="account_custom_entry_type_tree_view">
+            <field name="name">account.custom.bill.type.tree.view</field>
+            <field name="model">account.custom.bill.type</field>
+            <field name="arch" type="xml">
+                <tree string="Bill Type" >
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_account_custom_bill_type" model="ir.actions.act_window">
+            <field name="name">Bill Type</field>
+            <field name="res_model">account.custom.bill.type</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No type found. Let's create one!
+              </p>
+            </field>
+        </record>
+        
+         <menuitem id="custom_account_bill_root_menu" name="Accounting Bills"
+                  active="True"
+                  sequence="105"/>
+        
+        <menuitem id="custom_account_bill_config_root_menu" name="Configuration" groups="account.group_account_manager" parent="custom_account_bill_root_menu"
+                  sequence="105"/>
+        
+        <menuitem action="action_account_custom_bill_type" name="Bill Types" id="menu_custom_entry_type_config_custom_entry_type" groups="account.group_account_manager" parent="custom_account_bill_config_root_menu" sequence="1"/>
+        
+       
+        
+    </data>
+</odoo>

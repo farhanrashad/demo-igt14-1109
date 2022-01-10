@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Purchase Order List view -->
+        <record id="purchase_order_kpis_tree_inherit" model="ir.ui.view">
+            <field name="name">purchase.order.kpis.tree.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_kpis_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="company_currency_id" invisible="1"/>
+                     <field name="total_base_signed" sum="Total base" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <record id="purchase_order_view_tree_inherit_base_currency" model="ir.ui.view">
+            <field name="name">purchase.order.view.tree.inherit.base.currency</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_view_tree" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="company_currency_id" invisible="1"/>
+                     <field name="total_base_signed" sum="Total base" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        
+        
+        <record id="purchase_order_form_inherit_base_currency" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherit.base.currency</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+                  <xpath expr="//page[@name='products']/field[@name='order_line']/tree[1]" position="inside">
+                      <field name="company_currency_id" invisible="1"/>
+                     <field name="price_unit_base" AVG="BC Price" optional="show"/>
+                      <field name="price_total_base" sum="BC Total" optional="show"/>
+                </xpath>
+            </field>
+        </record>
+        
+    </data>
+</odoo>

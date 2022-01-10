@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_custom_entry_form_view_inherit_import" model="ir.ui.view">
+        <field name="name">custom.entry.view.form.view.inherit.import</field>
+        <field name="model">account.custom.entry</field>
+        <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_import_entry_line" string="Import Lines" type="object" class="" groups="sh_import_lot_serial_picking.group_import_lot_serial_picking" />
+            </xpath>
+        </field>
+    </record>
+</odoo>

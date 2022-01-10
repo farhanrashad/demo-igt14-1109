@@ -1,0 +1,22 @@
+<odoo>
+    <data>
+        <record id="action_report_production_order_cost" model="ir.actions.report">
+            <field name="name">Performa Invoice</field>
+            <field name="model">master.service.agreement</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_msa_report.msa_report_xlsx_1</field>
+            <field name="report_file">Performa Invoice</field>
+            <field name="binding_model_id" ref="de_msa.model_master_service_agreement"/>
+            <field name="binding_type">report</field>
+        </record>
+
+        <report
+                id="msa_report_xlsx_1"
+                model="master.service.agreement"
+                string="Performa Invoice"
+                report_type="xlsx"
+                name="de_msa_report.msa_report_xlsx_1"
+                file="Performa Invoice"
+        />
+    </data>
+</odoo>

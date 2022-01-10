@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="view_account_journal_form_inherit_picking" model="ir.ui.view">
+			<field name="name">view.account.journal.form.inherit.picking</field>
+			<field name="model">account.journal</field>
+			<field name="inherit_id" ref="account.view_account_journal_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='advanced_settings']" position="inside">
+                    <group>
+                        <group name="picking_detail" string="Picking Detail">
+                            <field name="allow_picking"/>
+                            <field name="receipt_picking_type_id"  domain="[('code','=','incoming')]" attrs="{'invisible':[('type','!=','purchase')],}" />
+                            <field name="delivery_picking_type_id"  domain="[('code','=','outgoing')]" attrs="{'invisible':[('type','!=','sale')],}" />
+
+                            <field name="is_owner"  attrs="{'invisible':[('allow_picking','!=',True)]}" />
+                            
+                        </group>
+                    </group>
+				</xpath>
+				
+			</field>
+		</record>
+    </data>
+</odoo>

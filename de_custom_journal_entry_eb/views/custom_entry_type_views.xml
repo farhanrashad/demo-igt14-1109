@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    
+    <record id="account_custom_entry_type_form_view_inherit_eb" model="ir.ui.view">
+            <field name="name">account.custom.entry.type.form.view.inehrit.eb</field>
+            <field name="model">account.custom.entry.type</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_type_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[@name='control_app_fields']" position="inside">
+                    <field name="has_electricity" widget="radio" options="{'horizontal': true}"/>
+                </xpath>
+                
+            </field>
+    </record>
+    
+</odoo>

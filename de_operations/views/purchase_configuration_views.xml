@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Subscriptions Stage -->
+		<record id="action_operations_purchase_subscription_stage" model="ir.actions.act_window">
+			<field name="name">Subscription Stage</field>
+			<field name="res_model">purchase.subscription.stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new subscription stage
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="purchase_subscription_config_stage_menu" name="Subscription Stages" parent="operations_purchase_config_menu"
+			action="action_operations_purchase_subscription_stage"
+			sequence="1" />
+    
+    <!-- Subscriptions Plans -->
+		<record id="action_operations_purchase_subscription_plan" model="ir.actions.act_window">
+			<field name="name">Subscription Plan</field>
+			<field name="res_model">purchase.subscription.plan</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new plan of subscription
+				</p>
+                <p>
+                    Plans are used to prefigure subscription that can be selected by the salespeople to quickly configure the terms and conditions of the subscription.
+                </p>
+			</field>
+		</record>
+		
+		<menuitem id="purchase_subscription_config_plan_menu" name="Subscription Plan" parent="operations_purchase_config_menu"
+			action="action_operations_purchase_subscription_plan"
+			sequence="2" />
+		
+    <!-- Subscription Deductions -->
+    
+    <!-- Categories -->
+        <record model="ir.ui.view" id="purchase_subs_deds_sla_category_search_view">
+            <field name="name">Categories</field>
+            <field name="model">purchase.subs.deds.sla.categ</field>
+            <field name="arch" type="xml">
+                <search string="Issue Version">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="purchase_subs_deds_sla_category_form_view">
+            <field name="name">Categories</field>
+            <field name="model">purchase.subs.deds.sla.categ</field>
+            <field name="arch" type="xml">
+                <form string="Categories">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="subscription_type_id" options="{'no_create':True,'no_open':True}"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Frequencies" id="frequencies">
+                                <field name="purchase_sub_deds_sla_frequency_ids">
+                                    <tree editable="bottom">
+                                        <field name="name"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="purchase_subs_deds_sla_category_tree_view">
+            <field name="name">Categories</field>
+            <field name="model">purchase.subs.deds.sla.categ</field>
+            <field name="arch" type="xml">
+                <tree string="Categories" >
+                    <field name="name"/>
+                    <field name="subscription_type_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_purchase_subs_deds_sla_category" model="ir.actions.act_window">
+            <field name="name">Categories</field>
+            <field name="res_model">purchase.subs.deds.sla.categ</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No deduction category found. Let's create one!
+              </p>
+              
+            </field>
+        </record>
+        <menuitem action="action_purchase_subs_deds_sla_category" id="menu_purchase_subs_type_act" parent="operations_purchase_agreements_deds_config_menu" sequence="1"/>
+    
+    
+    
+    <!-- Sla -->
+        <record model="ir.ui.view" id="purchase_subs_deds_sla_search_view">
+            <field name="name">SLA</field>
+            <field name="model">purchase.subs.deds.sla</field>
+            <field name="arch" type="xml">
+                <search string="Issue Version">
+                    <field name="name"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="purchase_subs_deds_sla_form_view">
+            <field name="name">SLA</field>
+            <field name="model">purchase.subs.deds.sla</field>
+            <field name="arch" type="xml">
+                <form string="SLA">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="subscription_type_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="date_start"/>
+                                <field name="date_end"/>
+                                <field name="company_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Rules" id="rules">
+                                <field name="purchase_sub_deds_sla_rule_ids">
+                                    <tree editable="bottom">
+                                        <field name="purchase_subs_deds_sla_categ_id" />
+                                        <field name="subscription_type_id" invisible="1"/>
+                                        <field name="name"/>
+                                        <field name="deds_percentage" widget="percentage"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="purchase_subs_deds_sla_tree_view">
+            <field name="name">Categories</field>
+            <field name="model">purchase.subs.deds.sla</field>
+            <field name="arch" type="xml">
+                <tree string="SLA" >
+                    <field name="name"/>
+                    <field name="subscription_type_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_purchase_subs_deds_sla" model="ir.actions.act_window">
+            <field name="name">SLA</field>
+            <field name="res_model">purchase.subs.deds.sla</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No deduction sla found. Let's create one!
+              </p>
+              
+            </field>
+        </record>
+        <menuitem action="action_purchase_subs_deds_sla" id="menu_purchase_subs_sla_act" parent="operations_purchase_agreements_deds_config_menu" sequence="3"/>
+
+			
+</odoo>
+
+

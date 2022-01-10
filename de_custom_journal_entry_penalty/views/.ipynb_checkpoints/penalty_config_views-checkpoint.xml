@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>	
+    <!-- Penalty Entry Stage -->
+    <record id="operation_penalty_config_list_view" model="ir.ui.view">
+        <field name="name">op.penalty.config.list.view</field>
+        <field name="model">op.penalty.config</field>
+        <field name="arch" type="xml">
+            <tree string="penalty SLA">
+                <field name="name"/>
+                 <field name="partner_id" />
+                <field name="effective_date"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="operation_penalty_config_form_view" model="ir.ui.view">
+        <field name="name">op.penalty.config.form.view</field>
+        <field name="model">op.penalty.config</field>
+        <field name="arch" type="xml">
+            <form string="Penlaty SLA">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" invisible="1"/>
+                            <field name="custom_entry_type_id" required="1" string="Penalty Type"/>
+                            <field name="partner_id" required="1"/>
+                        </group>
+                        <group>
+                            <field name="effective_date" required="1"/>
+                            <field name="rule_type" required="1"/>
+                        </group>
+                    </group>
+                    <separator string="Requirements"/>
+                    <field name="description" placeholder="Give your team the instructions to manage penalty rules."/>
+                    <notebook>
+                            <page string="Service Levels" name="penalty_service_level_line" attrs="{'invisible':[('rule_type','!=','sla')]}">
+                                <field name="penalty_config_line" attrs="{'invisible':[('rule_type','!=','sla')]}">
+                                    <tree string="penalty SLA Line" editable="bottom">
+                                       <field name="service_class" required="1"/>
+                                       <field name="service_level" required="1"/>
+                                       <field name="uptime_from" required="1"/>
+                                       <field name="uptime_to" required="1"/>
+                                       <field name="penalty_deduction_per" required="1"/>
+                                       <field name="penalty_deduction_factor" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        <page string="Service Levels" name="penalty_service_level_occur_line" attrs="{'invisible':[('rule_type','!=','occur')]}">
+                                <field name="penalty_config_occur_line" attrs="{'invisible':[('rule_type','!=','occur')]}">
+                                    <tree string="penalty Occurence Line" editable="bottom">
+                                       <field name="service_level" required="1"/>
+                                       <field name="occurence" required="1"/>
+                                       <field name="penalty_amount" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        <page string="SOW" name="penalty_service_level_sow_line" attrs="{'invisible':[('rule_type','!=','sow')]}">
+                                <field name="penalty_config_sow_line" attrs="{'invisible':[('rule_type','!=','sow')]}">
+                                    <tree string="penalty SOW Line" editable="bottom">
+                                       <field name="penalty_sow_type_id" required="1"/>
+                                        <field name="penalty_sow_id" required="1" domain="[('penalty_sow_type_id','=',penalty_sow_type_id)]"/>
+                                       <field name="penalty_deduction_a" required="1"/>
+                                       <field name="penalty_deduction_b" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_penalty_rule" model="ir.actions.act_window">
+			<field name="name">Penalty Rules</field>
+			<field name="res_model">op.penalty.config</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new penalty rule
+				</p>
+               
+			</field>
+		</record>
+		    
+    <menuitem id="penalty_config_sla_rule_menu" name="Penalty Rules" parent="penalty_entry_config_menu"
+			action="action_penalty_rule"
+			sequence="1" />
+		
+	<!-- SOW Type -->
+    <record id="operation_penalty_sow_type_list_view" model="ir.ui.view">
+        <field name="name">op.penalty.sow.type.list.view</field>
+        <field name="model">op.penalty.config.sow.type</field>
+        <field name="arch" type="xml">
+            <tree string="penalty SLA">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="operation_penalty_sow_type_form_view" model="ir.ui.view">
+        <field name="name">op.penalty.sow.type.form.view</field>
+        <field name="model">op.penalty.config.sow.type</field>
+        <field name="arch" type="xml">
+            <form string="SOW Type">
+                <sheet>
+                    <group col="4">
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_penalty_sow_type" model="ir.actions.act_window">
+			<field name="name">SOW Type</field>
+			<field name="res_model">op.penalty.config.sow.type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new SOW Type
+				</p>
+               
+			</field>
+		</record>
+		    
+    <menuitem id="penalty_config_sow_type_menu" name="SOW Type" parent="penalty_entry_config_menu"
+			action="action_penalty_sow_type"
+			sequence="2" />
+    
+    <!-- sow -->
+    <record id="operation_penalty_sow_list_view" model="ir.ui.view">
+        <field name="name">op.penalty.sow.list.view</field>
+        <field name="model">op.penalty.config.sow</field>
+        <field name="arch" type="xml">
+            <tree string="penalty SLA">
+                <field name="name"/>
+                <field name="frequency" />
+                <field name="penalty_sow_type_id" />
+            </tree>
+        </field>
+    </record>
+    
+    <record id="operation_penalty_sow_form_view" model="ir.ui.view">
+        <field name="name">op.penalty.sow.form.view</field>
+        <field name="model">op.penalty.config.sow</field>
+        <field name="arch" type="xml">
+            <form string="SOW Type">
+                <sheet>
+                    <group col="4">
+                        <field name="name" />
+                        <field name="frequency" required="1"/>
+                        <field name="penalty_sow_type_id" required="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_penalty_sow" model="ir.actions.act_window">
+			<field name="name">SOW</field>
+			<field name="res_model">op.penalty.config.sow</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new SOW
+				</p>
+               
+			</field>
+		</record>
+		    
+    <menuitem id="penalty_config_sow_menu" name="SOW" parent="penalty_entry_config_menu"
+			action="action_penalty_sow"
+			sequence="3" />
+    
+    <record id="action_custom_entry_penalty_stage" model="ir.actions.act_window">
+			<field name="name">Custom Entry Stage</field>
+			<field name="res_model">account.custom.entry.stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new custom entry stage
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="custom_entry_penalty_config_stage_menu" name="Stages" parent="penalty_entry_config_menu"
+			action="action_custom_entry_penalty_stage" sequence="4" />
+</odoo>
+
+

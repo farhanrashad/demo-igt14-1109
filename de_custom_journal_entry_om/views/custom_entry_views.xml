@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <!--stage entry -->
+    <record id="account_custom_entry_tree_view_inherit_om" model="ir.ui.view">
+        <field name="name">account.custom.entry.tree.view.inehrit.om</field>
+        <field name="model">account.custom.entry</field>
+        <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_tree_view" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='amount_total']" position="after">
+                <field name="om_amount_total_per"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id="account_custom_entry_form_view_inherit_om_inv" model="ir.ui.view">
+            <field name="name">account.custom.entry.form.view.inehrit.om.inv</field>
+            <field name="model">account.custom.entry</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='create_payment']" position="after">
+                    <button name="%(de_custom_journal_entry_om.action_custom_entry_advance_payment_inv)d" string="Create Bill"
+                        type="action" class="btn-primary" context="{'create_bill':True}"  attrs="{'invisible':['|','|', ('allow_advance_inv','=',False),('om_amount_advance_per','>=',100),('stage_category','in',['closed','draft'])]}" groups="account.group_account_invoice"/>
+                    <button name="entry_close" string="Close"
+                        type="object" class="btn-secondary" attrs="{'invisible':['|', ('allow_advance_inv','=',False),('stage_category','not in',['confirm'])]}"/>
+                 </xpath>
+                <xpath expr="//button[@name='action_view_invoice']" position="replace">
+                    <button type="object"  name="action_view_om_invoices" attrs="{'invisible': ['|',('allow_advance_inv','=',False),('om_invoice_count', '=', 0)]}" class="oe_stat_button" icon="fa-pencil-square-o" groups="account.group_account_invoice">
+                            <field name="om_invoice_count" widget="statinfo" string="Invoices"/>
+                            <field name='om_invoice_ids' invisible="1"/>
+                    </button>
+                    <button type="object"  name="action_view_invoice" attrs="{'invisible': ['|',('allow_advance_inv','=',True),('om_invoice_count', '=', 0)]}" class="oe_stat_button" icon="fa-pencil-square-o" groups="account.group_account_invoice">
+                            <field name="invoice_count" widget="statinfo" string="Bill"/>
+                    </button>
+                </xpath>
+                <xpath expr="//group[1]/group[1]" position="inside">
+                    <field name="allow_advance_inv" invisible="1"/>
+                    <field name="om_amount_advance_bal" invisible="1"/>
+                    <field name="om_amount_advance_per" invisible="1"/>
+                    <field name="edit_om_deudction" invisible="1"/>
+                    <field name="allow_om_deudction" invisible="1"/>
+                    <field name="om_amount_total" attrs="{'invisible':[('allow_om_deudction','==',False)]}"/>
+                    <field name="om_amount_final_total" attrs="{'invisible':[('allow_om_deudction','==',False)]}"/>
+                    <field name="om_deduction_total" attrs="{'invisible':[('allow_om_deudction','==',False)]}"/>
+                    <field name="om_invoiced_amount" attrs="{'invisible':[('allow_om_deudction','==',False)]}"/>
+                    <field name="om_amount_total_per" attrs="{'invisible':[('allow_om_deudction','==',False)]}"/>
+                </xpath>
+                <xpath expr="//group[1]/group[2]" position="inside">
+                    <field name="credit_note_attachment" filename="credit_note_attachment_filename" attrs="{'invisible':[('allow_om_deudction','==',False)],'required':[('stage_category','in',['confirm','closed'])]}"/>
+                    <field name="crn_ref" attrs="{'invisible':[('allow_om_deudction','==',False)],'required':[('stage_category','in',['confirm','closed'])]}"/>
+                </xpath>
+                <xpath expr="//sheet[1]" position="inside">
+                    <field name="has_om" invisible="1"/>
+                </xpath>
+                <xpath expr="//page[@name='custom_entry_line']/field[@name='custom_entry_line']/tree[1]" position="inside">
+                    <!-- OM Invoices -->
+                    <field name="o_tower_type" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_product_id" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_date_rfi" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_date_onair" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_date_handover" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_date_start" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_date_end" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_days_rfi" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_days_onair" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_amount" sum="OM Total AMount" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_final_amount" sum="OM Final Amount" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                    <field name="o_charges" sum="OM Charges" attrs="{'column_invisible':[('parent.has_om','==','no')], 'required': [('parent.has_om','==','required')]}"/>
+                </xpath>
+                <xpath expr="//page[@name='custom_entry_line']" position="after">
+                    <page name="om_deduction" string="Deductions" attrs="{'invisible': [('allow_om_deudction', '!=', True)]}" >
+                        <field name="custom_entry_om_deduction_line" widget="one2many_list" attrs="{'readonly': [('edit_om_deudction', '!=', True)]}" >
+                            <tree string="OM Deduction" editable="bottom">
+                                <field name="project_id" string="Site" options="{'no_create':True}" attrs="{'readonly':[('parent.edit_om_deudction','!=',True)], 'required': [('parent.edit_om_deudction','==',True)]}"/>
+                                <field name="company_id" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                                <field name="om_deduction_type_id" options="{'no_create':True}" attrs="{'readonly':[('parent.edit_om_deudction','!=',True)], 'required': [('parent.edit_om_deudction','==',True)]}"/>
+                                <field name="amount" sum="amount" attrs="{'readonly':[('parent.edit_om_deudction','!=',True)], 'required': [('parent.edit_om_deudction','==',True)]}"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+    </record>
+    
+</odoo>

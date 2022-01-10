@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+1,gtn.dgn.mrf.spmrf.wizard,model_gtn_dgn_mrf_spmrf_wizard,base.group_user,1,1,1,1
+access_report_de_requisition_line_report_mrf_spmrf_report_xlsx,access_report_de_requisition_line_report_mrf_spmrf_report_xlsx,model_report_de_requisition_line_report_mrf_spmrf_report_xlsx,base.group_user,1,1,1,1

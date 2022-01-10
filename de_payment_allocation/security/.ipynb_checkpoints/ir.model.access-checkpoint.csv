@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_decimal_precision,access.decimal.precision,model_decimal_precision,,1,1,1,1
+access_account_payment_debit_allocation, access.account.payment.debit.allocation,model_account_payment_debit_allocation,account.group_account_invoice,1,1,1,1
+access_account_payment_credit_allocation, access.account.payment.credit.allocation,model_account_payment_credit_allocation,account.group_account_invoice,1,1,1,1

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="stock_refill_form_view" model="ir.ui.view">
+        <field name="name">stock.refill.form.view</field>
+        <field name="model">stock.refill</field>
+        <field name="arch" type="xml">
+            <form string="Refilling Entries" >
+                <header>
+                    <button name="action_confirm" states="draft" string="Check Availability" type="object" class="oe_highlight" />
+                    <button name="action_validate" states="inprocess" string="Validate" type="object" class="oe_highlight" />
+
+
+                 <field name="state" widget="statusbar" statusbar_visible="draft,inprocess,done"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button"
+                            icon="fa-truck"
+                            name="action_transfer_consumption"
+                            type="object">
+                            <field name="transfer_count" widget="statinfo" string="Transfers"/>
+                        </button>
+                    </div>
+                    
+                    <div class="oe_title">
+                        <h1>
+                          <field name="name"/>
+                        </h1>
+                     </div>
+                    
+                    <group>
+                        <group>
+                            <field name="location_src_id"/>
+                            <field name="location_dest_id"/>
+                            <field name="owner_id"/>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_no_one"/>
+                        </group>
+                        <group>
+                            <field name="refill_date"/>
+                            <field name="user_id"/>
+                        </group>
+                    
+                    </group>
+                    <notebook>
+                        <page string="Entry Lines">
+                            <field name="refill_line_ids">
+                                <tree editable="bottom">
+                                    <field name="location_id" />
+                                    <field name="location_dest_id" />
+                                    <field name="product_id" />
+                                    <field name="product_uom_id" />
+                                    <field name="storage_capacity" />
+                                    <field name="current_quantity" />
+                                    <field name="product_uom_qty" />
+                                    <field name="closing_quantity" />
+                                    <field name="stock_move_qty" />
+                                </tree>
+                            
+                            </field>
+                            <group name="billed_group" col="6" class="mt-2 mt-md-0">
+                                <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                    <field name="total_available_qty" />
+                                    <field name="total_filled_qty" />
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="stock_refill_tree_view" model="ir.ui.view">
+        <field name="name">stock.refill.tree.view</field>
+        <field name="model">stock.refill</field>
+        <field name="arch" type="xml">
+            <tree string="Stock Refill" >
+                <field name="name" />
+                <field name="refill_date" />
+                <field name="location_src_id" />
+                <field name="location_dest_id" />
+                <field name="company_id" />
+                <field name="owner_id" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_stock_refill" model="ir.actions.act_window">
+        <field name="name">Refilling Entry</field>
+        <field name="res_model">stock.refill</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+        id="menu_operations_stock_refill"
+        name="Refilling Entry"
+        parent="stock.menu_stock_warehouse_mgmt"
+        sequence="90"
+        action="action_stock_refill"      
+        />
+</odoo>

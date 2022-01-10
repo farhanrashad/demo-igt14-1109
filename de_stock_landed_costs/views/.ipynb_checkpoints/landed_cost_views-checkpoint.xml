@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Purchase Subscription Plan-->
+        <record id="view_stock_landed_cost_form_inherit" model="ir.ui.view">
+            <field name="name">view.stock.landed.cost.form.inherit</field>
+            <field name="model">stock.landed.cost</field>
+            <field name="inherit_id" ref="stock_landed_costs.view_stock_landed_cost_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//page[@name='valuation_adjustments']" position="after">
+                    <page name="final_cost" string="Final Cost">
+                        <field name="final_cost_lines">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="product_id"/>
+                                <field name="former_cost"/>
+                                <field name="additional_landed_cost" sum="Total Landed Cost"/>
+                                <field name="final_cost"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                
+            </field>
+        </record>
+    </data>
+</odoo>

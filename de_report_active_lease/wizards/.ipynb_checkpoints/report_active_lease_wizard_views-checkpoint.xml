@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="report_active_lease_wizard_form_view" model="ir.ui.view">
+			<field name="name">report.active.lease.wizard.form.view</field>
+			<field name="model">report.active.lease.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Inventory Valuation">
+                    <group>
+                        <group>
+                        </group>
+                        <group>
+                           
+                        </group>
+                    </group>
+                    
+                    
+				
+					<footer>
+						<button name="print_report" type="object" string="Print" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_report_active_lease_wizard" model="ir.actions.act_window">
+			<field name="name">Active Lease Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">report.active.lease.wizard</field>
+			<field name="view_id" ref="report_active_lease_wizard_form_view" />
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+        
+        <menuitem action="action_report_active_lease_wizard" id="report_active_lease_report_item" name="Active Lease Report" parent="de_purchase_subscription.purchase_subscription_report_menu" sequence="110"/>
+
+
+    </data>
+</odoo>

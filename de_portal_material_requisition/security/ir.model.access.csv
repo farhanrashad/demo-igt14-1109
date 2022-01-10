@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_transfer_order,access.stock.transfer.order,model_stock_transfer_order,,1,1,1,1
+access_stock_transfer_order_stage,access.stock.transfer.order.stage,model_stock_transfer_order_stage,,1,1,1,1
+access_res_partner,access.res.partner,model_res_partner,,1,1,1,1

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Partner Stage Views -->
+    <record id="contact_stage_view_list" model="ir.ui.view">
+        <field name="name">contact.stage.view.list</field>
+        <field name="model">res.partner.stage</field>
+        <field name="arch" type="xml">
+            <tree string="Custom Entry Stages">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="category_ids"/>
+                <field name="stage_code" optional="hide"/>
+                <field name="stage_category"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="contact_stage_view_form" model="ir.ui.view">
+        <field name="name">contact.stage.form</field>
+        <field name="model">res.partner.stage</field>
+        <field name="arch" type="xml">
+            <form string="Subscription Stage">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="stage_code"/>
+                            <field name="sequence" groups="base.group_no_one"/>
+                            <field name="category_ids" widget="many2many_tags" groups="base.group_no_one"/>
+                            <field name="next_stage_id"/>
+                            <field name="prv_stage_id"/>
+                        </group>
+                        <group>
+                            <field name="fold"/>
+                            <field name="stage_category" widget="radio"/>
+                            <field name="group_id" options="{'no_create': True,'no_open':True}" />
+                        </group>
+                    </group>
+                    <separator string="Requirements"/>
+                    <field name="description"
+                           placeholder="Give your team the requirements to move a subscription to this stage."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+		<record id="action_contact_stage" model="ir.actions.act_window">
+			<field name="name">Contact Stage</field>
+			<field name="res_model">res.partner.stage</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new contact stage
+				</p>
+               
+			</field>
+		</record>
+    
+	<menuitem id="menu_partner_stage_form"
+        action="action_contact_stage"
+        name="Contact Stage"
+        sequence="5" parent="contacts.res_partner_menu_config"/>
+    
+    <!-- Partner Views -->
+    <record id='view_partner_form_inherit_validation' model='ir.ui.view'>
+        <field name="name">view.partner.form.inherit.validation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="/form/*" position="before">
+                <header>
+                    <button name="button_submit" groups="de_contact_validation.group_contact_user" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible':[('stage_category','!=','draft')]}"/>
+                    <button name="button_confirm"  groups="de_contact_validation.group_contact_manager" string="Approve" type="object" class="oe_highlight" attrs="{'invisible':[('stage_category','!=','progress')]}"/>
+                    <button name="button_draft"  groups="de_contact_validation.group_contact_manager" string="Reset to Draft" type="object" attrs="{'invisible':[('stage_category','not in',['progress','confirm'])]}"/>
+
+                    <field name="state" widget="statusbar" invisible="1" options="{'readonly': '1'}"/>
+                    <field name="stage_id" widget="statusbar" />
+                    <field name="stage_category" invisible="1" />
+                </header>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Partner Tree View-->
+    <record id='view_partner_tree_inherit_validation' model='ir.ui.view'>
+        <field name="name">view.partner.tree.inherit.validation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//tree" position="inside">
+                <field name="state" invisible="1"/>
+                <field name="stage_id" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id='view_partner_kanban_inherit_validation' model='ir.ui.view'>
+        <field name="name">view.partner.kanban.inherit.validation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <field name="type" position="after">
+                <field name="state" />
+            </field>
+            <xpath expr="//div[hasclass('oe_kanban_details')]" position="inside">
+                <span  t-attf-class="fa fa-thumbs-up text-success" t-if="record.state.raw_value == 'approved'" t-attf-style="font-weight:bold;"> <t t-esc="record.state.value"/></span>
+                <span  t-attf-class="fa fa-check text-warning" t-if="record.state.raw_value == 'to_approve'" t-attf-style="font-weight:bold;"> <t t-esc="record.state.value"/></span>
+                 <span  t-attf-class="fa fa-times text-danger" t-if="record.state.raw_value == 'draft'" t-attf-style="font-weight:bold;"> <t t-esc="record.state.value"/></span>
+            </xpath>
+        </field>
+    </record>
+    
+    <record id='view_res_partner_filter_inherit_validation' model='ir.ui.view'>
+        <field name="name">view.res.partner.filter.inherit.validation</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='type_company']" position="after">
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="To Approve" name="to_approve" domain="[('state', '=', 'to_approve')]"/>
+                <filter string="Approved" name="approved" domain="[('state', '=', 'approved')]"/>
+                
+            </xpath>
+            <xpath expr="//filter[@name='salesperson']" position="after">
+                <filter name="state" string="Status" domain="[]" context="{'group_by' : 'state'}" />
+
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

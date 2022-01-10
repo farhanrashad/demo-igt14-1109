@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="base.lang_en" model="res.lang">
+        <field name="date_format">%d-%b-%Y</field> 
+    </record>
+    
+    <record id='fleet_request_view_form' model='ir.ui.view'>
+        <field name="name">fleet.request.form</field>
+        <field name="model">fleet.request</field>
+        <field name="arch" type="xml">
+            <form string="Fleet Request">
+                <header>
+                    <button name="action_confirmed" states="new" groups='de_employee_fleet_request.group_fleet_employee' string="Confirm" type="object" class="oe_highlight"/>               
+<!--                     <button name="action_approved" states="confirmed" groups='de_employee_fleet_request.group_fleet_user'  string="Approve" type="object" class="oe_highlight"/>                   -->
+                    <button name="%(de_employee_fleet_request.action_assign_fleet_wizard_view)d"  states="second_approved" string="Assign Fleet" type="action" class="oe_highlight"/>
+                    <button name="lm_approve" string="LM Approve" type="object" class="oe_highlight"
+                            attrs="{'invisible': ['|',('state', 'not in', 'confirmed'),('is_line_manager', '!=', True)]}"/>
+                    <button name="admin_approve" string="Admin Approve" type="object" class="oe_highlight"
+                            groups='de_employee_fleet_request.group_fleet_user'
+                            attrs="{'invisible': [('state', 'not in', 'first_approved')]}"/>
+                    <button name="action_returned" states="assigned" string="Return" type="object" class="oe_highlight"/>
+                    <button name="rejected" string="Rejected" type="object" class="oe_highlight"
+                            attrs="{'invisible': [('state', 'not in', ('confirmed','first_approved') )]}"/>
+                    <field name="state" widget="statusbar" options="{'readonly': '1'}"/>
+                </header>
+                <sheet>
+                    <field name="image_fleet_request" widget='image' class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="number" readonly="1"/>
+                        </h1>
+                        <label for="request_for" class="oe_edit_only" attrs="{'readonly':[('state','!=','new')]}"/>
+                        <h1>
+                            <field name="request_for" placeholder="" attrs="{'readonly':[('state','!=','new')]}"/>
+                        </h1>
+                    </div>
+                    <group col="2">
+                        <group>
+                            
+                            <field name="request_to" attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="request_date"  attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="start_date"  attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="end_date"  attrs="{'readonly':[('state','!=','new')]}"/>
+                        </group>
+                        <group>
+                            <field name="employee"  attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="department" />
+                            <field name="project"  attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="task" domain="[('project_id','=',project)]" attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="created_by" attrs="{'readonly':[('state','!=','new')]}"/>
+                            <field name="line_manager"/>
+                            <field name="is_line_manager" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Vehicle Assigned" groups='de_employee_fleet_request.group_fleet_user' >
+                        <field name="requested_model" readonly="1"/>
+                        <field name="license_plate" readonly="1" class="oe_inline" placeholder="e.g. PAE 326"/>
+                    </group>
+                    <notebook>
+                        <page string="General Information">
+                            <form>
+                                <group string="Vehicle Request Reason">
+                                    <field name="request_details" nolabel="1" placeholder="Request Details..." attrs="{'readonly':[('state','!=','new')]}"/>
+                                </group>
+                            </form>
+                        </page>
+                        
+                        <page string="Other Information">
+                            <group col="2">
+                                <group>
+                                    <field name="confirm_by"/>
+                                    <field name="approve_by"/>
+                                    <field name="assign_by"/>
+                                    <field name="return_by"/>
+                                </group>
+                                <group>
+                                    <field name="confirm_date" />
+                                    <field name="approve_date"/>
+                                    <field name="assign_date" />
+                                    <field name="return_date" />
+                                </group>
+                            </group> 
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id='fleet_request_view_tree' model='ir.ui.view'>
+        <field name="name">fleet.request.tree</field>
+        <field name="model">fleet.request</field>
+        <field name="arch" type="xml">
+            <tree string="Fleet Request">
+                <field name="number"/>
+                <field name="request_for"/>
+                <field name="license_plate"/>
+                <field name="request_to"/>
+                <field name="request_date"/>
+                <field name="employee"/>
+                <field name="department"/>
+                <field name="requested_model"/>
+                <field name="requested_brand_id"/>
+                <field name="project"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id='fleet_request_view_kanban' model='ir.ui.view'>
+        <field name="name">fleet.request.kanban</field>
+        <field name="model">fleet.request</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" >
+                <field name="number"/>
+                <field name="request_to"/>
+                <field name="employee"/>
+                <field name="project"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <div class="oe_kanban_details">
+                                <t class="o_kanban_record_title">
+                                     <b>Number: </b>
+                                    <strong t-esc="record.number.value"/>
+                                </t>
+                                <div t-if="record.request_to.value">
+                                     <b>Request To: </b>
+                                    <t t-esc="record.request_to.value"/>
+                                </div>
+                                <div t-if="record.employee.value">
+                                    <b>Employee: </b>
+                                    <t t-esc="record.employee.value"/>
+                                </div>
+                                <div t-if="record.project.value">
+                                    <b>Project: </b>
+                                    <t t-esc="record.project.value"/>
+                                </div>
+                                <div t-if="record.start_date.value">
+                                    <b>Start Date: </b>
+                                    <t t-esc="record.start_date.value"/>
+                                </div>
+                                <div t-if="record.end_date.value">
+                                    <b>End Date: </b>
+                                    <t t-esc="record.end_date.value"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="fleet_request_view_pivot" model="ir.ui.view">
+        <field name="name">fleet.request.pivot</field>
+        <field name="model">fleet.request</field>
+        <field name="arch" type="xml">
+            <pivot string="Fleet Request" disable_linking="True">
+                <field name="request_to"/>
+                <field name="employee"/>
+                <field name="project"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="fleet_request_view_calendar" model="ir.ui.view">
+        <field name="name">fleet.request.calendar</field>
+        <field name="model">fleet.request</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendar" date_start="start_date" color="id" mode="month" quick_add="False">
+                <field name="employee"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="number"/>
+            </calendar>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="fleet_request_view_graph">
+        <field name="name">fleet.request.graph</field>
+        <field name="model">fleet.request</field>
+        <field name="arch" type="xml">
+            <graph string="Graph" type="bar" orientation="vertical" stacked="True" sample="1">
+                <field name="state" type="col"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_fleet_request_view" model="ir.actions.act_window">
+        <field name="name">Fleet Request</field>
+        <field name="res_model">fleet.request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form,kanban,calendar,pivot,graph</field>
+        <field name="domain">[]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Fleet Requests...
+            </p>
+        </field>
+    </record>
+
+    <record id="action_fleet_request_view_to_assign" model="ir.actions.act_window">
+        <field name="name">Fleet Request To Assign</field>
+        <field name="res_model">fleet.request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,kanban,calendar,pivot,graph</field>
+        <field name="domain">[('state', '=', 'assigned')]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Fleet Requests...
+            </p>
+        </field>
+    </record>
+
+    <record id="action_fleet_request_view_to_approve" model="ir.actions.act_window">
+        <field name="name">Fleet Request to Approve</field>
+        <field name="res_model">fleet.request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,kanban,calendar,pivot,graph</field>
+        <field name="domain">[('state', '=', 'approved')]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Fleet Requests...
+            </p>
+        </field>
+    </record>
+
+    <record id="action_fleet_request_view_to_return" model="ir.actions.act_window">
+        <field name="name">Fleet Request To Return</field>
+        <field name="res_model">fleet.request</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,kanban,calendar,pivot,graph</field>
+        <field name="domain">[('state', '=', 'returned')]</field>
+        <field name="context">{}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Fleet Requests...
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="fleet_request_root_menu_0" name="Fleet Request"
+              active="True"
+              sequence="0"/>
+
+
+    <menuitem id="fleet_request_menu" name="Fleet Request" parent="fleet_request_root_menu_0"
+              sequence="0" />
+
+    <menuitem id="fleet_request_menu_1" name="Fleet Request" parent="fleet_request_menu"
+              action="de_employee_fleet_request.action_fleet_request_view"
+              sequence="1" />
+    <menuitem id="fleet_request_menu_2" name="Fleet Request to Approve" parent="fleet_request_menu"
+              action="de_employee_fleet_request.action_fleet_request_view_to_approve"
+              sequence="2" />
+    <menuitem id="fleet_request_menu_3" name="Fleet Request to Return" parent="fleet_request_menu"
+              action="de_employee_fleet_request.action_fleet_request_view_to_return"
+              sequence="3" />
+    <menuitem id="fleet_request_menu_4" name="Fleet Requests to Assign" parent="fleet_request_menu"
+              action="de_employee_fleet_request.action_fleet_request_view_to_assign"
+              sequence="4" />
+
+    <record id="fleet_seq_num_view" model="ir.sequence">
+        <field name="name">Fleet Request</field>
+        <field name="code">fleet.request.sequence</field>
+        <field name="prefix">Vehicle/Request/</field>
+        <field name="padding">4</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

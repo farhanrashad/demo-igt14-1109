@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="employee_details_report" model="ir.actions.report">
+            <field name="name">Employee Details Report</field>
+            <field name="model">hr.employee</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_hr_employee_details_report.hr_employee_report_xlsx</field>
+            <field name="report_file">Employee Details Report</field>
+            <field name="binding_model_id" ref="hr.model_hr_employee"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

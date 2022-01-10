@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+        <data>            
+            
+        <!-- hr employee inherited form view -->
+	  <record id="hr_employee_form_view_inh_social" model="ir.ui.view">
+			<field name="name">hr.employee.form.inh.social</field>
+			<field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='hr_settings']" position='after'>
+				 <page string="Social Links">
+					 <field name="social_link_ids">
+							<tree  editable="bottom">
+                                <field name="name" options="{'no_create':True,'no_open':True}"/>
+                                <field name="social_icon" widget="image" options="{'size':[0,15]}"/>
+                                <field name="social_link"/>
+							</tree>
+					 </field>
+				 </page>
+                </xpath>
+            </field>
+     </record>
+        
+        
+      <record id="view_social_type_link_form" model="ir.ui.view">
+		<field name="name">hr.employee.social.type.form</field>
+		<field name="model">hr.employee.social.type</field>
+		<field name="arch" type="xml">
+			<form string="Social Link Types">
+				<sheet>
+                    <div name="social">
+                            <group name="social">
+                                <field name="name"/>
+                            </group>
+                        </div>
+                        <div name="logo">
+                            <group name="social_icon">
+                                <field name="social_icon" widget="image" class="oe_avatar float-left"/>
+                            </group>
+                        </div>
+
+				</sheet>
+			</form>
+
+		</field>
+	</record>
+
+
+	<record id="view_social_type_link_tree" model="ir.ui.view">
+		<field name="name">hr.employee.social.type.tree</field>
+		<field name="model">hr.employee.social.type</field>
+		<field name="arch" type="xml">
+
+			<tree string="Social Link Types Tree">
+                <field name="name"/>
+<!--                 <field name="social_icon" widget="image"/> -->
+<!--                 <field name="link"/> -->
+			</tree>
+
+		</field>
+	</record>
+
+	<record id="view_social_type_link_search" model="ir.ui.view">
+		<field name="name">student.data.search</field>
+		<field name="model">hr.employee.social.type</field>
+		<field name="arch" type="xml">
+
+			<search string="Social Link Types">
+                <field name="name" />
+			</search>
+		</field>
+	</record>
+    
+	<record id="action_view_social_type_link_new" model="ir.actions.act_window">
+		<field name="name">Social Link Types</field>
+		<field name="res_model">hr.employee.social.type</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+        <field name="view_id" ref="de_employee_social_links.view_social_type_link_tree" />
+<!-- 		<field name="search_view_id" ref="view_social_type_link_search" /> -->
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Add Social Link Types ...
+			</p>
+		</field>
+	</record>  
+        
+            <record id="hr_employee_kanban_view_inh_social" model="ir.ui.view">
+                    <field name="name">hr.employee.kanban</field>
+                    <field name="model">hr.employee</field>
+                    <field name="inherit_id" ref="hr.hr_kanban_view_employees"/>
+                    <field name="arch" type="xml">
+                    <xpath expr="//div[hasclass('oe_kanban_details')]" position="inside">
+            
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_bottom">
+                                <div class="oe_kanban_bottom_left"/>
+                                <div class="oe_kanban_bottom_left">
+<!--                     <a href="https://wa.me/+923016268860" target="_blank" title="WhatsApp" icon="fab fa-whatsapp"  role="button"><i class="fa fa-whatsapp"/>  </a>
+                    <a href="https://www.facebook.com/Musadiq.fiaz" target="_blank" title="Facebook" icon="fab fa-facebook-f"  role="button"><i class="fa fa-facebook-f"/> </a>
+                                    <button name='social_links' title="Facebook" type="object" > <i class="fa fa-facebook-f"/> </button> -->
+                                    
+<!--                                     <div class="float-right" t-if="record.hr_icon_display.raw_value == 'presence_absent_active'" name="presence_present"> -->
+                                                <!--Employee is connected but according to his work schedule,
+                                                     he should not work for now  -->
+<!--                                 <span class="fa fa-whatsapp text-success" role="button" aria-label="Present" title="WhatsApp" name="presence_absent_active"  href="https://www.facebook.com/Musadiq.fiaz" target="_blank">
+                                </span> -->
+<!--                                             </div> -->
+
+                                </div>
+                             </div>
+                        </div>
+            
+                    </xpath>
+           </field>
+    </record>
+
+	          
+    
+    <menuitem id="socail_link_id_type_menu_new" name="Social Link Types" parent="hr.menu_human_resources_configuration"
+              action="action_view_social_type_link_new"
+                sequence="101" />
+
+    
+    </data>
+        
+</odoo>
+
+
+<!-- <img src='/de_employee_social_links/static/src/images/a.png' alt="link"/> -->

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_op_penalty_config_user,access.op.penalty.config.user,model_op_penalty_config,group_operations_penalty_user,1,1,1,1
+access_op_penalty_config_line_user,access.op.penalty.config.line.user,model_op_penalty_config_line,group_operations_penalty_user,1,1,1,1
+access_op_penalty_config_occur_line_user,access.op.penalty.config.occur.line.user,model_op_penalty_config_occur_line,group_operations_penalty_user,1,1,1,1
+access_op_penalty_config_sow_user,access.op.penalty.config.sow.user,model_op_penalty_config_sow,group_operations_penalty_user,1,1,1,1
+access_op_penalty_config_sow_type_user,access.op.penalty.config.sow.type.user,model_op_penalty_config_sow_type,group_operations_penalty_user,1,1,1,1
+access_op_penalty_config_sow_line_user,access.op.penalty.config.sow.line.user,model_op_penalty_config_sow_line,group_operations_penalty_user,1,1,1,1
+access_custom_entry_type_manager,access.custom.entry.type.manager,de_custom_journal_entry.model_account_custom_entry_type,group_operations_penalty_manager,1,1,1,1
+access_custom_entry_type_user,access.custom.entry.type.user,de_custom_journal_entry.model_account_custom_entry_type,group_operations_penalty_user,1,0,0,0
+access_custom_entry_stage_manager,access.custom.entry.stage.manager,de_custom_journal_entry.model_account_custom_entry_stage,group_operations_penalty_manager,1,1,1,1
+access_custom_entry_stage_user,access.custom.entry.stage.user,de_custom_journal_entry.model_account_custom_entry_stage,group_operations_penalty_user,1,0,0,0
+access_custom_entry_manager,access.custom.entry.manager,de_custom_journal_entry.model_account_custom_entry,group_operations_penalty_user,1,1,1,1
+access_custom_entry_line_manager,access.custom.entry.line.manager,de_custom_journal_entry.model_account_custom_entry_line,group_operations_penalty_user,1,1,1,1

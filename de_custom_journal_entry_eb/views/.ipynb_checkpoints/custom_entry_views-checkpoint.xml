@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_custom_entry_form_view_inherit_eb" model="ir.ui.view">
+            <field name="name">account.custom.entry.form.view.inehrit.eb</field>
+            <field name="model">account.custom.entry</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet[1]" position="inside">
+                    <field name="has_electricity" invisible="1"/>
+                    
+                </xpath>
+                <xpath expr="//page[@name='custom_entry_line']/field[@name='custom_entry_line']/tree[1]" position="inside">
+                    <!-- Electricity -->
+                    <field name="e_paid_to" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="amount_advanced" sum="advanced" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="date_bill_from" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="date_bill_to" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="meter_number" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="opening_reading" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="closing_reading" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="additional_unit" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="total_unit" sum="Total Units" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="maintainence_fee" sum="Maintenance Fee" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="hp_fee" sum="Horsepower Fee" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="KHW_charges" sum="KWH Charges" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="actual_KHW_charges" sum="Actual KWH" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="other_charges" sum="Other Chrages" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>
+                    <field name="amount_total_electricity" sum="Total Electricity" attrs="{'column_invisible':[('parent.has_electricity','==','no')], 'required': [('parent.has_electricity','==','required')]}"/>   
+                    
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string="History" name="studio_page_Y2JHj">
+                        <field name="custom_entry_eb_history_line" widget="one2many_list">
+                            <tree string="Custom Entry Line" editable="bottom">
+                                <field name="company_id" invisible="1" />
+                                <field name="currency_id" invisible="1" />
+                                <field name="project_id" />
+                                <field name="amount" />
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                
+            </field>
+    </record>
+</odoo>

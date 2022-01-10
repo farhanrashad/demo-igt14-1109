@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+1,access_fleet_fuel,model_fleet_fuel,base.group_user,1,1,1,1
+2,access_add_fuel,model_add_fuel,base.group_user,1,1,1,1
+3,access_fuel_history,model_fuel_history,base.group_user,1,1,1,1
+4,access_vehicle_fuel_log,model_vehicle_fuel_log,base.group_user,1,1,1,1
+5,access_fleet_vehicle_user_log,model_fleet_vehicle_user_log,base.group_user,1,1,1,1

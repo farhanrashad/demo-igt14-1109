@@ -1,0 +1,24 @@
+<odoo>
+  <data>
+    <record id="purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="show_message" type="object"  string="Message" class="oe_highlight" invisible="1" />
+
+                </xpath>
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field name="partner_id" widget="res_partner_many2one" context="{'res_partner_search_mode': 'supplier', 'show_vat': True}" placeholder="Name, TIN, Email, or Reference" domain="[('id','=',partner_ids)]" options="{'no_create':True}"/>
+                </xpath>
+                <xpath expr="//group[1]" position="after">
+                    <group>
+                        <field name="partner_ids" widget="many2many_tags" readonly="1" invisible="1"/>
+                    </group>
+                    
+                </xpath>
+        </field>
+    </record>
+  </data>
+</odoo>

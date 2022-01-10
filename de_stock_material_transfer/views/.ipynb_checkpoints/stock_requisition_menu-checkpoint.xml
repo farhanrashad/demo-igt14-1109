@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="stock_order_transfer_root_menu" name="Requisition" active="True" web_icon="de_stock_material_transfer,static/description/icon.png" sequence="105"/>
+
+    
+    <menuitem id="stock_requisition_main_menu" name="Requisitions" parent="stock_order_transfer_root_menu" sequence="4"/>
+    <menuitem id="stock_requisition_config_menu" name="Configuration" parent="stock_order_transfer_root_menu" sequence="40" groups="group_stock_requisition_manager"/>
+</odoo>

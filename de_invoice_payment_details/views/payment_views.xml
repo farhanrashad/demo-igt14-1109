@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+    <record id="account_move_form_view_inherit_approval" model="ir.ui.view">
+		<field name="name">account.move.form.view.inherit.approvals</field>
+		<field name="model">account.move</field>
+		<field name="inherit_id" ref="account.view_move_form" />
+		<field name="arch" type="xml">
+			
+            <xpath expr="//notebook//page[@name='other_info']" position="after">
+                <page id="payment_tab" string="Payments" name="payment_vals">
+                 <field name="invoice_payment_ids" > 
+                    <tree>
+                        <field name="name"/>
+                        <field name="journal_id"/>
+                        <field name="amount"/>
+                        <field name="state"/>
+                    </tree>
+                </field> 
+                </page>     
+			</xpath>
+		</field>
+	</record>
+     
+  </data>
+</odoo>

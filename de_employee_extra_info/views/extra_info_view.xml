@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <record id="extra_info_view" model="ir.ui.view">
+            <field name="name">hr.employee.extra.info.form</field>
+            <field name="model">hr.employee.extra.info</field>
+            <field name="arch" type="xml">
+
+                    <form string="Extra Info">
+                        <sheet>
+                            <group>
+                                <field name="extra_info" />
+                            </group>
+                            <group>
+                                <field name="employee_info_type_id" />
+                            </group>
+                            <group>
+                                <field name="name" />
+                            </group>
+                        </sheet>
+                    </form>
+            </field>
+        </record>
+
+        <record id="extra_info_tree" model="ir.ui.view">
+            <field name="name">hr.employee.extra.info.tree</field>
+            <field name="model">hr.employee.extra.info</field>
+            <field name="arch" type="xml">
+                    <tree string="Extra Info">
+                        <field name="extra_info" />
+                        <field name="name" />
+                        <field name="employee_info_type_id" />
+                    </tree>
+            </field>
+        </record>
+
+        <record id="action_extra_info_view" model="ir.actions.act_window">
+            <field name="name">Extra Info</field>
+            <field name="res_model">hr.employee.extra.info</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Add Records...
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="extra_info_menu" name="Extra Info" parent="hr.menu_hr_root"
+                  action="de_employee_extra_info.action_extra_info_view"
+                  sequence="5" />
+</odoo>

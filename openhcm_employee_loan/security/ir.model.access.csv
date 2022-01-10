@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_employee_loan,employee.loan,model_employee_loan,,1,1,1,1
+access_employee_loan_installment,employee.loan.installment,model_employee_loan_installment,,1,1,1,1
+access_employee_loan_type,employee.loan.type,model_employee_loan_type,,1,1,1,1
+access_refuse_order,refuse.order,model_refuse_order,,1,1,1,1

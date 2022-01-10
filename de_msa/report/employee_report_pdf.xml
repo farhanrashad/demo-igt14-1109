@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+	<data>
+	
+		<record id="action_employee_pdf" model="ir.actions.report">
+			<field name="name">Employee Report</field>
+			<field name="model">test.training</field>
+			<field name="report_type">qweb-pdf</field>
+			<field name="report_name">test_training.employee_report_templet</field>
+		</record>
+	
+		<template id="employee_report_templet">
+			<t t-call="web.html_container">
+				<t t-call="web.external_layout">
+				
+					<div class="page">
+						<h1>Employee Data</h1>
+						
+						<table class="table table-condensed">
+							<tr>
+								<td>Employee Name</td>
+								<td><span t-esc="rec.name" /></td>
+							</tr>
+							<tr>
+								<td>Age</td>
+								<td><span t-esc="rec.age" /></td>
+							</tr>
+							<tr>
+								<td>Contact</td>
+								<td><span t-esc="rec.phone_no" /></td>
+							</tr>
+							<tr>
+								<td>Address</td>
+								<td><span t-esc="rec.address" /></td>
+							</tr>
+							
+
+						</table>
+
+					</div>
+				</t>
+			</t>
+		</template>
+	</data>
+</openerp>

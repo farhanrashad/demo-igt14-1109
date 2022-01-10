@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_invoice_payment_details_de_invoice_payment_details,de_invoice_payment_details.de_invoice_payment_details,model_de_invoice_payment_details_de_invoice_payment_details,base.group_user,1,1,1,1

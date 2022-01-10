@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <record id="action_purchase_subscription_deductions_all" model="ir.actions.act_window">
+        <field name="name">Subscriptions</field>
+        <field name="res_model">purchase.subscription</field>
+        <field name="view_mode">kanban,tree,form</field>
+        <field name="domain">[('subscription_type_id', '=', active_id)]</field>
+    </record>
+    
+    <!-- Type Deductions -->
+    <record id="purchase_subscription_type_form_view_inheirt_deductions" model="ir.ui.view">
+            <field name="name">purchase.subscription.type.form.view.inherit.deductions</field>
+            <field name="model">purchase.subscription.type</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_type_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[2]" position="after">
+                    <group>
+                        <group string="Deductions" name="deductions">
+                            <field name="deduction_label_types" />
+                            <field name="move_type" widget="radio" />
+                            <field name="journal_id" string="Deduction Journal" />
+                        </group>
+                    </group>
+                </xpath>
+            </field>
+    </record>
+    
+    <record id="purchase_subscription_deductions_type_view_kanban" model="ir.ui.view">
+        <field name="name">purchase.subscription.type.views.kanban</field>
+        <field name="model">purchase.subscription.type</field>
+        <field name="arch" type="xml">
+            <kanban class="oe_background_grey o_kanban_dashboard o_emphasize_colors o_stock_kanban" create="0">
+                <field name="name"/>
+                <field name="id"/>
+                <field name="image"/>
+                <field name="color"/>
+                <field name="label_types"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="#{!selection_mode ? kanban_color(record.color.raw_value) : ''}" name="subscription_type">
+                            <div>
+                                <div t-attf-class="o_kanban_card_header">
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <t t-if="record.id">
+                                <img t-att-src="kanban_image('purchase.subscription.type', 'image', record.id.raw_value)" alt="Approvals Types Image"
+                                    class="oe_kanban_avatar float-left mr-3" width="64" height="64"/>
+                            </t>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <a name="%(action_purchase_subscription_deductions_all)d" type="action">
+                                                <field name="name"/>
+                                            </a>
+                                        </div>
+                                        <div class="o_primary" t-if="selection_mode">
+                                           <field name="name"/>
+                                        </div>
+                                        <div class="o_secondary">
+                                            <field class="o_secondary" name="description" readonly="1" />
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_card_header_title">
+                                        <div class="o_primary" t-if="!selection_mode">
+                                            <button type="object" class="btn btn-primary btn-sm" name="create_deduction_invoice" context="{'subscription_type_id':'active_id'}"><field name="deduction_label_types"/></button>
+
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section" t-if="!selection_mode">
+                                            <a class="o_kanban_manage_toggle_button" href="#"><i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/></a>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_content" t-if="!selection_mode">
+                                    <div class="row mt16">
+                                        <div class="col-6 o_kanban_primary_left">
+                                             <div class="col-12">
+                                                 Running
+
+                                            </div>
+                                        </div>
+                                        <div class="col-6 o_kanban_primary_right">
+                                             <div class="col-12">
+                                                 Bill to Validate
+
+                                            </div>
+                                            <div class="col-12">
+                                                Bill to Pay
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="container o_kanban_card_manage_pane dropdown-menu" role="menu">
+                                    <div class="row">
+                                        <div class="col-6" role="menuitem" aria-haspopup="true">
+                                            <ul class="oe_kanban_colorpicker" data-field="color" role="menu"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+     <!-- Subscription Dashbaord -->
+    <record id="action_subscription_deduction_type" model="ir.actions.act_window">
+        <field name="name">Deductions</field>
+        <field name="res_model">purchase.subscription.type</field>
+        <field name="view_mode">kanban</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                (0, 0, {'view_mode': 'kanban', 'view_id': ref('purchase_subscription_deductions_type_view_kanban')})]"/>
+    </record>
+		
+		<menuitem id="purchase_subscription_purchase_subscription_agreement_deductions_menu" name="Deductions" parent="operations_purchase_menu" action="action_subscription_deduction_type" sequence="2" />
+			
+</odoo>
+
+

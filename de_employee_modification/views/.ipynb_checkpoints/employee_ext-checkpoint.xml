@@ -1,0 +1,153 @@
+<?xml version="1.0" ?>
+
+<odoo>
+
+<!--    employee ext form view-->
+    <record id="de_employee_modification.employee_inherit_view_form" model="ir.ui.view">
+            <field name="name">employee inherit view form</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page string="Public Information">
+                        <group>
+                            <group string="Contact Information">
+                                <field name="skype_id"/>
+                                <field name="whatsapp"/>
+                                <field name="assign_region"/>
+                                <field name="company_id"/>
+                                <field name="contact_name"/>
+                                <field name="contact_email"/>
+                                <field name="contact_phone"/>
+                                <field name="contact_country"/>
+                            </group>
+                            <group string="Position">
+                                <field name="desk"/>
+                                <field name="is_able_to_edit"/>
+                                <field name="analytic_account_id"/>
+                                <field name="manager"/>
+                                <field name="level"/>
+                            </group>
+                            <group string="Department Hierarchy">
+                                <field name="root_department_id"/>
+                                <field name="sub_team_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group string=" ">
+                                <field name="company_id"/>
+                                <field name="visibility"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Personal Information">
+                        <group>
+                            <group string="Citizenship and Other Info">
+                                <field name="ssnid"/>
+                                <field name="sinid"/>
+                                <field name="nationality"/>
+                                <field name="religion"/>
+                                <field name="passport_id"/>
+                                <field name="passport_expiring_date"/>
+                                <field name="ssb"/>
+                                <field name="tax_book_no"/>
+                                <field name="visa_number"/>
+                                <field name="visa_expiring_date"/>
+                                <field name="frc_number"/>
+                                <field name="frc_expiring_date"/>
+                                <field name="next_visa_trip_date"/>
+                                <field name="bank_account_id"/>
+                                <field name="bank_account_local_id"/>
+                                <field name="b_to_b_sim_no"/>
+                                <field name="pay_grade"/>
+                                <field name="number_of_dependents_hr"/>
+                                <field name="medical_insurance"/>
+                                <field name="medical_insurance_us"/>
+                                <field name="dependent_medical_insurance"/>
+                                <field name="dependent_medical_insurance_us"/>
+                                <field name="life_insurance"/>
+                                <field name="life_cover"/>
+                                <field name="personal_accident"/>
+                                <field name="personal_accident_cover_us"/>
+                                <field name="categories"/>
+                                <field name="housing_allowance"/>
+                                <field name="education_allowance"/>
+                                <field name="notice_period_months"/>
+                                <field name="contract_based"/>
+                                <field name="assigned_team"/>
+                                <field name="assigned_category"/>
+                                <field name="housing_allowance_actual"/>
+                                <field name="housing_allowance_period_from"/>
+                                <field name="housing_allowance_period_to"/>
+                                <field name="post_paid_ph_card_user"/>
+                                
+                            </group>
+                            <group string="Contact Information">
+                                <field name="address_home_id"/>
+                                <field name="myanmar_address_obsolete"/>
+                                <field name="myanmar_address_current"/>
+                                <field name="myanmar_address"/>
+                            </group>
+                            <group string="Emergency Contact">
+                                <field name="emergency_contact_name"/>
+                                <field name="emergency_contact_email"/>
+                                <field name="emergency_contact_phone"/>
+                                <field name="emergency_contact_country"/>
+                            </group>
+                            <group string="Status">
+                                <field name="num_dependents"/>
+                            </group>
+                            <group string="Family Information">
+                                <field name="family_name"/>
+                                <field name="relationship"/>
+                                <field name="passport"/>
+                                <field name="date_of_birth"/>
+                                <field name="is_dependant"/>
+                            </group>
+                            <group string="Birth">
+                                <field name="employee_age"/>
+                            </group>
+                        </group>
+                    </page>
+                    <page string="Notes">
+                        <field name="notes"/>
+                    </page>
+                </notebook>
+                <xpath expr="//page[@name='hr_settings']" position="inside">
+                    <group>
+                        <group string="Contract">
+                            <field name="medic_exam"/>
+                            <field name="vehicle"/>
+                            <field name="vehicle_distance"/>
+                        </group>
+                        <group string="Appraisals">
+                            <field name="evaluation_plan_id"/>
+                            <field name="evaluation_date"/>
+                        </group>
+                        <group string="TimeSheets">
+                            <field name="product_id"/>
+                            <field name="journal_id"/>
+                        </group>
+                        <group string="Active">
+
+                            <field name="active"/>
+                            <field name="induction_pack_received"/>
+                            <field name="is_blacklist"/>
+                            <field name="fingerprint_id"/>
+                        </group>
+                        <group>
+                            <field name="emp_state"/>
+                        </group>
+
+                    </group>
+                    <button name="action_check_in" type="object" string="Check In" class="oe_highlight"
+                            attrs="{'invisible':[('emp_state', '!=', 'absent')]}"
+                    />
+                    <button name="action_check_out" type="object" string="Check Out" class="oe_highlight"
+                            attrs="{'invisible':[('emp_state', '!=', 'present')]}"
+                    />
+                </xpath>
+            </field>
+        </record>
+
+</odoo>

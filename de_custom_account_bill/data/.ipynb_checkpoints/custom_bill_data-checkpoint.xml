@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data noupdate="0">
+        <record id="custom_account_bill_seq" model="ir.sequence">
+            <field name="name">Custom Bills</field>
+            <field name="code">custom.account.bill.seq</field>
+            <field name="prefix">EB/</field>
+            <field name="padding">5</field>
+            <field name="id" eval="False"/>
+        </record>
+    </data>
+
+</odoo>
+
+
+
+
+
+

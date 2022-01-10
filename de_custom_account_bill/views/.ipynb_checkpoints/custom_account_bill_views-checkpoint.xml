@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="account_custom_bill_form_view" model="ir.ui.view">
+            <field name="name">account.custom.bill.form.view</field>
+            <field name="model">account.custom.bill</field> 
+            <field name="arch" type="xml">
+                <form string="Electricity Bill">
+                    <header>
+                        <button name='action_confirm' string="Confirm" type="object" states='draft'                                 class='oe_highlight'/>
+                        
+                        <button name='create_advance_bill' string="Create Advance Bill" type="object" states='confirm'
+                                class='oe_highlight'/>
+                        
+                        <button name='create_actual_bill' string="Generate Bill" type="object"
+                                class='oe_highlight' states="provision"/>
+
+                        <button name='action_done' string="Done" type="object" states='approved'
+                                class='oe_highlight'/>
+
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,confirm,provision,paid,done"/>
+                    </header>
+
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button name="get_VendorBill"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-list-alt"
+                                    attrs="{'invisible': [('bill_count','=', 0)]}">
+                                <field name="bill_count" widget="statinfo" nolabel="1"/>
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Vendor Bill</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        
+                        <group>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="ref"/>
+                                <field name="custom_bill_type_id" options="{'no_create':True,'no_open':True}"/>
+                                <field name="currency_id" />
+                            </group>
+                            <group>
+                                <label string="Date" for="date_from"/>
+                                <div class="o_row">
+                                    <field name="date_from" widget="daterange" options="{&quot;related_end_date&quot;: &quot;date_to&quot;}"/>
+                                    <strong> to </strong>
+                                    <field name="date_to" widget="daterange" options="{&quot;related_start_date&quot;: &quot;date_to&quot;}"/>
+                                </div>
+                                <field name="invoice_date"/>
+                                <field name="date_confirm"/>
+                                <field name="date_advance_payment"/>
+                                <field name="date_actual_bill"/>
+                                <field name="amount_forecast"/>
+                                <field name="total_amount"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="description" placeholder="Write bill details"/>
+                        </group>
+                        <notebook>
+                            <page string='Bill Details' name="bill_details">
+                                <field name="custom_bill_line">
+                                    <tree editable="bottom">
+                                        <field name='date_from' optional="hide"/>
+                                        <field name="date_to"  optional="hide"/>
+                                        <field name="project_id" options="{'no_create':True}" />
+                                        <field name="product_id" options="{'no_create':True}" />
+                                        <field name="product_uom"/>
+                                        <field name="product_uom_category_id" invisible="1"/>
+                                        <field name="analytic_account_id" options="{'no_create':True}" optional="hide"/>
+                                    <field name="analytic_tag_ids" widget="many2many_tags" options="{'no_create':True,}" optional="hide"/>
+                                        
+                                        <field name="meter_number"/>
+                                        <field name="amount_forecast" sum="Forecast"/>
+                                        <field name="opening_reading"/>
+                                        <field name="closing_reading"/>
+                                        <field name="total_unit" sum="Total Units"/>
+                                        <field name="additional_unit"/>
+                                        <field name="maintainence_fee" sum="Maintenance Fee"/>
+                                        <field name="hp_fee" sum="Horsepower Fee"/>
+                                        <field name="KHW_charges" sum="KWH Charges"/>
+                                        <field name="actual_KHW_charges" sum="Actual KWH"/>
+                                        <field name="total_amount" sum="Total Amount"/>
+                                        <field name="other_charges" sum="Other Chrages"/>
+                                        <field name="company_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record id="account_custom_bill_tree_view" model="ir.ui.view">
+            <field name="name">account.custom.bill.tree.view</field>
+            <field name="model">account.custom.bill</field>
+            <field name="priority">2</field>
+            <field name="arch" type="xml">
+                <tree string="Custom Bill" multi_edit="1" sample="1">
+                    <field name="message_needaction" invisible="1"/>
+                    <field name="name" string="Number" readonly="1" decoration-bf="1"/>
+                    <field name="date_from" widget="date" optional="show"/>
+                   <field name="date_to" widget="date" optional="show"/>
+                    <field name="user_id" optional="show" widget="many2one_avatar_user" invisible="1"/>
+                    <field name="activity_ids" widget="list_activity" optional="show"/>
+                    <field name="company_id" groups="base.group_multi_company" optional="show" readonly="1"/>
+                    <field name="state" />
+                </tree>
+            </field>
+    </record>
+        
+        <record id="account_custom_bill_search_view" model="ir.ui.view">
+            <field name="name">account.custom.bill.search.view</field>
+            <field name="model">account.custom.bill</field>
+            <field name="arch" type="xml">
+                <search string="Custom Bill">
+                    <field name="name"/>
+                    <field name="invoice_date"/>
+                    <field name="partner_id"/>
+                    <field name="date_confirm"/>
+                  
+                    <field name="state"/>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_custom_bill" model="ir.actions.act_window">
+            <field name="name">Electricity Bill</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">account.custom.bill</field>
+            <field name="view_mode">tree,form,kanban</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="account_custom_bill_search_view"/>
+            <field name="view_id" ref="account_custom_bill_tree_view"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No bill found, create new bill!
+                </p>
+            </field>
+        </record>
+
+       
+
+
+        <menuitem id="electricity_bill_menu" name="Electricity Bill" parent="custom_account_bill_root_menu"
+                  action="action_custom_bill"
+                  sequence="1"/>
+    </data>
+</odoo>

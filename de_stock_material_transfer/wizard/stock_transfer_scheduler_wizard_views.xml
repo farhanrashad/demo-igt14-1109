@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- View transfer order scheduler wizard -->
+    <record id="transfer_order_scheduler_view_form" model="ir.ui.view">
+        <field name="name">transfer.order.scheduler.form.view</field>
+        <field name="model">stock.transfer.scheduler.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Close Reasons">
+                <group class="oe_title">
+                </group>
+                <footer>
+                    <button name="set_close" string="Submit" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action transfer order Scheduler -->
+    <record id="transfer_order_scheduler_wizard_action" model="ir.actions.act_window">
+        <field name="name">Run Scheduler</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.transfer.scheduler.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="transfer_order_scheduler_view_form"/>
+        <field name="target">new</field>
+    </record>
+    
+    <menuitem action="transfer_order_scheduler_wizard_action" name="Run Scheduler" id="stock_requisition_scheduler_menu" groups="group_stock_requisition_manager" parent="stock_requisition_main_menu" sequence="100"/>
+
+
+</odoo>

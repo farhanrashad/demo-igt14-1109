@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="purchase_subscription_adjustments_wizard_form_view" model="ir.ui.view">
+        <field name="name">purchase.subscription.adjustments.wizard.form.view</field>
+        <field name="model">purchase.subscription.adjust.entry.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Adjusting Entries">
+                <group>
+                    <group>
+                        <field name="purchase_subscription_id" invisible="1"/>
+                        <field name="date" required="1"/>
+                        <field name = "invoice_type" widget="radio" options="{'horizontal': true}"/>
+                        <field name = "adjustment_payment_method" widget="radio" options="{'horizontal': true}"/>
+                        <field name="product_id" invisible="0"/>
+                        
+                        <label for="amount" attrs="{'invisible': [('adjustment_payment_method', 'not in', ('fixed','percentage'))]}"/>
+                        <div attrs="{'invisible': [('adjustment_payment_method', 'not in', ('fixed','percentage'))]}" id="payment_method_details">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="fixed_amount" attrs="{'required': [('adjustment_payment_method', '=', 'fixed')], 'invisible': [('adjustment_payment_method', '!=','fixed')]}" class="oe_inline"/>
+                            <field name="amount" attrs="{'required': [('adjustment_payment_method', '=', 'percentage')], 'invisible': [('adjustment_payment_method', '!=', 'percentage')]}" class="oe_inline"/>
+                            <span attrs="{'invisible': [('adjustment_payment_method', '!=', 'percentage')]}" class="oe_inline">%</span>
+                        </div>
+                        
+                        
+                    </group>
+                    <group>
+                        <field name="journal_id" required="1" options="{'no_create':True}"/>
+                         <field name="invoice_id" options="{'no_create':True}"/>
+                        <field name = "invoiced_amount" class="oe_inline"/>
+                        <field name = "ref" class="oe_inline"/>
+                    </group>
+                    <field name="reason" placeholder="E.g deduction for bill no. 1234 due to some reason"/>
+                </group>
+
+                <footer>
+                    <button name="create_invoices" id="create_invoice_open" string="Create and View Bill" type="object" context="{'open_bills': True}" class="btn-primary"/>
+                    <button name="create_invoices" id="create_invoice" string="Create Bill" type="object"/>
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_subscription_adjustments_wizard" model="ir.actions.act_window">
+        <field name="name">Adjusting Entries</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.subscription.adjust.entry.wizard</field>
+        <field name="view_id" ref="purchase_subscription_adjustments_wizard_form_view"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

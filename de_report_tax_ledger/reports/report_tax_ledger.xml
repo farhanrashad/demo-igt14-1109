@@ -1,0 +1,11 @@
+<odoo>
+    <data>
+        <record id="tax_ledger_report" model="ir.actions.report">
+            <field name="name">Tax Ledger</field>
+            <field name="model">tax.ledger.wizard</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_report_tax_ledger.tax_ledger_xlsx</field>
+            <field name="report_file">Tax Ledger</field>
+        </record>
+    </data>
+</odoo>

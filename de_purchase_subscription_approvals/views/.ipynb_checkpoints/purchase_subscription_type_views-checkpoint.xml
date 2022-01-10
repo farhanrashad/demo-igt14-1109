@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Subscription Type -->
+        <record id="view_purchase_subscription_type_form_inherit_approvals" model="ir.ui.view">
+			<field name="name">view.purchase.subscription.type.form.inherit.approvals</field>
+			<field name="model">purchase.subscription.type</field>
+			<field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_type_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//group[2]/group[2]" position="inside">
+                    <field name="category_id" string="Approval Category"/>
+				</xpath>
+			</field>
+		</record>
+    </data>
+</odoo>

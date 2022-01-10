@@ -1,0 +1,36 @@
+<odoo>
+  <data>
+      
+      <record id="stock_picking_form_view_invoices" model="ir.ui.view">
+			<field name="name">stock.picking.form.view.invoice</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.view_picking_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//div[@name='button_box']" position="inside">
+					   <button name="action_view_invoice" string="Invoices" type="object" class="oe_stat_button" icon="fa-arrows-v" attrs="{'invisible': [('invocie_count', '=', 0)]}"/>
+
+				</xpath>
+                
+                <xpath expr="//page[@name='extra']//field[@name='picking_type_code']" position="after">
+					   <field name='invocie_count' invisible="1"/>
+					   <field name='invoice_control'  attrs="{'readonly': [('state', '=', 'done')]}"/>
+                       <field name='move_id' invisible="1" />
+				</xpath>
+				
+			</field>
+		</record>
+      
+        <record id="stock_picking_tree_view_invoice" model="ir.ui.view">
+			<field name="name">stock.picking.tree.view.invoice</field>
+			<field name="model">stock.picking</field>
+			<field name="inherit_id" ref="stock.vpicktree"/>
+			<field name="arch" type="xml">
+                <xpath expr="//field[@name='origin']" position="after">
+
+			     <field name='invoice_control' />
+                </xpath>    
+            </field>
+		</record>
+      
+  </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="project_project_form_view_hoto_site" model="ir.ui.view">
+			<field name="name">project.project.form.view.hoto</field>
+			<field name="model">project.project</field>
+			<field name="inherit_id" ref="project.edit_project"/>
+			<field name="arch" type="xml">
+				<xpath expr="//field[@name='user_id']" position="after">
+					<field name="hoto_submission_date"/>
+				</xpath>
+
+			</field>
+		</record>
+	</data>
+</odoo>

@@ -1,0 +1,25 @@
+<odoo>
+  <data>
+    <record id="view_purchase_requisition_form_inherit_po_wizard" model="ir.ui.view">
+        <field name="name">view.purchase.requisition.form.inehrit.po.wizard</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[1]" position="replace" />
+                <xpath expr="//button[1]" position="replace" />
+                
+                <xpath expr="//button[1]" position="before">
+                    <button name="%(action_open_pr_to_po_wizard)d" type="action" string="New Purchase Order" class="oe_highlight" attrs="{'invisible': [('state', 'not in', ('in_progress', 'ongoing'))]}"/>
+                    <button name="%(action_open_pr_to_po_wizard)d" type="action" string="New Purchase Order" class="oe_highlight" attrs="{'invisible': [('state', '!=', 'open')]}"/>
+
+                </xpath>
+                
+                <xpath expr="//field[@name='vendor_id']" position="attributes">
+                    <attribute name="attrs">{"readonly": [["state","=","sent"]]}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                
+        </field>
+    </record>
+  </data>
+</odoo>

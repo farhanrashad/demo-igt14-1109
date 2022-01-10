@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="view_custom_entry_type_type_portal_publish" model="ir.ui.view">
+            <field name="name">account.custom.entry.type.portal</field>
+            <field name="model">account.custom.entry.type</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_type_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='sequence_code']" position="after">
+                    <field name="penalty_published" />
+                </xpath>
+                
+           </field>
+        </record>
+           
+</odoo>
+
+
+

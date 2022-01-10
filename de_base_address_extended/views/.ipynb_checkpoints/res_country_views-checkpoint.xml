@@ -1,0 +1,23 @@
+<odoo>
+    <data>
+        <record id="view_country_tree_inherit_district" model="ir.ui.view">
+        <field name="name">view.country.tree.inherit.disctrict</field>
+        <field name="model">res.country</field>
+        <field name="inherit_id" ref="base.view_country_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='enforce_cities']" position="after">
+                <field name="enforce_districts"/>
+                <field name="enforce_subdistricts"/>
+                <field name="enforce_towns"/>
+            </xpath>
+            <xpath expr="//field[@name='state_required']" position="after">
+                <field name="district_required"  attrs="{'invisible':[('enforce_districts','!=',True)]}" />
+                <field name="subdistrict_required"  attrs="{'invisible':[('enforce_subdistricts','!=',True)]}" />
+                <field name="town_required"  attrs="{'invisible':[('enforce_towns','!=',True)]}" />
+
+            </xpath>
+        </field>
+    </record>
+        
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Close reasons -->
+    <record id="stock_transfer_close_reason_view_tree" model="ir.ui.view">
+        <field name="name">stock.transfer.reason.list</field>
+        <field name="model">stock.transfer.close.reason</field>
+        <field name="arch" type="xml">
+            <tree string="Close Reasons" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="stage_id" options="{'no_create':True, 'no_open':True}" required="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="stock_transfer_close_reason_action" model="ir.actions.act_window">
+        <field name="name">Close Reasons</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">stock.transfer.close.reason</field>
+        <field name="view_mode">tree</field>
+    </record>
+        
+        <menuitem action="stock_transfer_close_reason_action" name="Close Reasons" id="stock_requisition_config_close_reason_menu" groups="group_stock_requisition_manager" parent="stock_requisition_config_menu" sequence="10"/>
+        
+    </data>
+</odoo>

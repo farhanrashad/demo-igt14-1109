@@ -1,0 +1,432 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="portal_layout_custom_entry_penalty" name="Portal layout: Penalty menu entry" inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'penalty' or penalty" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not penalty else ''}">
+                <a t-if="penalty" t-attf-href="/penalty/orders?{{ keep_query() }}">Penalties</a>
+                <t t-else="">Penalties</t>
+            </li>
+            <li t-if="penalty" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                <t t-esc="penalty.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_penalty_entry" name="entry_penalty" customize_show="True" inherit_id="portal.portal_my_home" priority="25">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Penalties</t>
+                <t t-set="url" t-value="'/penalty/orders'"/>
+                <t t-set="placeholder_count" t-value="'penalty_count'"/>
+            </t>
+        </xpath>  
+    </template>
+
+    <template id="portal_my_entry_penalty" name="penalty Order">
+         <t t-set="foo" t-value="2 + 1"/>
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Penalties</t>
+            </t>
+            <t t-if="not grouped_penalty">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no penalty document found.
+                </div>
+            </t>
+            <t t-if="grouped_penalty">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_penalty" t-as="entrys">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left">Document Number</th>
+                                <th class="text-left">Entry Date</th>
+                                <th class="text-left">Entry Type</th>
+                                <th class="text-left">Month</th> 
+                                <th class="text-left">Year</th> 
+                                <th class="text-left">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="entrys" t-as="custom">
+                                
+                                <tr>
+
+                                     <td>
+                                        <a t-attf-href="/penalty/order/#{custom.id}?{{ keep_query() }}"><span t-field="custom.name"/></a> 
+                                         
+                                    </td>
+                                     <td class="text-left">
+                                        <span t-esc="custom.date_entry" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="custom.custom_entry_type_id.name" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="custom.date_entry_month" />
+                                    </td>
+                                     <td class="text-left">
+                                        <span t-esc="custom.date_entry_year" />
+                                    </td> 
+
+                                    <td class="text-left">
+                                        <span t-esc="custom.stage_id.name" />
+                                    </td>
+                                    
+                                    <td class="text-left"> 
+                                        <p style='color:red;'><span t-esc="custom.correction_reason" /></p>
+                                    </td>
+                                    
+                                    
+
+
+                                </tr>
+                               
+                            </t>
+                            <tr>
+
+                            </tr>
+                            
+                        </tbody>
+                    </t>
+                </t>
+            </t>   
+        </t>
+    </template>
+    
+    
+    <template id="portal_custom_entry_penalty" name="custom penalty">
+        <t t-call="portal.portal_layout">
+             <t t-set="o_portal_fullwidth_alert" >
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#model=account.custom.entry&amp;id=%s&amp;view_type=form' % (penalty.id)"/>
+                </t> 
+            </t>
+          
+            <div id="optional_placeholder"></div>
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div id="optional_placeholder"></div>
+                    <div class="container">
+                      <div class="card">
+                           <div class="col-md-1" style="margin-top:5px;">
+                               <t t-if="penalty.is_custom_entry_import == True">
+                                <a t-attf-href="/penalty/type/update/#{penalty.id}?"><i  class="btn btn-primary">Edit</i></a>
+                               </t> 
+                            </div>                  
+                            <div class="col-md-1" style="margin-top:20px;">
+                           </div>
+
+                        <div class="card-header">
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <h5 class="d-flex mb-1 mb-md-0 row">
+                                            <span t-field="penalty.user_id.partner_id.name" class="col-8 text-truncate"/>
+                                            <small class="text-muted d-none d-md-inline"> (#<span t-field="penalty.id"/>)</small>
+                                            <div class="col-3 col-md-3 text-left">
+                                              <small class="text-right">State:</small>
+
+                                                    <span t-field="penalty.stage_id.name" class=" badge badge-pill badge-info" title="Current stage of this penalty Order"/>
+
+                                            </div>
+                                        </h5>
+                                    </div>
+                                    <t t-set="prev_record" t-value="1" /> 
+                                    <t t-set="next_record" t-value="2" /> 
+                                    <div style="float:right; text-align:right; width:0ox; margin-right:0px;" class=" btn-group col-lg-1" role="group">
+                                    <h5>  
+                                        <t t-if="pre_id">
+                                            <a role="button"  t-attf-href="/penalty/order/pre/#{penalty.id}?" ><i style="margin-right:10px; align:right" class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"></i></a>
+                                        </t>
+                                        <t t-else="">
+                                            <a role="button"  t-att-class="disabled"  ><i style="margin-right:10px; align:right; color:#B8B7B0" class="fa fa-chevron-left" aria-label="Previous" title="Previous"></i></a>
+
+                                        </t>
+                                        <t t-if="next_id">
+                                            <a role="button" t-attf-href="/penalty/order/next/#{penalty.id}?" ><i class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"></i></a>
+                                        </t>
+                                        <t t-else="">
+                                            <a role="button"  t-att-class="disabled"  ><i style="color:#B8B7B0" class="fa fa-chevron-right" aria-label="Next" title="Next"></i></a>
+                                        </t>
+                                    </h5>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </t>
+               <t t-set="card_body">          
+                    <div class="row mb-5">
+                        <div class="col-12 col-md-6 mb-1">
+                            <span t-field="penalty.name" />
+                        </div>
+                        <div class="col-12 col-md-6" t-if="penalty.id">
+                            <strong>Partner:</strong> <span t-field="penalty.partner_id.name" />
+                        </div>
+                    </div>
+                     <div class="row mb-12">
+                         <div class="col-12 col-md-12 pb-2">
+                            <div class="row">
+                               
+                                <div class="col-md-5"> <strong>Date: </strong>
+                                    <t t-if="penalty.date_entry">
+                                        <span t-esc="penalty.date_entry"/>
+                                    </t>
+                                </div>
+                                 <div class="col-md-5"> <strong>Entry Type: </strong>
+                                    <t t-if="penalty.custom_entry_type_id">
+                                        <span t-esc="penalty.custom_entry_type_id.name"/>
+                                    </t>
+                                </div>
+                               
+                            </div>
+                             <div class="row">
+                                <t t-if="penalty.ref">  
+                                <div class="col-md-5"> <strong>Reference : </strong>
+                                  
+                                        <span t-esc="penalty.ref"/>
+                                    
+                                </div>
+                                </t>    
+                               
+                            </div>
+                             <t t-if="penalty.custom_entry_type_id.has_hse_fields!='no'">  
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Project</th>
+                                        <th class="text-left">Quantity</th>
+                                        <th class="text-left">Unit Price</th>
+                                        <th class="text-left">Service Charges</th>        
+                                        <th class="text-left">Penalty amount</th>
+                                        <th class="text-left">Penalty Approved</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="penalty.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.project_id.name"/></td>
+                                            <td><span t-esc="entry_line.product_qty"/></td>
+                                            <td><span t-esc="entry_line.price_unit"/></td>
+                                             <td><span t-esc="entry_line.om_service_charges"/></td>
+                                            <td><span t-esc="entry_line.amount_penalty"/></td>
+                                            <td><span t-esc="entry_line.amount_approved_penalty"/></td>
+                                           
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                            </t>  
+                             
+                             <t t-if="penalty.custom_entry_type_id.has_pm_fields!='no'">  
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Project</th>
+                                        <th class="text-left">SOW Type</th>
+                                        <th class="text-left">SOW</th>
+                                        <th class="text-left">Frequency</th>  
+                                        <th class="text-left">Deduction Type</th>          
+                                        <th class="text-left">Penalty amount</th>
+                                        <th class="text-left">Service Charges</th>         
+                                        <th class="text-left">Penalty Approved</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="penalty.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.project_id.name"/></td>
+                                            <td><span t-esc="entry_line.penalty_sow_type_id.name"/></td>
+                                            <td><span t-esc="entry_line.penalty_sow_id.name"/></td>
+                                             <td><span t-esc="entry_line.frequency"/></td>
+                                            <td><span t-esc="entry_line.sow_deduct_type"/></td>
+                                            <td><span t-esc="entry_line.amount_penalty"/></td>
+                                            <td><span t-esc="entry_line.om_service_charges"/></td>
+                                            <td><span t-esc="entry_line.amount_approved_penalty"/></td>
+                                           
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                            </t>  
+                             <t t-if="penalty.custom_entry_type_id.has_sla_fields!='no'">  
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Project</th>
+                                       <!-- <th class="text-left">Product</th> 
+                                        <th class="text-left">Unit of Measure</th>  
+                                        <th class="text-left">Quantity</th>         
+                                        <th class="text-left">Unit Price</th> 
+                                        <th class="text-left">Subtotal</th> -->
+                                        <th class="text-left">Classification</th>   
+                                        <th class="text-left">Service Level</th> 
+                                        <th class="text-left">Uptime</th>         
+                                       <!-- <th class="text-left">Service Charges</th>  -->       
+                                        <th class="text-left">Penalty amount</th>
+                                        <th class="text-left">Penalty Approved</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="penalty.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.project_id.name"/></td>
+                                          <!--  <td><span t-esc="entry_line.product_id.name"/></td>
+                                            <td><span t-esc="entry_line.product_uom_id.name"/></td>
+                                             <td><span t-esc="entry_line.product_qty"/></td>
+                                            <td><span t-esc="entry_line.price_unit"/></td>
+                                            <td><span t-esc="entry_line.price_subtotal"/></td> --> 
+                                             <td>
+                                                <t t-if="entry_line.service_class == 'a'">
+                                                 <i class="badge badge-pill badge-info" >Critical Site</i>
+                                                </t>
+                                                 <t t-if="entry_line.service_class == 'b'">
+                                                  <i class="badge badge-pill badge-info" >Class B</i>
+                                                </t>
+                                                 <t t-if="entry_line.service_class == 'c'">
+                                                  <i class="badge badge-pill badge-info" >Class C</i>
+                                                </t>
+                                             </td>
+                                            <td>
+                                                <t t-if="entry_line.service_level == 'critical'">
+                                                  <i class="badge badge-pill badge-info" >Critical</i>
+                                                </t>
+                                               <t t-if="entry_line.service_level == 'major'">
+                                                  <i class="badge badge-pill badge-info" >Major</i>
+                                                </t>
+                                                   <t t-if="entry_line.service_level == 'minor'">
+                                                  <i class="badge badge-pill badge-info" >Minor</i>
+                                                </t>
+                                                 <t t-if="entry_line.service_level == 'normal'">
+                                                  <i class="badge badge-pill badge-info" >Normal</i>
+                                                </t>
+                                             </td>
+                                            <td><span t-esc="entry_line.uptime"/></td>
+                                             <!-- <td><span t-esc="entry_line.om_service_charges"/></td> -->
+                                            <td><span t-esc="entry_line.amount_penalty"/></td>
+                                            <td><span t-esc="entry_line.amount_approved_penalty"/></td>
+                                           
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                            </t>  
+                             
+                             <t t-if="penalty.custom_entry_type_id.sequence_code =='FP'">  
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Project</th>
+                                        <th class="text-left">Quantity</th>
+                                        <th class="text-left">Unit Price</th>
+                                        <th class="text-left">Service Charges</th>        
+                                        <th class="text-left">Penalty amount</th>
+                                        <th class="text-left">Penalty Approved</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="penalty.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.project_id.name"/></td>
+                                            <td><span t-esc="entry_line.product_qty"/></td>
+                                            <td><span t-esc="entry_line.price_unit"/></td>
+                                             <td><span t-esc="entry_line.om_service_charges"/></td>
+                                            <td><span t-esc="entry_line.amount_penalty"/></td>
+                                            <td><span t-esc="entry_line.amount_approved_penalty"/></td>
+                                           
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                            </t>  
+                             
+                             
+                             <div class="row">
+                                 <t t-if="penalty.correction_reason"> 
+                                <div class="col-md-5"> <strong>Comments : </strong>                                   
+                                      <p style='color:red;'>  <span t-esc="penalty.correction_reason"/> </p>
+                                </div>
+                                </t> 
+                               
+                            </div>
+                             
+                        </div>
+                       
+                    </div> 
+                   
+                  
+                        
+                    <div class="row"> 
+                        <div t-attf-class="col-12 col-lg-12  mb-md-0 ">
+                            <hr class="mb-1"/>
+                            <div class="d-flex my-2">
+                                <strong>Document</strong>
+                            </div>
+                            <t t-if="penalty.name">
+                                <div class="py-1 px-2 bg-100 small" t-field="penalty.name"/>
+                            </t>
+                        </div> 
+                    </div>
+                   
+                </t> 
+            </t>
+            <div class="mt32">
+                <h4><strong>Message and communication history</strong></h4>
+                <t t-call="portal.message_thread">
+                    <t t-set="object" t-value="penalty"/>
+                    <t t-set="pid" t-value="pid"/>
+                    <t t-set="hash" t-value="hash"/>
+                </t>
+            </div>
+        </t>
+    </template>
+           
+</odoo>
+
+
+

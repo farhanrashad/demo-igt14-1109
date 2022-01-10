@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="action_report_purchase_budget" model="ir.actions.report">
+            <field name="name">Purchase Budget Report</field>
+            <field name="model">purchase.budget</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_report_purchase_budget.report_purchase_budget</field>
+            <field name="report_file">Purchase Budget Report</field>
+            <field name="binding_model_id" ref="de_purchase_budget.model_purchase_budget"/>
+            <field name="binding_type">report</field>
+        </record>
+    </data>
+</odoo>

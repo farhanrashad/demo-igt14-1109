@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Reports -->
+        <report
+                id="emp_att_xlsx"
+                model="hr.employee"
+                string="Print to XLSX"
+                report_type="xlsx"
+                name="openhcm_employee_attendance.report_emp_att_xls"
+                file="Employee Attendance Report"
+
+
+        />
+    </data>
+</odoo>

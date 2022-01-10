@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<record id="view_emp_att_wizard" model="ir.ui.view">
+			<field name="name">Employee Attendance Wizard</field>
+			<field name="model">employee.attendance.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Employee Attandance Report">
+					<group>
+
+						<group>
+							<field name="current_date" attrs="{'invisible':[('print_by', '=','monthly')]}" />
+							<field name="month" attrs="{'invisible':[('print_by', '!=', 'monthly')]}"/>
+							<field name="print_by" widget="radio"/>
+							<field name="all_emp" />
+							<field name="employee" widget="many2many_tags" attrs="{'invisible':[('all_emp', '!=', False)],'required':[('all_emp', '!=',True)]}"  />
+
+						</group>
+					</group>
+					<footer>
+						<button name="action_report_gen" type="object" string="Generate Excel" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_emp_att_wizard" model="ir.actions.act_window">
+			<field name="name">Employee Attendance</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">employee.attendance.wizard</field>
+			<field name="view_id" ref="view_emp_att_wizard" />
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+
+    </data>
+</odoo>

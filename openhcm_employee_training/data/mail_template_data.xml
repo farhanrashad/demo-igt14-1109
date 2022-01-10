@@ -1,0 +1,55 @@
+<?xml version="1.0" ?>
+<odoo>
+
+    <data>
+        <!--Email template -->
+        <!--        <record id="email_template_edi_sessions_case" model="mail.template">-->
+        <!--            <field name="name">Disciplinay Case: Send by email</field>-->
+        <!--            <field name="model_id" ref="openhcm_employee_training.model_hr_employee_training_session"/>-->
+        <!--            <field name="email_from">${(object.participants_lines.email_formatted or user.email_formatted) |safe}</field>-->
+        <!--            <field name="email_to">${(object.participants_lines.email_formatted or user.email_formatted) |safe}</field>-->
+        <!--            <field name="partner_to">${object.trainer_lines.id}</field>-->
+        <!--            <field name="subject">Sessions (Ref ${object.name or 'n/a'})</field>-->
+        <!--            <field name="body_html" type="html">-->
+        <!--                <div style="margin: 0px; padding: 0px;">-->
+        <!--                    <p style="margin: 0px; padding: 0px; font-size: 13px;">-->
+        <!--                        Dear ${object.participants_lines.employee_id.name},-->
+        <!--                        <br /><br />-->
+        <!--                        Here is your session ref# ${object.name}-->
+        <!--                        from ${object.start_date} to ${object.end_date}-->
+        <!--                        at location ${object.delivery_location}-->
+        <!--                        &lt;!&ndash;                        % if object.name:&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                        Sessions <strong>${object.name}</strong>&ndash;&gt;-->
+        <!--                        &lt;!&ndash;                        % else:&ndash;&gt;-->
+        <!--                        <br /><br />-->
+        <!--                        Do not hesitate to contact us if you have any questions.-->
+        <!--                    </p>-->
+        <!--                </div>-->
+        <!--            </field>-->
+        <!--        </record>-->
+
+
+        <record id="email_template_edi_sessions_case" model="mail.template">
+            <field name="name">Session</field>
+            <field name="model_id" ref="openhcm_employee_training.model_hr_employee_training_session"/>
+            <field name="auto_delete" eval="False"/>
+            <field name="email_from">${ctx['email_from']}</field>
+            <field name="email_to">${ctx['email_to']}</field>
+            <field name="subject">Session</field>
+            <field name="lang">${ctx['lang']}</field>
+            <field name="body_html">
+                <![CDATA[
+                        <div>
+                            <p>
+                                Dear Participant,
+                                <br /><br />
+                                Here is your session <strong>ref# ${ctx['ref']}</strong> <br />
+                                from ${ctx['date_from']} to ${ctx['date_to']} <br />
+                                at location <strong>${ctx['location']}</strong>
+                            </p>
+                        </div>
+                        ]]>
+            </field>
+        </record>
+    </data>
+</odoo>

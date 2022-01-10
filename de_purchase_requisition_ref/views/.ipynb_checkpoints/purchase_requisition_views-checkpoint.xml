@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="purchase_requisition_form_inherit_requisition" model="ir.ui.view">
+        <field name="name">purchase.requisition.form.inherit.requisition</field>
+        <field name="model">purchase.requisition</field>
+        <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+        <field name="arch" type="xml">
+              <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='products']/field[@name='line_ids']/tree[1]" position="inside">
+                <field name="id" optional="show"/>
+            </xpath>
+        </field>
+      </record>
+    
+    
+</odoo>

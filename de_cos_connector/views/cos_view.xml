@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_cos_master_form" model="ir.ui.view">
+		<field name="name">cos.master.form</field>
+		<field name="model">cos.master</field>
+		<field name="arch" type="xml">
+			<form string="Test Training">
+				<header>
+					<button name='action_get_login_token' string="Get Login Token" type="object"
+						class='oe_highlight' />
+					<button name='action_get_logout' string="Get Logout" type="object"
+						class='oe_highlight' />
+						
+					<button name='fetch_update_terminologies' string="1. Fetch / Update Treminologies" type="object"
+						class='oe_highlight' />	
+					<button name='action_get_cos_products' string="2. Fetch / Update Products" type="object"
+						class='oe_highlight' />		
+					<button name='action_get_mrf_records' string="3. Get MRF Records" type="object"
+						class='oe_highlight' />
+					
+					<!-- <button name='get_cos_product_categories' string="Update Products Categories" type="object"
+						class='oe_highlight' />	
+					<button name='get_cos_product_manufecturers' string="Update Products Manufecturers" type="object"
+						class='oe_highlight' />	
+					<button name='get_cos_mrf_types' string="Update MRF Types" type="object"
+						class='oe_highlight' />
+					<button name='get_cos_mrf_moving_from' string="Update MRF Moving From" type="object"
+						class='oe_highlight' />	
+					<button name='get_cos_teams' string="Update Teams" type="object"
+						class='oe_highlight' /> -->		
+						
+				</header>
+
+				<sheet>
+					<group>
+						<field name="username" placeholder="Cos Username"/>
+						<field name="password" placeholder="Cos Login Password"/>
+						<field name="token" readonly="1" />
+						<field name="cos_login_response" readonly="1" />
+						<field name="cos_logout_response" invisible="1"/>
+					</group>
+				</sheet>
+			
+			</form>
+		</field>
+	</record>
+
+
+	<record id="view_cos_master_tree" model="ir.ui.view">
+		<field name="name">cos.master.tree</field>
+		<field name="model">cos.master</field>
+		<field name="arch" type="xml">
+			<tree>
+				<field name="token" />
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_cos_master_search" model="ir.ui.view">
+		<field name="name">cos.master.search</field>
+		<field name="model">cos.master</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="token" />
+			</search>
+		</field>
+	</record>
+
+
+	<record id="action_cos_master_view"
+		model="ir.actions.act_window">
+		<field name="name">COS</field>
+		<field name="res_model">cos.master</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_cos_master_search" />
+		<field name="view_id" ref="view_cos_master_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				COS.....
+			</p>
+		</field>
+	</record>
+
+
+</odoo>
+
+

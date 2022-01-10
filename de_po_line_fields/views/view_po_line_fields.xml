@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="view_po_line_fields" model="ir.ui.view">
+            <field name="name">po.line.fields.form</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook//field[@name='order_line']//tree//field[@name='price_subtotal']" position="after">
+                    <field name="kpa"/>
+                    <field name="tower_manufacture"/>
+                    <field name="tower"/>
+                    <field name="kmph"/>
+                    <field name="candidate"/>
+                    <field name="tenant"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

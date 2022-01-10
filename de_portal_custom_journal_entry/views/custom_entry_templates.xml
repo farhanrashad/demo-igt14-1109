@@ -1,0 +1,489 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="portal_layout_custom_entry" name="Portal layout: Stock Order menu entry" inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'entry' or entry" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not entry else ''}">
+                <a t-if="entry" t-attf-href="/entry/orders?{{ keep_query() }}">Third Party Billing</a>
+                <t t-else="">Third Party Billing</t>
+            </li>
+            <li t-if="entry" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                <t t-esc="entry.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_entry" name="entry Order" customize_show="True" inherit_id="portal.portal_my_home" priority="25">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Third Party Billing</t>
+                <t t-set="url" t-value="'/entry/orders'"/>
+                <t t-set="placeholder_count" t-value="'entry_count'"/>
+            </t>
+        </xpath>  
+    </template>
+
+    <template id="portal_my_purchase_entrys" name="entry Order">
+         <t t-set="foo" t-value="2 + 1"/>
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Third Party Billing</t>
+            </t>
+            <t t-if="not grouped_entry">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no Third Party Billing.
+                </div>
+            </t>
+            <t t-if="grouped_entry">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_entry" t-as="entrys">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left">Document Number</th>
+                                <th class="text-left">Entry Date</th>
+                                <th class="text-left">Entry Type</th>
+                                <th class="text-left">Month</th> 
+                                <th class="text-left">Year</th> 
+                                <th class="text-left">Status</th>
+                                <th class="text-left">Notice</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="entrys" t-as="custom">
+                                <t t-if="custom.user_id.id==uid" >
+                                <tr>
+
+                                     <td>
+                                        <a t-attf-href="/entry/order/#{custom.id}?{{ keep_query() }}"><span t-field="custom.name"/></a> 
+                                         
+                                    </td>
+                                     <td class="text-left">
+                                        <span t-esc="custom.date_entry" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="custom.custom_entry_type_id.name" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="custom.date_entry_month" />
+                                    </td>
+                                     <td class="text-left">
+                                        <span t-esc="custom.date_entry_year" />
+                                    </td> 
+
+                                    <td class="text-left">
+                                        <span t-esc="custom.stage_id.name" />
+                                    </td>
+                                    
+                                    <td class="text-left"> 
+                                        <p style='color:red;'><span t-esc="custom.correction_reason" /></p>
+                                    </td>
+                                    
+                                    <td class="text-left">
+                                         <a t-attf-href="/web/content/#{custom.entry_attachment_id.id}?download=true" title="Dowload"><i class="fa fa-download"></i></a>
+                                    </td>
+                                    <td class="text-left">
+                                        <t t-if="custom.allow_correction == True">
+                                            <a t-attf-href="/entry/type/update/#{custom.id}?" title="Upload"><i class="fa fa-upload"  style='color:red;'></i></a>
+                                        </t>    
+                                    </td>
+
+
+                                </tr>
+                               </t>
+                            </t>
+                            <tr>
+
+                            </tr>
+                            <tr>
+                                <div>
+                                    <t class="col-lg-7 col-md-8" >
+                                        <a href="/custom/entry" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Create</div> </a>
+                                    </t>
+                                </div>
+                            </tr>
+                        </tbody>
+                    </t>
+                </t>
+            </t>   
+        </t>
+    </template>
+    
+    
+    <template id="portal_custom_entry" name="custom">
+        <t t-call="portal.portal_layout">
+             <t t-set="o_portal_fullwidth_alert" >
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#model=account.custom.entry&amp;id=%s&amp;view_type=form' % (entry.id)"/>
+                </t> 
+            </t>
+          
+            <div id="optional_placeholder"></div>
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div id="optional_placeholder"></div>
+                    <div class="container">
+                      <div class="card">
+                           <div class="col-md-1" style="margin-top:5px;">
+                               <t t-if="entry.is_custom_entry_import == True">
+                                <a t-attf-href="/entry/type/update/#{entry.id}?"><i  class="btn btn-primary">Edit</i></a>
+                               </t> 
+                            </div>                  
+                            <div class="col-md-1" style="margin-top:20px;">
+                           </div>
+
+                        <div class="card-header">
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <h5 class="d-flex mb-1 mb-md-0 row">
+                                            <span t-field="entry.user_id.partner_id.name" class="col-8 text-truncate"/>
+                                            <small class="text-muted d-none d-md-inline"> (#<span t-field="entry.id"/>)</small>
+                                            <div class="col-3 col-md-3 text-left">
+                                              <small class="text-right">State:</small>
+
+                                                    <span t-field="entry.stage_id.name" class=" badge badge-pill badge-info" title="Current stage of this entry Order"/>
+
+                                            </div>
+                                        </h5>
+                                    </div>
+                                    <t t-set="prev_record" t-value="1" /> 
+                                    <t t-set="next_record" t-value="2" /> 
+                                    <div style="float:right; text-align:right; width:0ox; margin-right:0px;" class=" btn-group col-lg-1" role="group">
+                                    <h5>  
+                                        <t t-if="pre_id">
+                                            <a role="button"  t-attf-href="/entry/order/pre/#{entry.id}?" ><i style="margin-right:10px; align:right" class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"></i></a>
+                                        </t>
+                                        <t t-else="">
+                                            <a role="button"  t-att-class="disabled"  ><i style="margin-right:10px; align:right; color:#B8B7B0" class="fa fa-chevron-left" aria-label="Previous" title="Previous"></i></a>
+
+                                        </t>
+                                        <t t-if="next_id">
+                                            <a role="button" t-attf-href="/entry/order/next/#{entry.id}?" ><i class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"></i></a>
+                                        </t>
+                                        <t t-else="">
+                                            <a role="button"  t-att-class="disabled"  ><i style="color:#B8B7B0" class="fa fa-chevron-right" aria-label="Next" title="Next"></i></a>
+                                        </t>
+                                    </h5>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </t>
+               <t t-set="card_body">          
+                    <div class="row mb-5">
+                        <div class="col-12 col-md-6 mb-1">
+                            <span t-field="entry.name" />
+                        </div>
+                        <div class="col-12 col-md-6" t-if="entry.id">
+                            <strong>Partner:</strong> <span t-field="entry.partner_id.name" />
+                        </div>
+                    </div>
+                     <div class="row mb-12">
+                         <div class="col-12 col-md-12 pb-2">
+                            <div class="row">
+                                <div class="col-md-5"> <strong>Reference : </strong>
+
+                                </div>
+                                <div class="col-md-5"> <strong>Date: </strong>
+                                    <t t-if="entry.date_entry">
+                                        <span t-esc="entry.date_entry"/>
+                                    </t>
+                                </div>
+                                 <div class="col-md-5"> <strong>Entry Type: </strong>
+                                    <t t-if="entry.custom_entry_type_id">
+                                        <span t-esc="entry.custom_entry_type_id.name"/>
+                                    </t>
+                                </div>
+                               
+                            </div>
+
+                             <t t-if="entry.has_rent_vechile != 'no'">
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Car Detail</th>
+                                        <th class="text-left">Driver</th>
+                                        <th class="text-left">Job Scope</th>
+                                        <th class="text-left">Days</th>
+                                        <th class="text-left">amount</th>
+                                        
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="entry.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.f_fleet_id.name"/></td>
+                                            <td><span t-esc="entry_line.f_driver_id.name"/></td>
+                                            <td><span t-esc="entry_line.f_job_scope"/></td>
+                                            <td><span t-esc="entry_line.f_rent_days"/></td>
+                                            <td><span t-esc="entry_line.f_amount"/></td>
+                                           
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                             </t>
+                             
+                             <t t-if="entry.has_electricity != 'no'">
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Forcast</th>
+                                        <th class="text-left">Date From</th>
+                                        <th class="text-left">Date To</th>
+                                        <th class="text-left">Total Units</th>
+                                        <th class="text-left">Actual KHW Charges</th>
+                                        <th class="text-left">Total</th>
+                                        <th class="text-left">Note</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="entry.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.amount_advanced"/></td>
+                                            <td><span t-esc="entry_line.date_bill_from"/></td>
+                                            <td><span t-esc="entry_line.date_bill_to"/></td>
+                                            <td><span t-esc="entry_line.total_unit"/></td>
+                                            <td><span t-esc="entry_line.actual_KHW_charges"/></td>
+                                            <td><span t-esc="entry_line.amount_total_electricity"/></td>
+                                            <td><span t-esc="entry_line.note"/></td>
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                             </t>
+                             
+                             <t t-if="entry.has_travel != 'no'">
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Category</th>
+                                        <th class="text-left"> From</th>
+                                        <th class="text-left"> To</th>
+                                        <th class="text-left">Departure Date</th>
+                                        <th class="text-left">Arrival Date</th>
+                                         <th class="text-left">Number Of Days</th>          
+                                        <th class="text-left">Total</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="entry.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.t_travel_category"/></td>
+                                            <td><span t-esc="entry_line.travel_from"/></td>
+                                            <td><span t-esc="entry_line.travel_to"/></td>
+                                            <td><span t-esc="entry_line.date_departure"/></td>
+                                            <td><span t-esc="entry_line.date_arrival"/></td>
+                                            <td><span t-esc="entry_line.number_of_days"/></td>
+                                            <td><span t-esc="entry_line.t_amount_travel"/></td>
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                             </t>
+                             
+                            <t t-if="entry.has_hotel != 'no'">
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Category</th>
+                                        <th class="text-left"> Hotel Detail</th>
+                                        <th class="text-left"> Check In</th>
+                                        <th class="text-left">Check Out</th>
+                                        <th class="text-left">Travel Request</th>
+                                         <th class="text-left">Number Of Days</th>          
+                                        <th class="text-left">Total Amount</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="entry.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.h_category"/></td>
+                                            <td><span t-esc="entry_line.hotel_detail"/></td>
+                                            <td><span t-esc="entry_line.h_check_in"/></td>
+                                            <td><span t-esc="entry_line.h_check_out"/></td>
+                                            <td><span t-esc="entry_line.h_travel_id.name"/></td>
+                                            <td></td> 
+                                            <td><span t-esc="entry_line.h_amount"/></td>
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                             </t>
+                             
+                             
+                               <t t-if="entry.has_fuel_drawn != 'no'">
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Date</th>
+                                        <th class="text-left"> Purchase From</th>
+                                        <th class="text-left"> Fuel Qty</th>
+                                        <th class="text-left">Unit Price</th>
+                                        <th class="text-left">Subtotal</th>
+                                         <th class="text-left">Booklet No</th>          
+                                        <th class="text-left">Receipt No</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="entry.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.d_date"/></td>
+                                            <td><span t-esc="entry_line.d_partner_id.name"/></td>
+                                            <td><span t-esc="entry_line.d_product_qty"/></td>
+                                            <td><span t-esc="entry_line.d_price_unit"/></td>
+                                            <td><span t-esc="entry_line.d_price_subtotal"/></td>
+                                            <td><span t-esc="entry_line.d_booklet_no"/></td>
+                                            <td><span t-esc="entry_line.d_receipt_no"/></td>
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                             </t> 
+                             
+                                                    
+                               <t t-if="entry.has_fuel_filling != 'no'">
+                             <div class="row" >
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Date</th>
+                                        <th class="text-left"> Purchase From</th>
+                                        <th class="text-left"> Generator Name</th>
+                                        <th class="text-left"> Generator Capacity</th>
+                                        <th class="text-left"> Fuel Qty</th>
+                                        <th class="text-left"> Unit Price</th>        
+                                        <th class="text-left">Subtotal</th>
+                                         <th class="text-left">Booklet No</th>          
+                                        <th class="text-left">Receipt No</th>
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="entry.custom_entry_line" t-as="entry_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="entry_line.f_date"/></td>
+                                            <td><span t-esc="entry_line.f_partner_id.name"/></td>
+                                             <td><span t-esc="entry_line.f_gen_name"/></td>
+                                            <td><span t-esc="entry_line.f_gen_capacity"/></td>
+                                            <td><span t-esc="entry_line.f_product_qty"/></td>
+                                            <td><span t-esc="entry_line.f_price_unit"/></td>
+                                            <td><span t-esc="entry_line.f_price_subtotal"/></td>
+                                            <td><span t-esc="entry_line.f_booklet_no"/></td>
+                                            <td><span t-esc="entry_line.f_receipt_no"/></td>
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                             </t> 
+                             
+                             
+                             <div class="row">
+                                 <t t-if="entry.correction_reason"> 
+                                <div class="col-md-5"> <strong>Comments : </strong>                                   
+                                      <p style='color:red;'>  <span t-esc="entry.correction_reason"/> </p>
+                                </div>
+                                </t> 
+                               
+                            </div>
+                             
+                        </div>
+                       
+                    </div> 
+                   
+                  
+                        
+                    <div class="row"> 
+                        <div t-attf-class="col-12 col-lg-12  mb-md-0 ">
+                            <hr class="mb-1"/>
+                            <div class="d-flex my-2">
+                                <strong>Document</strong>
+                            </div>
+                            <t t-if="entry.name">
+                                <div class="py-1 px-2 bg-100 small" t-field="entry.name"/>
+                            </t>
+                        </div> 
+                    </div>
+                   
+                </t> 
+            </t>
+            <div class="mt32">
+                <h4><strong>Message and communication history</strong></h4>
+                <t t-call="portal.message_thread">
+                    <t t-set="object" t-value="entry"/>
+                    <t t-set="pid" t-value="pid"/>
+                    <t t-set="hash" t-value="hash"/>
+                </t>
+            </div>
+        </t>
+    </template>
+           
+</odoo>
+
+
+

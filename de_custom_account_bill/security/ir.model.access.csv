@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_account_custom_bill_type_manager,access.account.custom.bill.type.manager,model_account_custom_bill_type,account.group_account_manager,1,1,1,1
+access_account_custom_bill_user,access.account.custom.bill.user,model_account_custom_bill,account.group_account_user,1,1,1,1
+access_account_custom_bill_line_user,access.account.custom.bill.line.user,model_account_custom_bill_line,account.group_account_user,1,1,1,1

@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_visa,access.hr.visa,model_hr_visa,group_employee_visa_user,1,1,1,1
+access_hr_visa_type,access.hr.visa.type,model_hr_visa_type,group_employee_visa_manager,1,1,1,1

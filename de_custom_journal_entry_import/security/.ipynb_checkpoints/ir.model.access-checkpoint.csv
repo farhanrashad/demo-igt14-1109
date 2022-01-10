@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_project,access.project.project,model_project_project,,1,1,1,1
+access_project_task_portal,access.project.task,model_project_task,base.group_portal,1,1,1,1
+access_account_custom_entry_type_portal,access.account.custom.entry.type,model_account_custom_entry_type,base.group_portal,1,1,1,1
+access_ir_attachment_portal,access.ir.attachment,model_ir_attachment,base.group_portal,1,1,1,1
+access_res_groups_portal,access.res.groups,model_res_groups,base.group_portal,1,1,1,1
+access_res_currency,access.res.currency,model_res_currency,,1,1,1,1
+
+

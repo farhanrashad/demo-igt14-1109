@@ -1,0 +1,22 @@
+<odoo>
+  <data>
+  <record id="view_company_form_inherit" model="ir.ui.view">
+        <field name="name">view.company.form.inherit</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_info']/group[1]" position="after">
+                <group>
+                    <group string="Secondry Currency">
+                        <field name="allow_second_currency" />
+                        <field name="second_currency_id" options="{'no_create': True, 'no_open': True}" id="second_currency" attrs="{'invisible':[('allow_second_currency','!=',True)], 'required':[('allow_second_currency','=',True)]}"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+      
+     
+      
+  </data>
+</odoo>

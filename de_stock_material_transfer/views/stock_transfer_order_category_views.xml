@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <!-- Tags -->
+        <record model="ir.ui.view" id="stock_transfer_order_category_search_view">
+            <field name="name">stock.transfer.order.category.search.view</field>
+            <field name="model">stock.transfer.order.category</field>
+            <field name="arch" type="xml">
+                <search string="Transfer Order Category">
+                    <field name="name"/>
+                    <field name="action_type"/>
+                </search>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_transfer_order_category_form_view">
+            <field name="name">stock.transfer.order.category.form.view</field>
+            <field name="model">stock.transfer.order.category</field>
+            <field name="arch" type="xml">
+                <form string="Transfer Order Category">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="transfer_order_type_id" options="{'no_create':True, 'no_open':True}"/>
+                                <field name="group_id" options="{'no_create':True}"/>
+                                <field name="filter_products" />
+                                <field name="categ_control_ids" widget='many2many_tags' attrs="{'invisible':[('filter_products','!=',True)],'required':[('filter_products','=',True)]}"/>
+                                
+                            </group>
+                            <group>
+                                <field name="action_type" widget='radio'/>
+                                
+                            </group>
+                        </group>
+                        
+                        <group>
+                            <field name="description" placeholder="Give your team the requirements to create a requisition in this category"/>
+                        </group>
+                        <notebook>
+                            <page string="Delivery Info" name="delivery_info">
+                                <group>
+                            <group string="Picking Details" name="picking_details">
+                                <field name="picking_type_id" required="1"/>
+                                <field name="picking_type_code" readonly="1"/>
+                                <field name="location_src_id" required="1" />
+                                <field name="location_dest_id" required="1" />
+                                <field name="return_picking_type_id" attrs="{'invisible':[('action_type','=','normal')]}" />
+                                <field name="return_location_id" attrs="{'invisible':[('action_type','=','normal')]}" />
+                            </group>
+                            <group string="Delivery Validity" name="delivery_validity" >
+                                <label for="default_delivery_validity" />
+                                <div class="default_delivery_validity" name="default_delivery_validity" >
+                                    <field name="default_delivery_validity" nolabel="1" />
+                                    <span>Day(s)</span>
+                                </div>
+                                <label for="default_order_validity" />
+                                <div class="default_order_validity" name="default_order_validity" >
+                                    <field name="default_order_validity" nolabel="1" />
+                                    <span>Day(s)</span>
+                                </div>
+                                <label for="delivery_lead_days" />
+                                <div class="delivery_lead_days" name="delivery_lead_days" >
+                                    <field name="delivery_lead_days" nolabel="1" />
+                                    <span>Day(s)</span>
+                                </div>
+                                <label for="default_return_validity" />
+                                <div class="default_return_validity" name="default_return_validity" >
+                                    <field name="default_return_validity" nolabel="1" />
+                                    <span>Day(s)</span>
+                                </div>
+                            </group>
+                        </group>
+                            </page>
+                            <page string="Options" name="options">
+                                <group>
+                                    <group string="Fields" name="option_settings">
+                                        <field name="has_partner" string="Partner" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="partner_category_ids" widget="many2many_tags" attrs="{'invisible':[('has_partner','==','no')]}"/>
+                                        
+                                        <field name="has_reference" string="Reference" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_purchase_order" string="Purchase Order" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_transfer_order" string="Transfer Order" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_transporter" string="Transporter" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="transporter_category_ids" widget="many2many_tags" attrs="{'invisible':[('has_partner','==','no')]}"/>
+
+                                        <field name="has_analytic_account" string="Analytic Account" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_analytic_tags" string="Anaytic Tags" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_supplier" string="Supplier" widget="radio" options="{'horizontal': true}"/>
+                                        <field name="has_tower_info" string="Tower Info" widget="radio" options="{'horizontal': true}"/>
+
+
+                                    </group>
+                                 </group>
+                            </page>
+                            <page string="Documents" name="documents">
+                                <group>
+                                    <group string="Required Documents" name="required_documents">
+                                        <field name="health_check_form" />
+                                        <field name="fir_report" />
+                                        <field name="accident_report" />
+                                        <field name="hoto_checklist" />
+                                        <field name="proof_attachment"  />
+                                        
+                                    </group>
+                                </group>
+                            </page>
+                            
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="stock_transfer_order_category_tree_view">
+            <field name="name">stock.transfer.order.category.tree.view</field>
+            <field name="model">stock.transfer.order.category</field>
+            <field name="arch" type="xml">
+                <tree string="Trnasfer Order Category" >
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="transfer_order_type_id" />
+                    <field name="action_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_stock_transfer_order_category" model="ir.actions.act_window">
+            <field name="name">Requisition Category</field>
+            <field name="res_model">stock.transfer.order.category</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No requisition category found. Let's create one!
+              </p>
+            </field>
+        </record>
+        
+        <menuitem action="action_stock_transfer_order_category" name="Category" id="stock_requisition_config_category_menu" groups="group_stock_requisition_manager" parent="stock_requisition_config_menu" sequence="2"/>
+        
+    </data>
+</odoo>

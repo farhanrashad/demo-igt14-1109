@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+		<record id="report_acc_statement_wizard_form_view" model="ir.ui.view">
+			<field name="name">report.acc.statement.wizard.form.view</field>
+			<field name="model">report.acc.statement.wizard</field>
+			<field name="arch" type="xml">
+				<form string="Account Statement">
+                    <group>
+                        <group>
+                            <field name="date_from" required="0"/>
+                        </group>
+                        <group>
+                            <field name="date_to" required="0"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Partners">
+                            <field name="partner_ids">
+                                <tree>
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+					<footer>
+						<button name="print_report" type="object" string="Print" class="oe_highlight" />
+                        or
+                        <button string="Cancel" class="oe_link" special="cancel" />
+					</footer>
+				</form>
+			</field>
+		</record>
+
+		<record id="action_report_acc_statement_wizard" model="ir.actions.act_window">
+			<field name="name">Account Statement Report</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="res_model">report.acc.statement.wizard</field>
+			<field name="view_id" ref="report_acc_statement_wizard_form_view" />
+			<field name="view_mode">form</field>
+			<field name="target">new</field>
+		</record>
+        
+        <menuitem action="action_report_acc_statement_wizard" id="report_acc_statement_report_item" name="Account Statement" parent="account.menu_finance_reports" sequence="120"/>
+
+
+    </data>
+</odoo>

@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_overtime_type_manager,access.overtime.type.manager,model_hr_overtime_type,hr.group_hr_manager,1,1,1,1
+access_hr_overtime_type_user,access.overtime.type.user,model_hr_overtime_type,base.group_user,1,1,1,1
+
+access_hr_overtime_type_rule_manager,access.overtime.type.rule.anager,model_hr_overtime_type_rule,hr.group_hr_manager,1,1,1,1
+access_hr_overtime_type_rule_user,access.hr.overtime.type.rule.user,model_hr_overtime_type_rule,base.group_user,1,1,1,1
+
+access_hr_overtime_user,access.hr.overtime.user,model_hr_overtime_request,base.group_user,1,1,1,1
+access_hr_overtime_manager,access.hr.overtime.manager,model_hr_overtime_request,hr.group_hr_manager,1,1,1,1
+
+access_hr_overtime_line_user,access.hr.overtime.line.user,model_hr_overtime_request_line,base.group_user,1,1,1,1
+access_hr_overtime_line_manager,access.hr.overtime.line.manager,model_hr_overtime_request_line,hr.group_hr_manager,1,1,1,1
+

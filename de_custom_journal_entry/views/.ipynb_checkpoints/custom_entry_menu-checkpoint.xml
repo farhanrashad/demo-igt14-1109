@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+		<menuitem id="custom_entry_root_menu" name="Custom Entries" active="True" web_icon="de_custom_journal_entry,static/description/icon.png" sequence="10" groups="group_custom_entry_user,group_custom_entry_manager"/>
+
+		<menuitem id="custom_entry_menu" name="Custom Entries" parent="custom_entry_root_menu" sequence="2" />
+        <menuitem id="custom_entry_report_menu" name="Reports" parent="custom_entry_root_menu" sequence="3" />
+
+        <menuitem id="custom_entry_config_menu" name="Configuration" parent="custom_entry_root_menu" sequence="5" groups="group_custom_entry_manager"/>
+	</data>
+</odoo>
+

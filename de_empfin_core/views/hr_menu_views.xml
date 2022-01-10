@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+		<menuitem id="emp_fin_root_menu" name="EMP Financial" active="True" web_icon="de_empfin_core,static/description/icon.png" sequence="105"/>
+
+		<menuitem id="emp_fin_employee_main_menu" name="Employee" parent="emp_fin_root_menu" sequence="1" />
+        
+        <menuitem id="emp_fin_employee_report_main_menu" name="Reports" parent="emp_fin_root_menu" sequence="10" />
+        <menuitem id="emp_fin_employee_config_main_menu" name="Configuration" parent="emp_fin_root_menu" sequence="20" />
+        
+        <menuitem
+                id="menu_hr_employee_user_loan"
+                name="Employees"
+                action="hr.open_view_employee_list_my"
+                parent="emp_fin_employee_main_menu"
+                sequence="1"/>
+        
+         <menuitem
+            id="hr_menu_contract"
+            name="Contracts"
+            action="hr_contract.action_hr_contract"
+            parent="emp_fin_employee_main_menu"
+            sequence="4"
+            groups="hr_contract.group_hr_contract_manager"/>
+	</data>
+</odoo>
+

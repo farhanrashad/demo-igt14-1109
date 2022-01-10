@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+     <!-- Purchase Subscription Stage-->
+    <!--
+    <record id="purchase_subscription_stage_view_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.subscription.stage.view.form.inherit</field>
+        <field name="model">purchase.subscription.stage</field>
+        <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_stage_view_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='fold']" position="after">
+                <field name="subscription_type_id" options="{'no_create':True}" />
+            </xpath>
+        </field>
+    </record>
+-->
+    <!-- Purchase Subscription Search -->
+    <record id="purchase_subscription_view_search_inherit_agreements" model="ir.ui.view">
+            <field name="name">purchase.subscription.view.search.inherit</field>
+            <field name="model">purchase.subscription</field>
+            <field name="mode">primary</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_view_search"/>
+            <field name="arch" type="xml">
+                <xpath expr="//filter[@name='open']" position="before">
+                    <filter string="Caretaker Agreement" name="caretaker" domain="[('subscription_type_id.name','=','Caretaker Agreement' )]"/>
+                    <separator/>
+
+                </xpath>
+                
+                <xpath expr="//filter[@name='end_date']" position="after">
+                     <separator/>
+                    <filter name="agreement_types" string="Agreement Type" context="{'group_by': 'subscription_type_id'}"/>
+                    <separator/>
+                </xpath>
+            </field>
+        </record>
+    
+    <!-- Purchase Subscription -->
+    
+    <record id="view_purchase_subscription_form_inherit_type" model="ir.ui.view">
+        <field name="name">view.purchase.subscription.form.inherit.type</field>
+        <field name="model">purchase.subscription</field>
+        <field name="inherit_id" ref="de_purchase_subscription.purchase_subcription_form_view" />
+        <field name="arch" type="xml">
+             <xpath expr="//header" position="inside">
+                <button name="%(action_purchase_subscription_adjustments_wizard)d" string="Adjusting Entries" type="action" class="btn-primary"/>
+            </xpath>
+            <xpath expr="//field[@name='subscription_plan_id']" position="after">
+                <field name="subscription_type_id" options="{'no_create':True}" />
+		<field name="rfi_date" />
+		<field name="original_amount" />
+		<field name="current_amount" />
+		<field name="amount_current" />
+		<field name="total_comitment" />
+		<field name="open_comitment" />
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Purchase Subscription Lease Agreement  -->
+		<record id="action_purchase_subscription_lease" model="ir.actions.act_window">
+			<field name="name">Subscriptions</field>
+			<field name="res_model">purchase.subscription</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form,pivot,graph,cohort,activity</field>
+            <field name="context">{"search_default_my_subscriptions":1}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" eval='False'/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new lease agreement
+				</p>
+                <p>
+                    Create purchase lease agreement to manage recurring billing &amp; payments. </p>
+			</field>
+		</record>
+		
+
+		<menuitem id="purchase_subscription_purchase_subscription_lease_menu" name="Lease Agreement" parent="operations_purchase_agreements_menu" action="action_purchase_subscription_lease" sequence="1" />
+    
+    <!-- Purchase Subscriptions caretaker  -->
+		<record id="action_purchase_subscription_caretaker" model="ir.actions.act_window">
+			<field name="name">Subscriptions</field>
+			<field name="res_model">purchase.subscription</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form,pivot,graph,cohort,activity</field>
+            <field name="context">{"search_default_my_subscriptions":1,"search_default_caretaker":1}</field>
+            <field name="domain">[('subscription_type_id.name','=','Caretaker Agreement' )]</field>
+            <field name="search_view_id" eval='False'/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new Caretaker Agreement
+				</p>
+                <p>
+                    Create caretaker agreement to manage recurring billing &amp; payments. </p>
+			</field>
+		</record>
+		
+
+		<menuitem id="purchase_subscription_purchase_subscription_caretaker_menu" name="Caretaker Agreement" parent="operations_purchase_agreements_menu" action="action_purchase_subscription_caretaker" sequence="2" />
+    
+    <!-- Purchase Subscriptions OM Agreements  -->
+		<record id="action_purchase_subscription_om" model="ir.actions.act_window">
+			<field name="name">Subscriptions</field>
+			<field name="res_model">purchase.subscription</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form,pivot,graph,cohort,activity</field>
+            <field name="context">{"search_default_my_subscriptions":1}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" eval='False'/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new OM Agreement
+				</p>
+                <p>
+                    Create om agreement to manage recurring billing &amp; payments. </p>
+			</field>
+		</record>
+		
+
+		<menuitem id="purchase_subscription_purchase_subscription_om_menu" name="OM Agreement" parent="operations_purchase_agreements_menu" action="action_purchase_subscription_om" sequence="3" />
+    
+    <!-- Purchase Subscriptions PM Agreement  -->
+		<record id="action_purchase_subscription_pm" model="ir.actions.act_window">
+			<field name="name">Subscriptions</field>
+			<field name="res_model">purchase.subscription</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form,pivot,graph,cohort,activity</field>
+            <field name="context">{"search_default_my_subscriptions":1}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" eval='False'/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new PM Agreement
+				</p>
+                <p>
+                    Create DG relocation or PM agreement to manage recurring billing &amp; payments. </p>
+			</field>
+		</record>
+		
+
+		<menuitem id="purchase_subscription_purchase_subscription_pm_menu" name="PM Agreement" parent="operations_purchase_agreements_menu" action="action_purchase_subscription_pm" sequence="4" />
+
+        <!-- Purchase Other Agreement  -->
+		<record id="action_purchase_subscription_other" model="ir.actions.act_window">
+			<field name="name">Subscriptions</field>
+			<field name="res_model">purchase.subscription</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form,pivot,graph,cohort,activity</field>
+            <field name="context">{"search_default_my_subscriptions":1}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" eval='False'/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new Agreement
+				</p>
+                <p>
+                    Create subscription agreement to manage recurring billing &amp; payments. </p>
+			</field>
+		</record>
+		
+
+		<menuitem id="purchase_subscription_purchase_subscription_other_menu" name="Other Agreements" parent="operations_purchase_agreements_menu" action="action_purchase_subscription_other" sequence="5" />
+			
+</odoo>
+
+

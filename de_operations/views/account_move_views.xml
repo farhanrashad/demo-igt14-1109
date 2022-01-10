@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+<record id="view_account_move_form_view_inherit_fields" model="ir.ui.view">
+            <field name="name">view.account.move.form.view.inherit.fields</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[2]" position="inside">
+                    <field name="deduction_fields" invisible="1" />
+                </xpath>
+                
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="before">
+                    <field name="invoiced_amount" attrs="{'column_invisible':['|',('parent.deduction_fields','!=',True),('parent.move_type','!=','in_refund')]}" />
+                    <field name="deds_percentage" widget="percentage" attrs="{'column_invisible':['|',('parent.deduction_fields','!=',True),('parent.move_type','!=','in_refund')]}" />
+                    <field name="deds_amount" attrs="{'column_invisible':['|',('parent.deduction_fields','!=',True),('parent.move_type','!=','in_refund')]}" />
+
+                <!-- fields for electricity -->
+                </xpath>
+                <xpath expr="//field[@name='line_ids']/tree" position="inside">
+                    <field name="f_booklet_no" invisible="1" />
+                    <field name="f_receipt_no" invisible="1" />
+                    <field name="invoiced_amount" invisible="1" />
+                    
+                   
+                </xpath>
+                
+            </field>
+    </record>
+</odoo> 
+
+<!--
+                    <attribute name="optional">hide</attribute>
+-->

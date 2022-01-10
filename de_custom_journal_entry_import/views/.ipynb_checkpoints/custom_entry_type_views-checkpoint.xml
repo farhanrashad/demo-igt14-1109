@@ -1,0 +1,27 @@
+<odoo>
+    <data>
+        
+        <record id="view_custom_entry_type_import" model="ir.ui.view">
+            <field name="name">account.custom.entry.type.import</field>
+            <field name="model">account.custom.entry.type</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_type_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='sequence_code']" position="after">
+                    <field name="attachment_id"  widget="many2many_binary"></field>
+                    <field name="update_attachment_id"  widget="many2many_binary"></field>
+                    <field name="is_publish"   />
+                </xpath>
+                <xpath expr="//field[@name='has_attachment']" position="after">
+                    <field name="has_create_attaachment"   widget="radio" options="{'horizontal': true}" />
+                    <field name="has_edit_attachment"   widget="radio" options="{'horizontal': true}" />
+                </xpath>
+              
+           </field>
+        </record>
+
+
+       
+
+       
+    </data>
+</odoo>

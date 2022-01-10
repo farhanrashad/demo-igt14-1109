@@ -1,0 +1,62 @@
+<odoo>
+
+	<record id="view_site_billing_info_tree" model="ir.ui.view">
+		<field name="name">site.billing.info.tree</field>
+		<field name="model">site.billing.info</field>
+		<field name="arch" type="xml">
+			<tree editable="bottom">
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="name"/>
+                <field name="network_type_id"/>
+				<field name="indoor_bts"/>
+				<field name="outdoor_bts"/>
+				<field name="site_class"/>
+				<field name="ip_start_date" required="True"/>
+				<field name="ip_end_date" required="True"/>
+				<field name="billable"/>
+				<field name="head_lease_full_extra"/>
+				<field name="billable_lease_amount"/>
+			</tree>
+		</field>
+	</record>
+
+	<record id="view_site_billing_info_seach" model="ir.ui.view">
+		<field name="name">site.billing.info.search</field>
+		<field name="model">site.billing.info</field>
+		<field name="arch" type="xml">
+			<search>
+				<field name="msa_id"/>
+				<field name="site_id"/>
+				<field name="name"/>
+                <field name="network_type_id"/>
+				<field name="indoor_bts"/>
+				<field name="outdoor_bts"/>
+				<field name="site_class"/>
+				<field name="ip_start_date" required="True"/>
+				<field name="ip_end_date" required="True"/>
+				<field name="billable"/>
+				<field name="head_lease_full_extra"/>
+				<field name="billable_lease_amount"/>
+			</search>
+		</field>
+	</record>
+
+
+	<record id="action_site_billing_info_view" model="ir.actions.act_window">
+		<field name="name">Site Billing Info</field>
+		<field name="res_model">site.billing.info</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="search_view_id" ref="view_site_billing_info_seach" />
+		<field name="view_id" ref="view_site_billing_info_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Create Site Billing Info Here...
+			</p>
+		</field>
+	</record>
+
+</odoo>

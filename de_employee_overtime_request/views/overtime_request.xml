@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="open_overtime_creation_form_menu_form" model="ir.ui.view">
+            <field name="name">OverTime Request</field>
+            <field name="model">employee.overtime</field>
+            <field name="arch" type="xml">
+                <form string="OverTime Request">
+                 <header>
+                 <button name="submit" string="Submit" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'new')]}" />
+                         />
+                    <button name="draft" string="Manager Approved" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'm_a')]}" groups="de_employee_overtime_request.l_m" />
+                         />
+                          <button name="wait" string="HOD Approved" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'wait')]}" groups="de_employee_overtime_request.h_o_d" />
+                         />
+                          <button name="approve" string="HR Approved" type="object" class="btn-primary"
+                        attrs="{'invisible': [('state', 'not in', 'hr_approve')]}" groups="de_employee_overtime_request.h_r" />
+                         />
+                         
+                         
+    
+                        
+                        <field name="state"  widget="statusbar" statusbar_visible="new,m_a,wait,hr_approve,done"/>
+                  </header>
+                  <sheet>
+                   
+                         <div class="oe_title">
+                        <h1>
+                            <field name="code" readonly="1"/>
+                        </h1>
+                    </div>
+                        <group col="4">
+                        <field name="name" attrs="{'readonly': [('state', 'in','done')]}" />
+                        <field name="start_date"/>
+                        <field name="department" />
+                        <field name="end_date" />
+                        <field name="company_id" />
+                        <field name="payroll" attrs="{'readonly': [('state', 'in','done')]}" />
+                        
+                        <field name="hod_date"/>
+                        <field name="dep_date"/>
+                        <field name="hod_approve_by"/>
+                        <field name="dept_approve_by"/>
+                        <field name="dept_manager"/>
+                         <field name="number_hours" attrs="{'readonly': [('state', 'in','done')]}" />
+                       
+                        
+
+                         </group>
+                    
+                    <notebook>
+                        <page string="Notes">
+                            
+                                        <field name="note" attrs="{'readonly': [('state', 'in','done')]}"/>
+                           
+                        </page>
+                    </notebook>
+                     
+                    
+                </sheet>
+            
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+               </form>
+            </field>
+            </record>
+            
+            <record id="open_overtime_creation_form_tree" model="ir.ui.view">
+                <field name="name">OverTime Request</field>
+                <field name="model">employee.overtime</field>
+                <field name="arch" type="xml">
+                    <tree string="OverTime Request Tree">
+                         <field name="name" />
+                        <field name="start_date"/>
+                        <field name="end_date" />
+                       
+                        <field name="payroll" />
+                       
+                         <field name="number_hours"  />
+                        
+                        <field name="company_id" />
+                        <field name="state"/>
+                    </tree>
+                </field>
+            </record>
+            
+            
+        
+         
+   
+               
+            <record id="open_overtime_creation_form" model="ir.actions.act_window">
+                <field name="name">OverTime Request</field>
+                <field name="res_model">employee.overtime</field>
+                <field name="binding_view_types">form</field>
+                <field name="view_mode">tree,form</field>
+                <field name="view_id" ref="open_overtime_creation_form_tree"/>
+            </record>
+            <menuitem action="open_overtime_creation_form" name="OverTime Request" id="job_overtime_request_menue"  parent="hr.menu_hr_root" />
+         
+        <record id="view_hr_payslip_form_custom" model="ir.ui.view">
+        <field name="name">hr.payslip.form.inherited</field>
+        <field name="model">hr.payslip</field>
+        <field name="inherit_id" ref="hr_payroll.view_hr_payslip_form" />
+        <field name="arch" type="xml">
+            
+            <xpath expr="//form/header/button[@name='compute_sheet']" position="replace">
+         
+         
+         
+         
+            
+         <button string="Compute Sheet" name="compute_sheet" type="object" states="draft,verify" class="oe_highlight"/>   
+            
+            
+            </xpath>
+            </field>
+            </record>
+            </data>
+            </odoo>
+            
+            

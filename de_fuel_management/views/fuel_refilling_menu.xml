@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+  
+
+   <menuitem
+        id="menu_fuel_refilling_root"
+        name="Refilling"
+        parent="stock.menu_stock_config_settings"
+        sequence="10"
+        />
+
+    <menuitem
+        id="menu_refilling_entries_root"
+        name="Refilling Entries"
+        parent="menu_fuel_refilling_root"
+        sequence="2"
+        action="action_view_refilling_entries"      
+        />
+    <menuitem
+        id="menu_refilling_points_root"
+        name="Refilling Points"
+        parent="menu_fuel_refilling_root"
+        sequence="1"
+        action="action_view_stock_location"      
+        />
+
+
+  
+</odoo>

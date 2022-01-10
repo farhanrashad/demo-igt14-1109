@@ -1,0 +1,10 @@
+<odoo>
+    <data noupdate="1">
+    	<record forcecreate="True" id="hr_employee_training_course_sequence" model="ir.sequence">
+		    <field name="name">Training Courses</field>
+		    <field name="code">hr.employee.training.course</field>
+		    <field name="prefix">CO/</field>
+		    <field name="padding">4</field>
+		</record>
+    </data>
+</odoo>

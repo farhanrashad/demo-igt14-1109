@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_fleet_fuel_form" model="ir.ui.view">
+		<field name="name">fleet.fuel.form</field>
+		<field name="model">fleet.fuel</field>
+		<field name="arch" type="xml">
+			<form string="Fleet Fuel">
+                <sheet>
+                    <group>
+                        <group>
+                            <h2 class="text-info"><b>Fuel Drawn</b></h2>
+                            <field name="name"/>
+                            <field name="location"/>
+                            <field name="last_clean_date"/>
+                        </group>
+                        <group>
+                            <h2 class="text-info"><b>Fuel Details</b></h2>
+                            <field name="capacity"/>
+                            <field name="liters"/>
+                            <field name="average_price"/> 
+                            <button name='%(de_fleet_fuel.action_add_fuel_wizard)d' type="action" string="Add Fuel" class='oe_highlight'/>
+                        </group>
+                        <br/>
+                        <br/>
+                        <group>
+                            <h2 class="text-info"><b>Last Filling Details</b></h2>
+                            <field name="last_filling_date"/>
+                            <field name="last_filling_amount"/>
+                            <field name="last_filling_price"/>
+                        </group>
+                        <group>
+                            <h2 class="text-info"><b>Consumption Details</b></h2>
+                            <field name="total_filling_fuel"/>
+                            <field name="last_added_fuel_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Fuel Filling History">
+                            <field name="history_ids">
+                                <tree editable="bottom">
+                                    <field name="fuel_date"/>
+                                    <field name="fuel_price"/>
+                                    <field name="fuel_liters"/>
+                                    <field name="rel_id" invisible="1"/>
+                                </tree>    
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>    
+			</form>
+		</field>
+	</record>
+    
+    <record id="view_fleet_fuel_tree" model="ir.ui.view">
+		<field name="name">fleet.fuel.tree</field>
+		<field name="model">fleet.fuel</field>
+		<field name="arch" type="xml">
+			
+			<tree string="Fleet Fuel">
+				<field name="name"/>
+                <field name="location"/>
+                <field name="last_clean_date"/>
+                <field name="capacity"/>
+                <field name="liters"/>
+                <field name="average_price"/>
+			</tree>
+			
+		</field>
+	</record>
+    
+    <record id="action_fleet_fuel_view" model="ir.actions.act_window">
+		<field name="name">Fleet Fuel</field>
+		<field name="res_model">fleet.fuel</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="view_id" ref="view_fleet_fuel_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Add Fleet Fuel.....
+			</p>
+		</field>
+	</record>
+    
+    <record id="view_vehicle_fuel_log_form" model="ir.ui.view">
+		<field name="name">vehicle.fuel.log.form</field>
+		<field name="model">vehicle.fuel.log</field>
+		<field name="arch" type="xml">
+			<form string="Vehicle Fuel Log">
+                <sheet>
+                    <group>
+                        <group>
+                            <h2 class="text-info"><b>Vehicle Details</b></h2>
+                            <field name="vehicle"/>
+                            <field name="employee"/>
+                            <field name="department_id"/>
+                        </group>
+                        <group>
+                            <h2 class="text-info"><b>Refueling Details</b></h2>
+                            <field name="liter"/>
+                            <field name="fuel"/>
+                            <field name="price_per_liter"/>
+                            <field name="total_price"/>
+                        </group>
+                        <br/>
+                        <br/>
+                        <group>
+                            <h2 class="text-info"><b>Odometer Details</b></h2>
+                            <field name="odometer_value"/>
+                            <field name="previous_odometer_reading"/>
+                        </group>
+                        <group>
+                            <h2 class="text-info"><b>Additional Details</b></h2>
+                            <field name="date"/>
+                            <field name="invoice_reference"/>
+                            <field name="vendor"/>
+                            <field name="purchaser"/>
+                        </group>
+                    </group>
+                </sheet>    
+			</form>
+		</field>
+	</record>
+    
+    <record id="view_vehicle_fuel_log_tree" model="ir.ui.view">
+		<field name="name">vehicle.fuel.log.tree</field>
+		<field name="model">vehicle.fuel.log</field>
+		<field name="arch" type="xml">
+			
+			<tree string="Fleet Fuel">
+                <field name="date"/>
+				<field name="vehicle"/>
+                <field name="fuel"/>
+                <field name="employee"/>
+                <field name="department_id"/>
+                <field name="odometer_value"/>
+                <field name="liter"/>
+                <field name="total_price"/>
+			</tree>
+			
+		</field>
+	</record>
+    
+    <record id="action_vehicle_fuel_log_view" model="ir.actions.act_window">
+		<field name="name">Vehicle Fuel Log</field>
+		<field name="res_model">vehicle.fuel.log</field>
+		<field name="type">ir.actions.act_window</field>
+		<field name="view_mode">tree,form</field>
+		<field name="domain">[]</field>
+		<field name="context">{}</field>
+		<field name="view_id" ref="view_vehicle_fuel_log_tree" />
+		<field name="help" type="html">
+			<p class="o_view_nocontent_smiling_face">
+				Add Vehicle Fuel Log .....
+			</p>
+		</field>
+	</record>
+    
+
+	<record id="fleet_fleet_vehicle_view_form_inherit" model="ir.ui.view">
+			<field name="name">fleet.vehicle.inherit</field>
+			<field name="model">fleet.vehicle</field>
+			<field name="inherit_id" ref="fleet.fleet_vehicle_view_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//div[@name='button_box']" position="inside">
+                    <button name="open_user_logs" type="object" class="oe_stat_button" icon="fa-history">
+                            <field name="user_log_count" widget="statinfo" string="User History"/>
+                    </button>
+                    <button name="open_fuel_logs" type="object" class="oe_stat_button" icon="fa-pencil-square-o">
+                        <field name="fuel_log_count" widget="statinfo" string="Fuel Logs"/>
+                    </button>
+				</xpath>
+			</field>
+		</record>
+    
+    <record id="fleet_vehicle_user_log_view_list" model="ir.ui.view">
+        <field name="name">fleet.vehicle.user.log.view.tree</field>
+        <field name="model">fleet.vehicle.user.log</field>
+        <field name="arch" type="xml">
+            <tree string="User Logs" editable="bottom">
+                <field name="vehicle_id" invisible="1"/>
+                <field name="user_id"/>
+                <field name="department_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="attachment_id"  widget="many2many_binary"></field>
+            </tree>
+        </field>
+    </record>
+
+
+
+
+    <menuitem id="fleet_fuel_menu" name="Fuel" parent="fleet.fleet_configuration"
+			action="de_fleet_fuel.action_fleet_fuel_view" sequence="10" />
+    
+    <menuitem id="vehicle_fuel_log_menu" name="Vehicle Fuel Logs" parent="fleet.fleet_vehicles"
+			action="de_fleet_fuel.action_vehicle_fuel_log_view" sequence="10" />
+
+
+	<record model="ir.ui.view" id="fleet_vehicle_model_view_form_type">
+        <field name="name">fleet.vehicle.model.form.type</field>
+            <field name="model">fleet.vehicle.model</field>
+            <field name="inherit_id" ref="fleet.fleet_vehicle_model_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='vehicle_type']" position="replace">
+                        <field name="vehicle_type"/>
+                </xpath>
+        </field>
+    </record>
+    
+</odoo>

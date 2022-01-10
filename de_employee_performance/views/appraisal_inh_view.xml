@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<record id="view_project_task_inh" model="ir.ui.view">
+		<field name="name">project.task.form</field>
+		<field name="model">project.task</field>
+		<field name="inherit_id" ref="project.view_task_form2" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='displayed_image_id']" position="after">
+				<field name="goal_id"/>
+			</xpath>
+		</field>
+	</record>
+    
+    	<record id="view_project_edit_project_inh" model="ir.ui.view">
+		<field name="name">project.project.form</field>
+		<field name="model">project.project</field>
+		<field name="inherit_id" ref="project.edit_project" />
+		<field name="arch" type="xml">
+			<xpath expr="//field[@name='label_tasks']" position="after">
+				<group>
+					<field name="is_appraisal"/>
+				</group>
+			</xpath>
+		</field>
+	</record>
+	<record id="view_goal_view_inh" model="ir.ui.view">
+		<field name="name">hr.appraisal.goal.view.form</field>
+		<field name="model">hr.appraisal.goal</field>
+		<field name="inherit_id" ref="hr_appraisal.hr_appraisal_goal_view_form" />
+		<field name="arch" type="xml">
+
+			<xpath expr="//field[@name='progression']" position="before">
+
+					<field name="target"/>
+					<field name="kra_id"/>
+			</xpath>
+		</field>
+	</record>
+    
+    <record id="view_search_appraisal_filter_inh" model="ir.ui.view">
+        <field name="name">hr.appraisal.goal.view.search</field>
+        <field name="model">hr.appraisal.goal</field>
+        <field name="inherit_id" ref="hr_appraisal.hr_appraisal_goal_view_search" />
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='filter_deadline']" position="after">
+                <group expand="0" string="Group By">
+                    <filter name="group_kra" string="KRA" domain="[]" context="{'group_by': 'kra_id'}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+        
+    
+    <record id="assign_job_view_inh" model="ir.ui.view">
+		<field name="name">hr.appraisal.goal.view.form</field>
+		<field name="model">hr.appraisal.goal</field>
+		<field name="inherit_id" ref="hr_appraisal.hr_appraisal_goal_view_form" />
+		<field name="arch" type="xml">
+
+			<xpath expr="//form/sheet/group" position="after">
+				<notebook>
+					<page string="Assign Job">
+                            <field name="appraisal_goal_tasks_lines">
+                                <tree editable="bottom">
+                                    <field name="task_id"/>
+                                    <field name="task_deadline"/>
+                                    <field name="task_status"/>
+                                </tree>
+                            </field>
+					</page>
+				</notebook>
+			</xpath>
+		</field>
+	</record>
+    
+    <record id="appraisal_kanban_view_inh" model="ir.ui.view">
+		<field name="name">hr.appraisal.goal.view.kanban</field>
+		<field name="model">hr.appraisal.goal</field>
+		<field name="inherit_id" ref="hr_appraisal.hr_appraisal_goal_view_kanban" />
+		<field name="arch" type="xml">
+
+			<xpath expr="//div[@class='goal_description']" position="after">
+                <p style="color:Blue;">
+                    <field name="kra_id" />
+                </p>
+			</xpath>
+        </field>
+     </record> 
+    
+    <record id="appraisal_page_view_inh" model="ir.ui.view">
+		<field name="name">hr.appraisal.form</field>
+		<field name="model">hr.appraisal</field>
+		<field name="inherit_id" ref="hr_appraisal.view_hr_appraisal_form" />
+		<field name="arch" type="xml">
+
+			<xpath expr="//field[@name='waiting_feedback']" position="after">
+				<notebook>
+					<page string="KRA and Goal">
+<!--                         <div class="row">
+                            <div class="o_hr_skills_group o_group_resume col-lg-7 d-flex">
+                                <field mode="tree" nolabel="1" name="appraisal_kra_lines_ids"  widget="goal_widget">
+                                    <tree>
+                                        <field name="kra_id"/>
+                                    </tree>
+                                </field>
+                            </div>-->
+
+                            <div class="o_hr_skills_group o_group_skills col-lg-7 d-flex flex-column">
+                                <field mode="tree" nolabel="1" name="appraisal_kra_goal_ids" widget="kra_widget">
+                                    <tree>
+                                        <field name="goal_id"/>
+                                        <field name="kra_id"/>
+										<field name="level_progress" widget="progressbar"/>
+                                    </tree>
+                                </field>
+                            </div>
+					</page>
+				</notebook>
+			</xpath>
+            
+        </field>
+	</record>
+</odoo>

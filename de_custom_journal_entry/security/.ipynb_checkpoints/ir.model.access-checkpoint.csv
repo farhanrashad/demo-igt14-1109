@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_custom_entry_type_manager,access.custom.entry.type.manager,model_account_custom_entry_type,group_custom_entry_manager,1,1,1,1
+access_custom_entry_type_user,access.custom.entry.type.user,model_account_custom_entry_type,group_custom_entry_user,1,0,0,0
+access_custom_entry_stage_manager,access.custom.entry.stage.manager,model_account_custom_entry_stage,group_custom_entry_manager,1,1,1,1
+access_custom_entry_stage_user,access.custom.entry.stage.user,model_account_custom_entry_stage,group_custom_entry_user,1,0,0,0
+access_custom_entry_user,access.custom.entry.manager,model_account_custom_entry,group_custom_entry_user,1,1,1,1
+access_custom_entry_line_user,access.custom.entry.line.user,model_account_custom_entry_line,group_custom_entry_user,1,1,1,1
+
+access_accout_move_entry_user,access.account.move.entry.user,account.model_account_move,group_custom_entry_user,1,0,0,0
+access_accout_move_line_entry_user,access.account.move.line.entry.user,account.model_account_move_line,group_custom_entry_user,1,0,0,0
+access_accout_payme_entry_user,access.account.payment.entry.user,account.model_account_payment,group_custom_entry_user,1,0,0,0

@@ -1,0 +1,84 @@
+<odoo>
+    <record id="view_top_up_balance_form" model="ir.ui.view">
+        <field name="name">topup.balance.form</field>
+        <field name="model">topup.balance</field>
+        <field name="arch" type="xml">
+            <form string="Top UP Balance">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_confirm" string="Confirm" type="object" states='draft'
+                            class='oe_highlight'/>
+                    <button name="action_cancel" string="Cancel" type="object" states='confirmed'
+                            class='oe_highlight'/>
+                    <button name="action_close" string="Close" type="object" states='confirmed'
+                            class='oe_highlight'/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <h3>
+                                <field name="topup_balance"/>
+<!--                                 <field name="name"/>-->
+                            </h3>
+
+                            <field name='date'/>
+                            <field name='name'/>
+                            <field name='pre_period'/>
+                            <field name='curr_period'/>
+                            <field name='is_populated'/>
+                            <field name='balance_month'  invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Details" name="Details">
+                            <field name='topup_balance_lines' attrs="{'readonly': [('state','=','confirmed')]}">
+                                <tree editable='bottom'>
+                                    <field name='operator'/>
+                                    <field name='opening_balance' sum="Opening"/>
+                                    <field name='purchase_qty' sum="Total Purchase"/>
+                                    <field name='distributed_qty' sum="Total Distributed"/>
+                                    <field name='balance' sum="Total Balance"/>
+                                    <field name='remarks'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                 <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_topup_balance_tree" model="ir.ui.view">
+        <field name="name">topup.balance.tree</field>
+        <field name="model">topup.balance</field>
+        <field name="arch" type="xml">
+            <tree string="TopUP Balance Tree">
+                <field name="topup_balance"/>
+                <!--                <field name='employee'/>-->
+                <field name='name'/>
+                <field name="state"/>
+                <field name='date'/>
+                <field name='pre_period'/>
+                <field name='curr_period'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_topup_balance_view" model="ir.actions.act_window">
+        <field name="name">TopUp Balance</field>
+        <field name="res_model">topup.balance</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_topup_balance_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Records Here.......
+            </p>
+        </field>
+    </record>
+</odoo>

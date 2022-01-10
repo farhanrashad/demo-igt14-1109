@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="custom_entry_line_import_wizard_form_view" model="ir.ui.view">
+        <field name="name">custom.entry.line.import.wizard.view.form</field>
+        <field name="model">custom.entry.line.import.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Import Lines">
+                <group>
+                    <field name="import_type" widget="radio" />
+                    <field name="file"   widget="many2many_binary"/>
+                    <field name="custom_entry_id"  invisible='1'/>
+                </group>
+                <footer>
+                    <button name="import_custom_entry_line" string="Apply" type="object" class="btn-primary" />
+                    <button string="Cancel" class="btn-default" special="cancel" />
+
+                    <div style="float: right;">
+                        <strong>Download Sample:</strong>
+                        <button name="import_custom_entry_line_sample"  type="object" class="btn-primary" >
+                            <i class="fa fa-download" /> Example CSV file
+                        </button>
+                        
+                    </div>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_import_custom_entry_line" model="ir.actions.act_window">
+        <field name="name">Import Custom Entry Line</field>
+        <field name="res_model">custom.entry.line.import.wizard</field>
+        <field name="view_id" ref="custom_entry_line_import_wizard_form_view" />
+        <field name="target">new</field>
+    </record>
+</odoo>

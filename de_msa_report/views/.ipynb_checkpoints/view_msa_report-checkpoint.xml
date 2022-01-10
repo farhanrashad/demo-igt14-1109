@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+        <record id="view_msa_report" model="ir.ui.view">
+            <field name="name">master.service.agreement.form</field>
+            <field name="model">master.service.agreement</field>
+            <field name="inherit_id" ref="de_msa.view_master_service_agreement_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//sheet" position="before">
+                    <header>
+                        <button name="print_msa_report" type="object" string="Print Performa Invoice" class="oe_highlight"/>
+                    </header>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

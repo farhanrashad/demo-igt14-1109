@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="report_fleet_request_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+
+                    <div class="page">
+                        <div class="oe_structure"/>
+                        <h3 t-if="o.requested_model"><span t-field="o.requested_model"/></h3>
+                        <h3 t-if="o.requested_brand_id"><span t-field="o.requested_brand_id"/></h3>
+                        <h3 t-if="o.license_plate"><span t-field="o.license_plate"/></h3>
+                        <div class="row">
+                            <div class="col-6">
+                                <p t-if="o.request_to">Request To:<span t-field="o.request_to"/></p>
+                                <p t-if="o.request_for">Request For:<span t-field="o.request_for"/></p>
+                                <p t-if="o.request_date">Request Date:<span t-field="o.request_date"/></p>
+                                <p t-if="o.number">Request Name:<span t-field="o.number"/></p>
+                                <div class="oe_structure"/>
+                            </div>
+                            <div class="col-6">
+                                <p t-if="o.employee">Employee:<span t-field="o.employee"/></p>
+                                <p t-if="o.department">Department:<span t-field="o.department"/></p>
+                                <p t-if="o.project">Project:<span t-field="o.project"/></p>
+                                <p t-if="o.task">Task:<span t-field="o.task"/></p>
+                                <div class="oe_structure"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <p t-if="o.start_date">Start Date:<span t-field="o.start_date"/></p>
+                                <p t-if="o.end_date">End Date:<span t-field="o.end_date"/></p>
+                                <div class="oe_structure"/>
+                            </div>
+                            <div class="col-6">
+                                <p t-if="o.created_by">Created By:<span t-field="o.created_by"/></p>
+                                <p>Company:<span t-field="res_company.name"/></p>
+                                <div class="oe_structure"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <br /><h3 t-if="o.request_details">Vehicle Request Reason:</h3>
+                                <p t-if="o.request_details"><span t-field="o.request_details"/></p>
+                                <div class="oe_structure"/>
+                            </div>
+                        </div>
+                        <h2 t-if="o.confirm_by or o.assign_by or o.approve_by or o.return_by">Other Information</h2><br />
+                        <div class="row">
+                            <div class="col-6">
+                                <p t-if="o.confirm_by">Confirm By:<span t-field="o.confirm_by"/></p>
+                                <p t-if="o.assign_by">Assign By:<span t-field="o.assign_by"/></p>
+                                <p t-if="o.approve_by">Approve By:<span t-field="o.approve_by"/></p>
+                                <p t-if="o.return_by">Return By:<span t-field="o.return_by"/></p>
+                                <div class="oe_structure"/>
+                            </div>
+                            <div class="col-6">
+                                <p t-if="o.confirm_date">Confirm Date:<span t-field="o.confirm_date"/></p>
+                                <p t-if="o.assign_date">Assign Date:<span t-field="o.assign_date"/></p>
+                                <p t-if="o.approve_date">Approve Date:<span t-field="o.approve_date"/></p>
+                                <p t-if="o.return_date">Return Date:<span t-field="o.return_date"/></p>
+                                <div class="oe_structure"/>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- subscription stage -->
+    <record id="purchase_subscription_stage_view_form_inherit_security" model="ir.ui.view">
+            <field name="name">purchase.subscription.stage.form.view.inherit.security</field>
+            <field name="model">purchase.subscription.stage</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_stage_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='subscription_type_ids']" position="after">
+                    <field name="next_stage_id" />
+                    <field name="prv_stage_id" />
+                    <field name="group_id" />
+                </xpath>
+        </field>
+    </record>
+    
+    
+    <record id="purchase_subscription_type_view_form_inherit" model="ir.ui.view">
+            <field name="name">purchase.subscription.type.form.view.inherit</field>
+            <field name="model">purchase.subscription.type</field>
+            <field name="inherit_id" ref="de_purchase_subscription.purchase_subscription_type_view_form" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='company_id']" position="after">
+                    <field name="group_id" />
+                </xpath>
+        </field>
+    </record>
+		<record id="action_purchase_subscription_type" model="ir.actions.act_window">
+			<field name="name">Subscription Type</field>
+			<field name="res_model">purchase.subscription.type</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">tree,form</field>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new subscription type
+				</p>
+               
+			</field>
+		</record>
+		
+		<menuitem id="purchase_subscription_config_type_menu" name="Subscription Types" parent="operations_purchase_config_menu"
+			action="action_purchase_subscription_type"
+			sequence="3" />
+		
+			
+</odoo>
+
+

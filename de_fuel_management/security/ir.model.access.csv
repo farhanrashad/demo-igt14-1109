@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_stock_refill_user,access.stock.refill.user,model_stock_refill,stock.group_stock_user,1,1,1,1
+access_stock_refill_line_user,access.stock.refill.line.user,model_stock_refill_line,stock.group_stock_user,1,1,1,1

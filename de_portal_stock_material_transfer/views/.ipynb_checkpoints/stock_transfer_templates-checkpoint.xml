@@ -1,0 +1,1350 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- -->
+    <template id="portal_layout" name="Portal layout: material menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'stock_material' or stock_material" t-attf-class="breadcrumb-item #{'active ' if not stock_material else ''}">
+                <a t-if="stock_material" t-attf-href="/stock/materials?{{ keep_query() }}">Material Requisition</a>
+                <t t-else="">Material Requisition</t>
+            </li>
+        </xpath>
+    </template>
+    <!-- -->
+    <template id="portal_my_home" name="Show Hoto / Tasks" customize_show="True" inherit_id="portal.portal_my_home" priority="40">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Material Requisition</t>
+                <t t-set="url" t-value="'/stock/materials'"/>
+                <t t-set="placeholder_count" t-value="'material_count'"/></t>
+        </xpath>
+    </template>
+    <!-- -->
+    <template id="portal_stock_materials" name="Stock Materials">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Material Requisition</t>
+            </t>
+            <t t-if="not grouped_materials">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no Material Requisition.
+                </div>
+            </t>
+            <t t-if="grouped_materials">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_materials" t-as="materials">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left">Ref</th>
+                                <th >Order Date</th>
+                                <th >Date Scheduled</th>
+                                <th >Contractor</th>
+                                <th >Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="materials" t-as="material">
+                                <tr>
+                                    <td class="text-left">
+                                        #
+                                        <a t-attf-href="/stock/material/#{material.id}?{{ keep_query() }}">
+                                        <span t-esc="material.name"/>
+                                        </a>
+                                    </td>
+                                    <td>
+                                            <span t-field="material.date_order" t-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td class="text-left">
+                                            <span t-field="material.date_order" t-options='{"widget": "date"}'/>
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="material.partner_id.name"/>
+                                    </td>
+
+                                    <td class="text-left">
+                                        <span t-esc="material.stage_id.name"/>
+                                    </td>
+                                </tr>
+                            </t>
+                            <tr>
+                                <div>
+                                    <t class="col-lg-7 col-md-8" >
+                                        <a href="/stock/material/type/" >
+                                            <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Create</div>
+                                        </a>
+                                    </t>
+                                </div>
+                            </tr>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+    <!-- -->
+    <template id="portal_stock_material" name="Stock Material">
+        <t t-call="portal.portal_layout">
+            <t t-call="portal.portal_record_layout">
+               
+                <t t-set="card_header">
+                    <div class="row no-gutters">
+                        <div class="col-12">
+                            
+                            <t t-if="stock_material.is_entry_edited==True">  
+                             <t t-if="edit_material==False">  
+                                <a t-attf-href="/stock/material/edit/#{stock_material.id}?" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Edit</div> </a> 
+                            </t>
+                            </t>
+                             
+                            
+                            <h5 class="d-flex mb-1 mb-md-0 row">
+                                <span t-field="stock_material.name" class="col-9 text-truncate"/>
+                                <small class="text-muted d-none d-md-inline"> (#
+                                    <span t-field="stock_material.id"/>)
+                                
+                                </small>
+                                <div class="col-3 col-md-2 text-right">
+                                    <small class="text-right">Status:</small>
+                                    <span t-field="stock_material.stage_id.name" class=" badge badge-pill badge-info" title="Current stage of this material s"/>
+                                </div>
+                            </h5>
+                        </div>
+                    </div>
+                </t>
+                <t t-set="card_body">
+                    
+                       <form id="stockmaterialForm" data-toggle="validator"   action="/stock/material/edit/save"  method="post" enctype="multipart/form-data">
+                    
+                      <t t-if="edit_material==True">  
+                            <div class="row mb-4">
+                             <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                             <div style="width: 200px;" class="s_website_form_label"></div>                             
+                                 <button id="stockmaterialButton"  type="submit" class="btn btn-primary pull-left">Save</button>
+                                    <span id="s_website_form_result"></span>
+                             </div> 
+
+                              </div>
+                                 
+                            </t>    
+                            
+
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6 mb-1">
+                            <strong>Order Date:</strong>
+                            <span t-field="stock_material.date_order" t-options='{"widget": "date"}'/>
+                        </div>
+                        <div class="col-12 col-md-6" >
+                            <strong>Date Scheduled:</strong>
+                            <span t-field="stock_material.date_scheduled"  t-options='{"widget": "date"}' />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6 mb-1">
+                             <strong>Contractor:</strong><span t-field="stock_material.partner_id.name" />
+                        </div>
+                        <div class="col-12 col-md-6" >
+                            <strong>Transfer Type:</strong>
+
+                            <span t-field="stock_material.transfer_order_type_id.name"  />
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col-12 col-md-6 mb-1">
+                            <strong>Category:</strong>
+                            <span t-field="stock_material.transfer_order_category_id.name"  />
+                        </div>
+                    </div>
+                    <h4><p style="color:blue;">Product Section</p></h4>
+                     <table class="table table-sm table-striped table-bordered" id="stockTable">
+
+
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+
+                                <th class="text-left">Product</th>
+                                <th class="text-left">Description</th>
+                                <th class="text-left">Quantity</th>
+                                <th class="text-left">Project</th>
+                                <th class="text-left">Schedule Date</th>
+                                <th class="text-left">Supplier</th>
+                            </tr>
+                        <t t-foreach="stock_material.stock_transfer_order_line" t-as="line">
+                               <tr>
+                                     <td class="product">
+
+                                        <span t-esc="line.product_id.name" />
+                                    </td>
+                                   <td class="description">
+
+                                        <span t-esc="line.name" />
+                                    </td>
+                                  <td class="quantity">
+
+                                        <span t-esc="line.product_uom_qty" />
+                                    </td>
+                                <td class="project">
+
+                                        <span t-esc="line.project_id.name" />
+                                    </td>
+                            <td class="sechdule">
+
+                                        <span t-esc="line.date_scheduled" />
+                                    </td>
+                            <td class="supplier">
+
+                                        <span t-esc="line.supplier_id.name" />
+                                    </td>
+                               </tr>
+
+                        </t>
+                     </table>
+                    <t t-if="stock_material.stock_transfer_return_line">
+                    <h4><p style="color:blue;">Returnable Section</p></h4>
+                     <table class="table table-sm table-striped table-bordered" id="returnstockTable">
+
+
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+
+                                <th class="text-left">Product</th>
+                                <th class="text-left">Description</th>
+                                 <th class="text-left">IGT Serial No</th>
+                                <th class="text-left">OEM Serial No</th>
+                                <th class="text-left">Quantity</th>
+                                <th class="text-left">Project</th>
+                                <th class="text-left">Schedule Date</th>
+                            </tr>
+                          <t t-foreach="stock_material.stock_transfer_return_line" t-as="line">
+                               <tr>
+                                     <td class="product">
+                                        <t t-if="edit_material==True">
+                                         <select id="selectid" class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
+                                            <t t-foreach="product_lists" t-as="plist">
+                                                <option t-att-value="plist.id">
+                                                    <t t-esc="plist.product_tmpl_id.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                      </t>    
+                                        <span t-esc="line.product_id.name" />
+                                    </td>
+                                   <td class="description">
+                                         
+                                        <span t-esc="line.name" />
+                                     
+                                    </td>
+                                   <td class="igt_barcode">
+                                        <t t-if="edit_material==True">
+                                        <input type="float" class="form-control s_website_form_input" name="igt_barcode"  t-att-value="line.igt_barcode"  multiple="true" />
+                                      </t>    
+                                      <t t-if="edit_material==False">
+                                        <span t-esc="line.igt_barcode" />
+                                      </t>     
+                                    </td>
+                                   <td class="oem_barcode">
+                                         <t t-if="edit_material==True">
+                                        <input type="float" class="form-control s_website_form_input" name="oem_barcode"  t-att-value="line.oem_barcode"  multiple="true" />
+                                      </t>    
+                                      <t t-if="edit_material==False">
+                                        <span t-esc="line.oem_barcode" />
+                                      </t>     
+                                    </td>
+                                  <td class="quantity">
+
+                                        <span t-esc="line.product_uom_qty" />
+                                    </td>
+                                <td class="project">
+
+                                        <span t-esc="line.project_id.name" />
+                                    </td>
+                                   <td class="sechdule">
+
+                                        <span t-esc="line.date_scheduled" />
+                                    </td>
+                                   
+                                   <td class="lineid">
+
+                                        <input type="hidden" class="form-control s_website_form_input" name="id"  t-att-value="line.id"  multiple="true" />
+                                    </td>
+
+                               </tr>
+
+                        </t>
+                     </table>
+                   </t>
+
+                    <input type="hidden" id="stockmaterial_vals" class="form-control s_website_form_input" name="stockmaterial_vals"  multiple="true" />  
+                       <input type="hidden" id="stock_transfer_id" class="form-control s_website_form_input" name="stock_transfer_id" t-att-value="stock_material.id"  multiple="true" />  
+                         
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+                      <script type="text/javascript">
+                          
+                        $(document).ready(function(){
+
+                        $("#stockmaterialButton").on('click',function(){
+                          
+                           var materialdata=[];
+                           // loop over each table row (tr)
+                           $("#returnstockTable tr").each(function(){
+                                var currentRow=$(this);
+                                
+                                var col1_value=currentRow.find(".product select").val();
+                                var col2_value=currentRow.find(".igt_barcode input").val();
+                                var col3_value=currentRow.find(".oem_barcode input").val();
+                                var col4_value=currentRow.find(".lineid input").val();
+                                var obj={};
+                                obj.col1=col1_value;
+                                obj.col2=col2_value;
+                                obj.col3=col3_value;
+                                obj.col4=col4_value;
+
+                                materialdata.push(obj);
+                          
+                           });
+                         materialdictionary = JSON.stringify(materialdata); 
+                         var lista = document.getElementById("stockmaterial_vals")
+                         lista.value = materialdictionary 
+                         console.log(materialdata);   
+                         });
+
+                       });
+                      </script> 
+                       
+                 
+                   </form> 
+                </t>
+                
+            </t>
+            <div class="mt32">
+                <h4>
+                    <strong>Message and communication history</strong>
+                </h4>
+                <t t-call="portal.message_thread">
+                    <t t-set="object" t-value="stock_material"/>
+                    <t t-set="pid" t-value="pid"/>
+                    <t t-set="hash" t-value="hash"/></t>
+            </div>
+        </t>
+    </template>
+    <!-- Request Submission Form -->
+    <template id="de_portal_stock_material_transfer.stock_material_submited" name="stock Received">
+        <t t-call="portal.portal_layout">
+            <div id="wrap" class="oe_structure oe_empty">
+                <div class="container">
+
+                    <div class="row">
+                        <h1 class="text-center">
+                            <i class="fa fa-check-circle fa-2x text-success" role="img" aria-label="Success" title="Success"/>
+                        </h1>
+                        <h1 class="text-center">Thank you for submitting your request# <a t-attf-href="/stock/material/#{requisition.id}?{{ keep_query() }}" >
+                                <span t-esc='requisition.name'/>
+                        </a></h1>
+                        
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+<!--    &lt;!&ndash; creation form &ndash;&gt;-->
+    <template id="stock_transfer_type" name="stock transfer type">
+        <t t-call="portal.portal_layout">
+            <div id="wrap">
+                <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[1]">
+                    <section class="s_title parallax s_parallax_is_fixed bg-white-100 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                        <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/website.s_banner_default_image'); background-position: 50% 0;"></span>
+                        <div class="o_we_bg_filter bg-white-50"></div>
+                        <div class="container">
+                            <h1 style="margin-left:10px">Material Requisition</h1>
+                        </div>
+                    </section>
+                </div>
+                <div class="container mt-4 mb-5">
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-6 mr-lg-auto">
+                            <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[2]/div[1]/div[1]/div[1]">
+                                <section class="s_text_block" data-snippet="s_text_block">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <span class="hidden" data-for="contactus_form" data-oe-id="2822" data-oe-xpath="/data/xpath/span" data-oe-model="ir.ui.view" data-oe-field="arch" data-values="{'transfer_order_type_id': ''}"></span>
+                            <div id="leave_section" data-oe-id="3374" data-oe-xpath="/data/xpath[2]/div" data-oe-model="ir.ui.view" data-oe-field="arch">
+                                <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                                    <div class="container">
+                                        <form id="portal_expense_form" data-toggle="validator" action="/stock/material/type/categ/">
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="partner">
+                                                            <span class="s_website_form_label_content">Transfer Type</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control  o_website_form_input" name="transfer_type_id" readonly="1" required="1">
+                                                                <t t-foreach="transfer_type" t-as="transfer_ty">
+                                                                    <option t-att-value="transfer_ty.id">
+                                                                        <t t-esc="transfer_ty.name"    />
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                                                    <div style="width: 200px;" class="s_website_form_label"></div>
+                                                    <button type="submit" class="btn btn-primary pull-left">Next</button>
+                                                    <span id="s_website_form_result"></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-4 mt-lg-0">
+                            <div class='section-custom col-md-12'>
+
+                            </div>
+                            <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                                <div data-oe-model="res.company" data-oe-id="1" data-oe-field="partner_id" data-oe-type="contact" data-oe-expression="res_company.partner_id" data-oe-many2one-id="1" data-oe-many2one-model="res.partner" data-oe-contact-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;address&quot;, &quot;phone&quot;, &quot;mobile&quot;, &quot;email&quot;], &quot;tagName&quot;: &quot;div&quot;, &quot;expression&quot;: &quot;res_company.partner_id&quot;, &quot;type&quot;: &quot;contact&quot;, &quot;inherit_branding&quot;: true, &quot;translate&quot;: false}" data-oe-field-xpath="/t[1]/address[1]/div[1]">
+                                    <address class="mb-0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+                                        <div></div>
+                                        <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress"></div>
+                                        <div></div>
+                                    </address>
+                                </div>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure mt-2" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[3]"></div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="stock_transfer_type_categ_Create" name="stock transfer type categ">
+        <t t-call="portal.portal_layout">
+            <div id="wrap">
+                <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[1]">
+                    <section class="s_title parallax s_parallax_is_fixed bg-white-100 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                        <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/website.s_banner_default_image'); background-position: 50% 0;"></span>
+                        <div class="o_we_bg_filter bg-white-50"></div>
+                        <div class="container">
+                            <h1 style="margin-left:10px">Material Requisition</h1>
+                        </div>
+                    </section>
+                </div>
+                <div class="container mt-4 mb-5">
+                    <div class="row">
+                        <div class="col-lg-7 col-xl-6 mr-lg-auto">
+                            <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[2]/div[1]/div[1]/div[1]">
+                                <section class="s_text_block" data-snippet="s_text_block">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <span class="hidden" data-for="contactus_form" data-oe-id="2822" data-oe-xpath="/data/xpath/span" data-oe-model="ir.ui.view" data-oe-field="arch" data-values="{'transfer_order_category_id': ''}"></span>
+                            <div id="material_section" data-oe-id="3374" data-oe-xpath="/data/xpath[2]/div" data-oe-model="ir.ui.view" data-oe-field="arch">
+                                <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
+                                    <div class="container">
+                                        <form id="portal_stock_material_form" data-toggle="validator" action="/stock/material/transfer/categ/">
+                                            <div class="s_website_form_rows row s_col_no_bgcolor">
+                                                <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="partner">
+                                                            <span class="s_website_form_label_content">Transfer Category</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control  o_website_form_input" name="categ_id"  required="1">
+                                                                <t t-foreach="transfer_category" t-as="transfer_categ">
+                                                                    <option t-att-value="transfer_categ.id">
+                                                                        <t t-esc="transfer_categ.name"    />
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="location_src_id">
+                                                            <span class="s_website_form_label_content">Source Location</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control  o_website_form_input" name="location_src_id"  required="1">
+                                                                <t t-foreach="src_lists" t-as="src_list">
+                                                                    <option t-att-value="src_list.id">
+                                                                        <t t-esc="src_list.name"    />
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="location_dest_id">
+                                                            <span class="s_website_form_label_content">Destination Location</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control  o_website_form_input" name="location_dest_id"  required="1">
+                                                                <t t-foreach="destination_lists" t-as="destination_list">
+                                                                    <option t-att-value="destination_list.id">
+                                                                        <t t-esc="destination_list.name"    />
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                 <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                                                    <div class="row s_col_no_resize s_col_no_bgcolor">
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="location_return_id">
+                                                            <span class="s_website_form_label_content">Return Location</span>
+                                                            <span class="s_website_form_mark"> *</span>
+                                                        </label>
+                                                        <div class="col-sm">
+                                                            <select class="form-control  o_website_form_input" name="location_return_id"  required="1">
+                                                                <t t-foreach="destination_lists" t-as="destination_list">
+                                                                    <option t-att-value="destination_list.id">
+                                                                        <t t-esc="destination_list.name"    />
+                                                                    </option>
+                                                                </t>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                    <input type="hidden" class="form-control s_website_form_input" name="transfer_type_id" t-att-value="transfer_type"/>                                                <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                                                    <div style="width: 200px;" class="s_website_form_label"></div>
+                                                    <button type="submit" class="btn btn-primary pull-left">Next</button>
+                                                    <span id="s_website_form_result"></span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 mt-4 mt-lg-0">
+                            <div class='section-custom col-md-12'>
+                                <a class="mb-5" id="submit-stock" t-attf-href="/stock/materials">
+                                    <button t-attf-class="btn btn-primary #{'col-md-10' if multi_type else 'col-md-12'} mb-2">View Material Requisition</button>
+                                </a>
+                            </div>
+                            <address itemscope="itemscope" itemtype="http://schema.org/Organization">
+                                <div data-oe-model="res.company" data-oe-id="1" data-oe-field="partner_id" data-oe-type="contact" data-oe-expression="res_company.partner_id" data-oe-many2one-id="1" data-oe-many2one-model="res.partner" data-oe-contact-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;name&quot;, &quot;address&quot;, &quot;phone&quot;, &quot;mobile&quot;, &quot;email&quot;], &quot;tagName&quot;: &quot;div&quot;, &quot;expression&quot;: &quot;res_company.partner_id&quot;, &quot;type&quot;: &quot;contact&quot;, &quot;inherit_branding&quot;: true, &quot;translate&quot;: false}" data-oe-field-xpath="/t[1]/address[1]/div[1]">
+                                    <address class="mb-0" itemscope="itemscope" itemtype="http://schema.org/Organization">
+                                        <div></div>
+                                        <div itemprop="address" itemscope="itemscope" itemtype="http://schema.org/PostalAddress"></div>
+                                        <div></div>
+                                    </address>
+                                </div>
+                            </address>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure mt-2" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[3]"></div>
+            </div>
+        </t>
+    </template>
+    
+    <template id="portal_create_stock_material_transfer" name="portal_stock_material_transfer">
+         <t t-set="foo" t-value="2 + 1"/>
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Material Requisition</t>
+            </t>
+             <br/>
+                <form id="portal_stock_material_form" data-toggle="validator" action="/stock/material/save">
+                     <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                            <div style="width: 200px;" class="s_website_form_label"></div>
+                            <button type="submit" id='requisitionsubmit' class="btn btn-primary pull-left">Submit</button>
+                            <span id="s_website_form_result"></span>
+                      </div>
+                        <t t-call="portal.portal_table">
+                            <tr>
+                               <t t-if="has_purchase_order == '1'">
+                                <th>Purchase Order:</th>
+                                <td>
+                                <select id="purchase" class="form-control  o_website_form_input" name="purchase_id" >
+                                            <t t-foreach="purchase_lists" t-as="purchaselist">
+                                                <option t-att-value="purchaselist.id">
+                                                    <t t-esc="purchaselist.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>
+                                </t>
+                                <t t-if="has_purchase_order == '2'">
+                                <th>Purchase Order:</th>
+                                <td>
+                                <select id="purchase" class="form-control  o_website_form_input" name="purchase_id" readonly="1" required="1">
+                                            <t t-foreach="purchase_lists" t-as="purchaselist">
+                                                <option t-att-value="purchaselist.id">
+                                                    <t t-esc="purchaselist.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>
+                                </t>
+                                <t t-if="has_transfer_order == '1'">
+                                <th>Rel MRF/SPMRF:</th>
+                                <td>
+                                <select id="transfer" class="form-control  o_website_form_input" name="transfer_id" >
+                                            <t t-foreach="transfer_lists" t-as="tlist">
+                                                <option value="blank"> </option>
+                                                <option t-att-value="tlist.id">
+                                                    <t t-esc="tlist.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>
+                                </t>
+                                </tr>
+                                <tr>
+                                <t t-if="has_transfer_order == '2'">
+                                <th>Rel MRF/SPMRF:</th>
+                                <td>
+                                <select id="transfer" class="form-control  o_website_form_input" name="transfer_id" readonly="1" required="1">
+                                            <t t-foreach="transfer_lists" t-as="tlist">
+                                                 <option value="blank"> </option>
+                                                <option t-att-value="tlist.id">
+                                                    <t t-esc="tlist.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>
+                                </t>
+                                <t t-if="has_transporter == '1'">
+                               <th>Transporter:</th>
+                                <td>
+                                <select id="transporter" class="form-control  o_website_form_input" name="transporter_id" >
+                                            <t t-foreach="transporter_lists" t-as="transporterlist">
+                                                <option t-att-value="transporterlist.id">
+                                                    <t t-esc="transporterlist.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>
+                                </t>
+                                 <t t-if="has_transporter == '2'">
+                               <th>Transporter:</th>
+                                <td>
+                                <select id="transporter" class="form-control  o_website_form_input" name="transporter_id" readonly="1" required="1">
+                                            <t t-foreach="transporter_lists" t-as="transporterlist">
+                                                <option t-att-value="transporterlist.id">
+                                                    <t t-esc="transporterlist.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>
+                                </t>
+                               
+                                </tr>
+                                
+                                <tr>    
+                               <th>Source Location:</th>
+                                <td>
+                                <select id="location_src_id" class="form-control  o_website_form_input" name="location_src_id" readonly="1" required="1">
+                                            <t t-foreach="parent_src_lists" t-as="parent_src_list">
+                                                <option t-att-value="parent_src_list.id">
+                                                    <t t-if='parent_src_list.location_id'>
+                                                       <t t-esc="parent_src_list.location_id.name"  />/ 
+                                                    </t>    
+                                                        <t t-esc="parent_src_list.name"  /> 
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>
+                                 <th>Destination Location:</th>
+                                <td>
+                                <select id="location_dest_id" class="form-control  o_website_form_input" name="location_dest_id" readonly="1" required="1">
+                                            <t t-foreach="parent_destination_lists" t-as="parent_destination_list">
+                                                <option t-att-value="parent_destination_list.id">
+                                                   <t t-if='parent_destination_list.location_id'> 
+                                                    <t t-esc="parent_destination_list.location_id.name"  />/ 
+                                                   </t>    
+                                                       <t t-esc="parent_destination_list.name"  /> 
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>    
+                                </tr>
+                                <tr>    
+                                <th>Return Location:</th>
+                                <td>
+                                <select id="location_return_id" class="form-control  o_website_form_input" name="location_return_id" readonly="1" required="1">
+                                            <t t-foreach="parent_return_lists" t-as="parent_return_list">
+                                                <option t-att-value="parent_return_list.id">
+                                                    <t t-if='parent_return_list.location_id'> 
+                                                     <t t-esc="parent_return_list.location_id.name"  />/ 
+                                                    </t>    
+                                                       <t t-esc="parent_return_list.name"  />  
+                                                </option>
+                                            </t>
+                                       </select>
+                                </td>    
+                                </tr>
+                                <tr>  
+                                <t t-if="has_reference == '1'">
+                                <th>Reference:</th>
+                                <td class="text-left">
+                                        <input type="text" class="form-control s_website_form_input" name="reference" id="ref"   />
+                                    </td>
+                                </t>
+                                <t t-if="has_reference == '2'">
+                                <th>Reference:</th>
+                                <td class="text-left">
+                                        <input type="text" class="form-control s_website_form_input" name="reference" id="ref"  required="1" />
+                                    </td>
+                                </t>
+                                 </tr>
+                        
+                        
+                                <input type="hidden" class="form-control s_website_form_input" name="transfer_type_id" t-att-value="transfer_type"/>
+                                <input type="hidden" class="form-control s_website_form_input" name="transfer_category_id" t-att-value="transfer_category"/>                            
+                            </t>
+                    
+                               <input type='hidden'  id="product_req_setting_vals" class="form-control s_website_form_input" name="product_req_setting_vals"  multiple="true" />
+                                <input type='hidden'  id="return_req_setting_vals" class="form-control s_website_form_input" name="return_req_setting_vals"  multiple="true" />
+                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+                         <script type="text/javascript">                          
+                            $(document).ready(function(){
+
+                                 $("#requisitionsubmit").on('click',function(){
+                                   var productdata=[];
+                                   // loop over each table row (tr)
+                                   $("#productTable tbody tr").each(function(){
+                                    var PcurrentRow=$(this);
+                                    var col1_value=PcurrentRow.find("td:eq(0)").text();
+                                    var col2_value=PcurrentRow.find("td:eq(1)").text();
+                                    var col3_value=PcurrentRow.find("td:eq(2)").text();
+                                    var col4_value=PcurrentRow.find("td:eq(3)").text();
+                                    var col5_value=PcurrentRow.find("td:eq(4)").text();
+                                    var col6_value=PcurrentRow.find("td:eq(5)").text();
+                                    var col7_value=PcurrentRow.find("td:eq(6)").text();
+
+                                    var obj={};
+                                    obj.col1=col1_value;
+                                    obj.col2=col2_value;
+                                    obj.col3=col3_value;
+                                    obj.col4=col4_value;
+                                    obj.col5=col5_value;
+                                    obj.col6=col6_value;
+                                    obj.col7=col7_value;
+                                    productdata.push(obj);
+                                   });
+                                 productdictionary = JSON.stringify(productdata);                                 
+                                 var lista = document.getElementById("product_req_setting_vals")
+                                 lista.value = productdictionary 
+                                 console.log(productdata);
+                                 var returnproductdata=[];
+                                   // loop over each table row (tr)
+                                   $("#returnTable tbody tr").each(function(){
+                                    var rcurrentRow=$(this);
+                                    var return_col1_value=rcurrentRow.find("td:eq(0)").text();
+                                    var return_col2_value=rcurrentRow.find("td:eq(1)").text();
+                                    var return_col3_value=rcurrentRow.find("td:eq(2)").text();
+                                    var return_col4_value=rcurrentRow.find("td:eq(3)").text();
+                                    var return_col5_value=rcurrentRow.find("td:eq(4)").text();
+                                    var return_col6_value=rcurrentRow.find("td:eq(5)").text();
+                                    var return_col7_value=rcurrentRow.find("td:eq(6)").text();
+                                    var return_col8_value=rcurrentRow.find("td:eq(7)").text();
+
+                                    var return_obj={};
+                                    return_obj.col1=return_col1_value;
+                                    return_obj.col2=return_col2_value;
+                                    return_obj.col3=return_col3_value;
+                                    return_obj.col4=return_col4_value;
+                                    return_obj.col5=return_col5_value;
+                                    return_obj.col6=return_col6_value;
+                                    return_obj.col7=return_col7_value;
+                                    return_obj.col8=return_col8_value;
+                                    returnproductdata.push(return_obj);
+                                   });
+                                 returnproductdictionary = JSON.stringify(returnproductdata);                                 
+                                 var listb = document.getElementById("return_req_setting_vals")
+                                 listb.value = returnproductdictionary 
+                                 console.log(returnproductdata);
+                              }); 
+                            });                   
+                      </script>
+                        
+                         <br/>
+                  </form>
+                <h3><p style="color:blue;">Product Section</p></h3>
+                
+                         <form onsubmit="event.preventDefault();onFormSubmit();">
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            
+                                <script type="text/javascript">
+                                    var objective_data_vals = []
+                                    function onFormSubmit(){
+                                       var formData = readFormData();
+                                       insertFormRecord(formData);
+                                       
+                                    }
+                                    function readFormData(){
+                                      var formData = {};
+                                      formData['lineproduct'] = document.getElementById('lineproduct').value;
+                                      formData['linename'] = document.getElementById('linename').value;
+                                      formData['lineproductuom'] = document.getElementById('lineproductuom').value;
+                                      formData['lineproject'] = document.getElementById('lineproject').value;
+                                      formData['linesrclist'] = document.getElementById('linesrclist').value;
+                                      formData['linedestinationloc'] = document.getElementById('linedestinationloc').value;
+                                      formData['linesupplier'] = document.getElementById('linesupplier').value;
+                                      return formData;
+                                    }
+                                    function insertFormRecord(data){
+                                       var tableproduct = document.getElementById('productTable');
+                                       var newRow = tableproduct.insertRow(tableproduct.length)
+                                       cell1 = newRow.insertCell(0);
+                                       cell1.innerHTML= data.lineproduct
+                                       cell1.classList.add("lineproduct");
+                                       cell2 = newRow.insertCell(1);
+                                       cell2.innerHTML= data.linename
+                                       cell2.classList.add("linename");
+                                       cell3 = newRow.insertCell(2);
+                                       cell3.innerHTML= data.lineproductuom
+                                       cell3.classList.add("lineproductuom");
+                                       cell4 = newRow.insertCell(3);
+                                       cell4.innerHTML= data.lineproject
+                                       cell4.classList.add("lineproject");
+                                       cell5 = newRow.insertCell(4);
+                                       cell5.innerHTML= data.linesrclist
+                                       cell5.classList.add("linesrclist");
+                                       cell6 = newRow.insertCell(5);
+                                       cell6.innerHTML= data.linedestinationloc
+                                       cell6.classList.add("linedestinationloc");                                 
+                                       cell7 = newRow.insertCell(6);
+                                       cell7.innerHTML= data.linesupplier
+                                       cell7.classList.add("linesupplier");                                                 
+                                       cell8 = newRow.insertCell(7);                                   
+                                       cell8.innerHTML= '<a onClick="onDelete(this)"><i class="fa fa-trash"></i></a>';
+                                     
+                                    }
+                                    function resetProductForm(){
+                                      document.getElementById('lineproduct').value="";
+                                      document.getElementById('linename').value="";
+                                      document.getElementById('lineproductuom').value="";
+                                      document.getElementById('lineproject').value="";   
+                                      document.getElementById('linesupplier').value="";  
+                                    }
+                                    
+                                    function onDelete(td){
+                                          row = td.parentElement.parentElement;
+                                          document.getElementById("productTable").deleteRow(row.rowIndex);
+                                          resetForm();
+                                    }
+                                   
+                                                     
+                               </script>  
+                             
+                                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="line_product">
+                                                         <span class="s_website_form_label_content">Product</span>
+                                            </label>
+                                        <div class="col-sm">
+                                            <select id='lineproduct' class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
+                                             <t t-foreach="product_lists" t-as="plist">
+                                                <option t-att-value="plist.name">
+                                                    <t t-esc="plist.product_tmpl_id.name"  />
+                                                </option>
+                                             </t>
+                                        </select>     
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="manager_desc">
+                                                <span class="s_website_form_label_content">Description</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                 <input id='linename' type="text" class="form-control s_website_form_input" name="name"    />                          
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                             
+                                 <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="line_quantity">
+                                                         <span class="s_website_form_label_content">Quantity</span>
+                                            </label>
+                                            <div class="col-sm">
+                                               <input id='lineproductuom' type="float" class="form-control s_website_form_input" name="product_uom_qty"    /> 
+                                                
+                                            </div>
+                                           </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="project">
+                                                <span class="s_website_form_label_content">Project</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                 <select id='lineproject' class="form-control  o_website_form_input" name="project_id" readonly="1" required="1">
+                                            <t t-foreach="project_lists" t-as="projlist">
+                                                <option t-att-value="projlist.name">
+                                                    <t t-esc="projlist.name"  />
+                                                </option>
+                                            </t>
+                                       </select>              
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                             
+                              <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="source_location">
+                                                         <span class="s_website_form_label_content">Source Location</span>
+                                            </label>
+                                            <div class="col-sm">
+                                               <select id='linesrclist' class="form-control  o_website_form_input" name="location_src_id" readonly="1" required="1">
+                                            <t t-foreach="src_lists" t-as="srclist">
+                                                <option t-att-value="srclist.name">
+                                                  <t t-if='srclist.location_id'>   
+                                                    <t t-esc="srclist.location_id.name"  />/ 
+                                                  </t>    
+                                                      <t t-esc="srclist.name"  /> 
+                                                </option>
+                                            </t>
+                                       </select>
+                                                
+                                            </div>
+                                           </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="destination_location">
+                                                <span class="s_website_form_label_content">Destination Location</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                 <select id='linedestinationloc' class="form-control  o_website_form_input" name="location_dest_id" readonly="1" required="1">
+                                            <t t-foreach="destination_lists" t-as="destlist">
+                                                <option t-att-value="destlist.name">
+                                                  <t t-if='destlist.location_id'>     
+                                                    <t t-esc="destlist.location_id.name"  /> / 
+                                                  </t>    
+                                                      <t t-esc="destlist.name"  /> 
+                                                </option>
+                                            </t>
+                                       </select>     
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                             
+                             <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="line_supplier">
+                                                         <span class="s_website_form_label_content">Supplier</span>
+                                            </label>
+                                            <div class="col-sm">
+                                               <option value="blank"></option> 
+                                               <select id='linesupplier' class="form-control  o_website_form_input" name="supplier_id" readonly="1" required="1">
+                                                <t t-foreach="supplier_lists" t-as="supplierlist">
+                                                    <option t-att-value="supplierlist.name">
+                                                        <t t-esc="supplierlist.name"  />
+                                                    </option>
+                                                </t>
+                                             </select>
+                                                
+                                            </div>
+                                           </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="manager_Employeee">
+                                                <span class="s_website_form_label_content"></span>
+                                        </label>
+                                        <div class="col-sm">
+                                            
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                
+                                                
+                                    <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                                        <div style="width: 200px;" class="s_website_form_label"></div>
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                        <span id="s_website_form_result"></span>
+                                    </div>
+                                                                                                                        
+                </form>
+            
+                <table   id="productTable" class="table table-sm table-striped table-bordered">
+                         <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left" style='background-color:#add8e6;'>Product</th>
+                                <th class="text-left" style='background-color:#add8e6;'>Description</th>
+                                <th class="text-left" style='background-color:#add8e6;'>Quantity</th>
+                                <th class="text-left" style='background-color:#add8e6;'>Project</th>
+                                <th class="text-left" style='background-color:#add8e6;'>From</th>   
+                                <th class="text-left" style='background-color:#add8e6;'>To</th>                                
+                                <th class="text-left" style='background-color:#add8e6;'>Supplier</th>
+                            </tr>
+                         </thead>
+                         <tbody>
+                             <tr></tr>
+                        </tbody>
+                </table>
+            <t t-if="returnable=='1'">
+                <h3><p style="color:blue;">Returnable Section</p></h3>
+                    <form onsubmit="event.preventDefault();onFormSubmitReturn();">
+                                <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+            
+                                <script type="text/javascript">
+                                    var return_data_vals = []
+                                    function onFormSubmitReturn(){
+                                       var formData = readFormDataReturn();
+                                       insertFormRecordReturn(formData);
+                                       resetForm();
+                                    }
+                                    function readFormDataReturn(){
+                                      var formData = {};
+                                      formData['returnlineproduct'] = document.getElementById('returnlineproduct').value;
+                                      formData['retunigtbarcode'] = document.getElementById('retunigtbarcode').value;
+                                      formData['returnlineoembarcode'] = document.getElementById('returnlineoembarcode').value;
+                                      formData['returnlinename'] = document.getElementById('returnlinename').value;
+                                      formData['returnlineqty'] = document.getElementById('returnlineqty').value;
+                                      formData['returnlineproject'] = document.getElementById('returnlineproject').value;
+                                      formData['returnlinesrclist'] = document.getElementById('returnlinesrclist').value;
+                                      formData['retunrnlinedestloc'] = document.getElementById('retunrnlinedestloc').value;
+                                      return formData;
+                                    }
+                                    function insertFormRecordReturn(data){
+                                       var tableproduct = document.getElementById('returnTable');
+                                       var newRow = tableproduct.insertRow(tableproduct.length)
+                                       cell1 = newRow.insertCell(0);
+                                       cell1.innerHTML= data.returnlineproduct
+                                       cell1.classList.add("returnlineproduct");
+                                       cell2 = newRow.insertCell(1);
+                                       cell2.innerHTML= data.retunigtbarcode
+                                       cell2.classList.add("retunigtbarcode");
+                                       cell3 = newRow.insertCell(2);
+                                       cell3.innerHTML= data.returnlineoembarcode
+                                       cell3.classList.add("returnlineoembarcode");
+                                       cell4 = newRow.insertCell(3);
+                                       cell4.innerHTML= data.returnlinename
+                                       cell4.classList.add("returnlinename");
+                                       cell5 = newRow.insertCell(4);
+                                       cell5.innerHTML= data.returnlineqty
+                                       cell5.classList.add("returnlineqty");
+                                       cell6 = newRow.insertCell(5);
+                                       cell6.innerHTML= data.returnlineproject
+                                       cell6.classList.add("returnlineproject");                                 
+                                       cell7 = newRow.insertCell(6);
+                                       cell7.innerHTML= data.returnlinesrclist
+                                       cell7.classList.add("returnlinesrclist");
+                                       cell8 = newRow.insertCell(7);
+                                       cell8.innerHTML= data.retunrnlinedestloc
+                                       cell8.classList.add("retunrnlinedestloc");
+                                       cell9 = newRow.insertCell(8);                                   
+                                       cell9.innerHTML= '<a onClick="onDeleteReturn(this)"><i class="fa fa-trash"></i></a>';
+                                     
+                                    }
+                                    function resetForm(){
+                                      document.getElementById('returnlineproduct').value="";
+                                      document.getElementById('retunigtbarcode').value="";
+                                      document.getElementById('returnlineoembarcode').value="";
+                                      document.getElementById('returnlinename').value="";   
+                                      document.getElementById('returnlineqty').value="";   
+                                      document.getElementById('returnlineproject').value="";   
+                                    }
+                                    
+                                    function onDeleteReturn(td){
+                                          row = td.parentElement.parentElement;
+                                          document.getElementById("returnTable").deleteRow(row.rowIndex);
+                                    }
+                                    
+                                    $(document).ready(function(){
+
+                                 $("#requisitionsubmit").on('click',function(){
+                                   var productdata=[];
+                                   // loop over each table row (tr)
+                                   $("#productTable tbody tr").each(function(){
+                                        var PcurrentRow=$(this);
+                                        var col1_value=PcurrentRow.find("td:eq(0)").text();
+                                        var col2_value=PcurrentRow.find("td:eq(1)").text();
+                                        var col3_value=PcurrentRow.find("td:eq(2)").text();
+                                        var col4_value=PcurrentRow.find("td:eq(3)").text();
+                                        var col5_value=PcurrentRow.find("td:eq(4)").text();
+                                        var col6_value=PcurrentRow.find("td:eq(5)").text();
+                                        var col7_value=PcurrentRow.find("td:eq(6)").text();
+
+                                        var obj={};
+                                        obj.col1=col1_value;
+                                        obj.col2=col2_value;
+                                        obj.col3=col3_value;
+                                        obj.col4=col4_value;
+                                        obj.col5=col5_value;
+                                        obj.col6=col6_value;
+                                        obj.col7=col7_value;
+                                        productdata.push(obj);
+
+                                   });
+                                 productdictionary = JSON.stringify(productdata);                                 
+                                 var lista = document.getElementById("product_req_setting_vals")
+                                 lista.value = productdictionary 
+                                 console.log(productdata);                                                              
+                                 var returnproductdata=[];
+                                   // loop over each table row (tr)
+                                   $("#returnTable tbody tr").each(function(){
+                                    var rcurrentRow=$(this);
+                                    var return_col1_value=rcurrentRow.find("td:eq(0)").text();
+                                    var return_col2_value=rcurrentRow.find("td:eq(1)").text();
+                                    var return_col3_value=rcurrentRow.find("td:eq(2)").text();
+                                    var return_col4_value=rcurrentRow.find("td:eq(3)").text();
+                                    var return_col5_value=rcurrentRow.find("td:eq(4)").text();
+                                    var return_col6_value=rcurrentRow.find("td:eq(5)").text();
+                                    var return_col7_value=rcurrentRow.find("td:eq(6)").text();
+                                    var return_col8_value=rcurrentRow.find("td:eq(7)").text();
+
+                                    var return_obj={};
+                                    return_obj.col1=return_col1_value;
+                                    return_obj.col2=return_col2_value;
+                                    return_obj.col3=return_col3_value;
+                                    return_obj.col4=return_col4_value;
+                                    return_obj.col5=return_col5_value;
+                                    return_obj.col6=return_col6_value;
+                                    return_obj.col7=return_col7_value;
+                                    return_obj.col8=return_col8_value;
+                                    returnproductdata.push(return_obj);
+                                   });
+                                 returnproductdictionary = JSON.stringify(returnproductdata);                                 
+                                 var listb = document.getElementById("return_req_setting_vals")
+                                 listb.value = returnproductdictionary 
+                                 console.log(returnproductdata);
+                              }); 
+                            });                                    
+                               </script> 
+                        
+                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="return_product">
+                                                         <span class="s_website_form_label_content">Product</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <select id="returnlineproduct" class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
+                                                     <t t-foreach="product_lists" t-as="plist">
+                                                        <option t-att-value="plist.name">
+                                                            <t t-esc="plist.product_tmpl_id.name"  />
+                                                        </option>
+                                                     </t>
+                                               </select>    
+                                                
+                                            </div>
+                                           </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="igt_barcode">
+                                                <span class="s_website_form_label_content">IGT Serial No.</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                 <input type="text" class="form-control s_website_form_input" name="igt_barcode" id="retunigtbarcode"   />
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="oem_serial_no">
+                                                         <span class="s_website_form_label_content">OEM Serial No.</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input type="text" class="form-control s_website_form_input" name="oem_barcode" id="returnlineoembarcode"   />         
+                                            </div>
+                                           </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="destination_location">
+                                                <span class="s_website_form_label_content">Project</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                 <select id="returnlineproject" class="form-control  o_website_form_input" name="project_id" readonly="1" required="1">
+                                                    <t t-foreach="project_lists" t-as="projlist">
+                                                        <option t-att-value="projlist.name">
+                                                            <t t-esc="projlist.name"  />
+                                                        </option>
+                                                    </t>
+                                           </select>
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                               <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="desc">
+                                                         <span class="s_website_form_label_content">Description</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <input id='returnlinename' type="text" class="form-control s_website_form_input" name="name"  />   
+                                            </div>
+                                           </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="return_quantity">
+                                                <span class="s_website_form_label_content">Quantity</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                <input id='returnlineqty' type="float" class="form-control s_website_form_input" name="product_uom_qty"   />
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                        
+                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="return_src_loc">
+                                                         <span class="s_website_form_label_content">Source Location</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                    <select id="returnlinesrclist" class="form-control  o_website_form_input" name="location_src_id" readonly="1" required="1">
+                                            <t t-foreach="return_src_lists" t-as="srclist">
+                                                <option t-att-value="srclist.name">
+                                                  <t t-if='srclist.location_id'>       
+                                                    <t t-esc="srclist.location_id.name"  />/ 
+                                                  </t> 
+                                                  <t t-esc="srclist.name"  />  
+                                                </option>
+                                            </t>
+                                       </select>
+                                            </div>
+                                           </div>
+                                        </div>
+
+                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="return_src_loc">
+                                                <span class="s_website_form_label_content">Destination Location</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                 <select id="retunrnlinedestloc" class="form-control  o_website_form_input" name="location_dest_id" readonly="1" required="1">
+                                                <t t-foreach="return_destination_lists" t-as="destlist">
+                                                    <option t-att-value="destlist.name">
+                                                      <t t-if='destlist.location_id'> 
+                                                        <t t-esc="destlist.location_id.name"  />/ 
+                                                      </t>    
+                                                      <t t-esc="destlist.name"  /> 
+                                                    </option>
+                                                </t>
+                                       </select>
+                                        </div>
+                                  </div>
+                                </div>
+                               </div>
+                             
+                             
+                               
+                                    <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
+                                        <div style="width: 200px;" class="s_website_form_label"></div>
+                                        <button type="submit" class="btn btn-primary">Add</button>
+                                        <span id="s_website_form_result"></span>
+                                    </div>
+                                                
+                                            
+                        </form>
+
+                
+                
+                <table   id="returnTable" class="table table-sm table-striped table-bordered">
+
+                        <thead>
+
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left" style='background-color:#add8e6;'>Product</th>
+                                <th class="text-left" style='background-color:#add8e6;'>IGT Serial No</th>
+                                <th class="text-left" style='background-color:#add8e6;'>OEM Serial No</th>
+                                 <th class="text-left" style='background-color:#add8e6;'>Description</th>
+                                <th class="text-left" style='background-color:#add8e6;'>Quantity</th>
+                                <th class="text-left" style='background-color:#add8e6;'>Project</th>
+                                <th class="text-left" style='background-color:#add8e6;'>From</th>
+                                <th class="text-left" style='background-color:#add8e6;'>To</th>  
+                            </tr>
+
+                        </thead>
+                        <tbody>
+
+                            <tr></tr>
+
+
+                        </tbody>
+                </table>
+           </t>
+                 <br/>
+               
+                    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+                    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                    <script>
+
+                          $(function () {
+
+                            $("#selectid").change(function(){
+                            $("#submit_1").hide();
+                              });
+
+                            });
+
+                        $(document).ready(function(){
+
+                        $("#submit_1").click(function(){
+                            $("#submit_1").hide();
+                              });
+
+                        $("#selectid").click(function(){
+                            $("#submit_1").show();
+                              });
+
+                            });
+                        
+                        </script>
+
+            <br/>
+            <br/>
+        </t>
+    </template>
+
+    
+
+</odoo>

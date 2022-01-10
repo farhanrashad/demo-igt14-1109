@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="hr_employee_extra_info_form_inh" model="ir.ui.view">
+        <field name="name">hr.employee.form</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form" />
+        <field name="arch" type="xml">
+
+            <xpath expr="//notebook/page[3]" position="after">
+                <page string="Extra Info">
+
+                    <field name="employee_extra_info_line">
+                        <tree editable="bottom">
+                            <field name="name" />
+                            <field name="employee_info_type_id" />
+                        </tree>
+                    </field>
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

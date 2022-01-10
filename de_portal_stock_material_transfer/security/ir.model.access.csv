@@ -1,0 +1,14 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_project_portal,access.project.project,model_project_project,base.group_portal,1,1,1,1
+access_res_partner_portal,access.res.partner,model_res_partner,base.group_portal,1,1,1,1
+access_res_users_portal,access.res.users,model_res_users,base.group_portal,1,1,1,1
+access_stock_transfer_order_portal,access.stock.transfer.order,model_stock_transfer_order,base.group_portal,1,1,1,1
+access_stock_transfer_order_line_portal,access.stock.transfer.order.line,model_stock_transfer_order_line,base.group_portal,1,1,1,1
+access_purchase_order_portal,access.purchase.order,model_purchase_order,base.group_portal,1,1,1,1
+access_stock_transfer_order_type_portal,access.stock.transfer.order.type,model_stock_transfer_order_type,base.group_portal,1,1,1,1
+access_stock_transfer_order_category_portal,access.stock.transfer.order.category,model_stock_transfer_order_category,base.group_portal,1,1,1,1
+access_stock_transfer_return_line_portal,access.stock.transfer.return.line,model_stock_transfer_return_line,base.group_portal,1,1,1,1
+access_stock_transfer_exception_type,access.stock.transfer.exception.type,model_stock_transfer_exception_type,,1,1,1,1
+access_stock_transfer_order_stage_line,access.stock.transfer.order.stage.line,model_stock_transfer_order_stage_line,,1,1,1,1
+access_stock_transfer_order_stage,access.stock.transfer.order.stage,model_stock_transfer_order_stage,,1,1,1,1
+access_stock_transfer_txn_line,access.stock.transfer.txn.line,model_stock_transfer_txn_line,,1,1,1,1

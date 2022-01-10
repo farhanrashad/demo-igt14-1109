@@ -1,0 +1,53 @@
+<odoo>
+  <data>
+       <record id="view_purchase_requisition_form_inherit_approvals" model="ir.ui.view">
+		<field name="name">view.purchase.requisition.form.inherit.approvals</field>
+		<field name="model">purchase.requisition</field>
+		<field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form" />
+		<field name="arch" type="xml">
+            <!--
+            <xpath expr="//button[@name='479'][1]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['draft']),'&amp;',('request_status', '!=', 'approved'),('category_id', '!=', False)]}</attribute>
+            </xpath>
+            <xpath expr="//button[@name='479'][2]" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['draft']),'&amp;',('request_status', '!=', 'approved'),('category_id', '!=', False)]}</attribute>
+            </xpath>
+-->
+            <xpath expr="//button[@name='action_in_progress']" position="replace">
+                <button name="action_in_progress" string="Confirm" type="object" class="btn-primary" attrs="{'invisible': ['|',('state', '!=', 'draft'),('category_id', '!=', False)]}"/>
+
+            </xpath>
+            <xpath expr="//field[@name='state']" position="replace">
+                <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,open,done" attrs="{'invisible': ['|',('is_quantity_copy', '=', 'none'),('approval_state','=','pending')]}"/>
+            </xpath>
+            <xpath expr="//field[@name='state_blanket_order']" position="replace">
+                <field name="state_blanket_order" widget="statusbar" statusbar_visible="draft,ongoing,done" attrs="{'invisible': ['|',('is_quantity_copy', '!=', 'none'),('approval_state','=','pending')]}"/>
+            </xpath>
+             <xpath expr="//field[@name='state_blanket_order']" position="after">
+                <field name="approval_state" widget="statusbar" statusbar_visible="pending,approved" attrs="{'invisible': [('approval_state','!=','pending')]}"/>
+            </xpath>
+            
+            <xpath expr="//button[@name='action_open']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|', ('state', 'not in', ['confirm']),'&amp;',('request_status', '!=', 'approved'),('category_id', '!=', False)]}</attribute>
+            </xpath>
+
+            <xpath expr="//button[@name='action_open']" position="after">
+                <button name="action_submit" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible': ['|','|',('category_id', '=', False),('approval_state', '=', 'pending'),'&amp;',('state', 'not in', ['draft']),('category_id', '!=', False)]}"/>
+            </xpath>
+            
+			<xpath expr="//group[1]/group[2]" position="inside">
+                <field name="category_id" invisible="0"/> 
+                <field name="request_status" string="Approval Status" invisible="0"/> 
+                <field name="approval_request_id" invisible="0"/> 
+			</xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="%(action_approval_approver_view_purchase_requisition)d" type="action" class="oe_stat_button" icon="fa-users" context="{'requisition_id':id,'category_id':category_id}" attrs="{'invisible': [('approval_request_id', '=', False)]}">
+                    <field name="approvers_count" widget="statinfo" string="Approvers"/>
+                </button>     
+            </xpath>
+            
+		</field>
+	</record>
+      
+  </data>
+</odoo>

@@ -1,0 +1,175 @@
+<odoo>
+  <data>
+
+	  <!-- form view -->
+	  <record id="hr_employee_visa_form_view" model="ir.ui.view">
+			<field name="name">hr.employee.visa.form.inherit</field>
+			<field name="model">hr.employee</field>
+              <field name="inherit_id" ref="hr.view_employee_form"/>
+			<field name="arch" type="xml">
+				<xpath expr="//page[@name='hr_settings']" position='after'>
+				 <page string="Passport and Visa">
+					 <field name="visa_lines">
+							<tree editable="bottom">
+								<field name="name"/>
+                                <field name="description"/>
+								<field name="visa_Type_id" options="{'no_create': True , 'no_edit': True}"/>
+								<field name="Visa_issuance_Date"/>
+								<field name="Visa_Expiration_Date"/>
+								<field name="Visa_country"/>
+								<field name="no_of_entries"/>
+								<field name="state" readonly = '1'/>
+							</tree>
+					 </field>
+				 </page>
+                </xpath>
+            </field>
+     </record>
+		<!--	tree view  -->
+	  <record model='ir.ui.view' id='visa_tree_view'>
+            <field name="name">hr.visa.tree.view</field>
+            <field name="model">hr.visa</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="visa_Type_id"/>
+                    <field name="Visa_issuance_Date"/>
+                    <field name="Visa_Expiration_Date"/>
+                    <field name="Visa_country"/>
+                    <field name="no_of_entries"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+      </record>
+
+      <record model='ir.ui.view' id='visa_form_view'>
+            <field name="name">hr.visa.form.view</field>
+            <field name="model">hr.visa</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="to_request" type="object" string="Request"  class="oe_highlight"
+                                    states="to_request"
+                            />
+                        <button name="approve_action" type="object" string="Approve" class="oe_highlight"
+                                    states="in_process" groups="de_hr_employee_visa.group_employee_visa_manager" />
+                        <button name="reject_action" type="object" string="Reject"  class="oe_highlight"
+                                    states="in_process" groups="de_hr_employee_visa.group_employee_visa_manager" />
+                        <button name="expired_action" type="object" string="Expired"  class="oe_highlight" groups="de_hr_employee_visa.group_employee_visa_manager" states="approve" />
+                        <field name="state" widget="statusbar" options="{'clickable': '0'}"/>
+                    </header>
+                    <sheet>
+                        
+                        
+                        <div class="oe_title pr-0" name="title">
+                        <h1 class="d-flex flex-row justify-content-between">
+                            <field name="name" class="text-truncate" placeholder="Visa Reference"/>
+                        </h1>
+                    </div>
+                        <group>
+                            <group>
+                                <field name="employee_id"/>
+                                <field name="visa_Type_id" options="{'no_create': True , 'no_edit': True}"/>
+                                
+                                <field name="Visa_issuance_Date"/>
+                                
+                            </group>
+                            <group>
+                                <field name="Visa_country"/>
+                                <field name="no_of_entries"/>
+                                <field name="Visa_Expiration_Date"/>
+                            </group>
+                            
+                        </group>
+                        <div >
+                                    <label for="description"/>
+                                    <field name="description"/>
+                                </div>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+		<!--	search view  -->
+	  <record model='ir.ui.view' id='hr_visa_detail_search_view'>
+        <field name="name">hr.visa.detail.search.view</field>
+        <field name="model">hr.visa</field>
+        <field name="arch" type="xml">
+            <search string="Employee Visa">
+                <field name="name"/>
+                <field name="visa_Type_id"/>
+                <field name="Visa_issuance_Date"/>
+                <field name="Visa_Expiration_Date"/>
+                <field name="Visa_country"/>
+                <field name="no_of_entries"/>
+                <field name="state"/>
+            </search>
+        </field>
+    </record>
+
+
+
+      <record model='ir.ui.view' id='hr_visa_type_form_view'>
+        <field name="name">hr.visa.type.form.view</field>
+        <field name="model">hr.visa.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </group>
+                </sheet>
+            </form>
+        </field>
+      </record>
+
+      <record model='ir.ui.view' id='hr_visa_type_tree_view'>
+        <field name="name">hr.visa.type.tree</field>
+        <field name="model">hr.visa.type</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+            </tree>
+        </field>
+      </record>
+
+      <record id="employee_visa_type_action" model="ir.actions.act_window">
+        <field name="name">Visa Type</field>
+        <field name="res_model">hr.visa.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p class="oe_view_nocontent_create">
+                Add a new visa type.
+            </p>
+        </field>
+    </record>
+
+	  <record id="hr_employee_visa_action" model="ir.actions.act_window">
+        <field name="name">Employee Visa</field>
+        <field name="res_model">hr.visa</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="hr_visa_detail_search_view"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+               Add a new employee visa
+             </p>
+        </field>
+    </record>
+
+      <menuitem id="hr_employee_visa_menu"
+              name="Employee Visa"
+              parent="hr.menu_hr_employee_payroll"
+              sequence="100"
+			  action="hr_employee_visa_action"/>
+      
+      <menuitem id="menu_hr_visa" parent="hr.menu_human_resources_configuration" name="Employee Visa" sequence="100"/>
+
+      <menuitem id="hr_visa_type_menu"
+              name="Visa Type"
+              parent="menu_hr_visa"
+              sequence="10"
+			  action="employee_visa_type_action"/>
+
+  </data>
+</odoo>

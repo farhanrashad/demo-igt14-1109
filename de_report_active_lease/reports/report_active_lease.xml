@@ -1,0 +1,13 @@
+<odoo>
+    <data>
+        <record id="report_active_lease_report" model="ir.actions.report">
+            <field name="name">Active Lease Report</field>
+            <field name="model">stock.quant</field>
+            <field name="report_type">xlsx</field>
+            <field name="report_name">de_report_active_lease.report_active_lease</field>
+            <field name="report_file">Active Lease Report</field>
+<!--             <field name="binding_model_id" ref="de_requisition_line_report.model_stock_transfer_order"/>
+            <field name="binding_type">report</field> -->
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="hr_overtime_type_form_view" model="ir.ui.view">
+            <field name="name">Overtime Type</field>
+            <field name="model">hr.overtime.type</field>
+            <field name="arch" type="xml">
+                <form string="Overtime Type">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Reference"/>
+                            </h1>
+                        </div>
+                            <group>
+                                <group>
+                                    <field name="type" required="1"/>
+                                    <field name="pay_rule" widget="radio" attrs="{'invisible': [('type','!=','cash')]}"/>
+                                </group>
+                                <group>
+                                    <field name="duration_type" required="1"/>
+                                    <field name="duration_rule" widget="radio" options="{'horizontal':true}"/>
+                                    <span class="o_form_label" attrs="{'invisible': [('duration_rule','=','unlimited')]}"/>
+                                    <div class="o_row" attrs="{'invisible': [('duration_rule','=','unlimited')]}">
+                                        <span class="mr-1">Max.</span>
+                                        <field name="duration_limit"/>
+                                        <field class="mr-1" name="duration_type" />
+                                    </div>
+                                    <field name="leave_compute" invisible="1"/>
+
+                                    <field name="leave_type"
+                                           attrs="{'invisible': [('type','!=','leave')],'required': [('type','=','leave')]}"/>
+                                    <field name="total_hours" attrs="{'invisible': [('type','!=','cash')]}" />
+                                    <field name="leave_earn_hours" attrs="{'invisible': [('type','!=','leave')]}" />
+                                </group>
+                            </group>
+                        
+                        <notebook attrs="{'invisible': ['|',('type','!=','cash'),('pay_rule','!=','percent')]}">
+                            <page string="Rules" name="cash_rules">
+                                <field name="rule_line_ids">
+                                    <tree string="Rules" editable="bottom">
+                                        <field name="name"/>
+                                        <field name="from_duration" required="1"/>
+                                        <field name="to_duration" required="1"/>
+                                        <field name="duration_type"/>
+                                        <field name="overtime_rate" required="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="hr_overtime_type_tree_view" model="ir.ui.view">
+            <field name="name">Overtime Type</field>
+            <field name="model">hr.overtime.type</field>
+            <field name="arch" type="xml">
+                <tree string="Overtime Type">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hr_overtime_type_action" model="ir.actions.act_window">
+            <field name="name">Overtime Types</field>
+            <field name="res_model">hr.overtime.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create new Approval Type.
+                </p>
+            </field>
+        </record>
+
+
+        <!-- MenuItems -->
+        <menuitem id="hr_overtime_type_menu" name="Overtime Types"
+                  parent="hr_overtime_config_main_menu"
+                  groups="hr.group_hr_manager"
+                  action="hr_overtime_type_action"/>
+
+    </data>
+</odoo>

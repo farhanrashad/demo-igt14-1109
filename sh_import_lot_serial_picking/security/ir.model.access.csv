@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sh_import_lot_serial_picking,access_sh_import_lot_serial_picking,model_sh_import_lot_serial_picking,base.group_user,1,1,1,1
+access_ir_actions_act_window,access.ir.actions.act_window,model_ir_actions_act_window,,1,1,1,1 
+access_ir_actions_act_window_view,access.ir.actions.act_window.view,model_ir_actions_act_window_view,,1,1,1,1

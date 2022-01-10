@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="stock_transfer_material_condition_tree_view">
+            <field name="name">stock.transfer.material.condition.tree.view</field>
+            <field name="model">stock.transfer.material.condition</field>
+            <field name="arch" type="xml">
+                <tree string="Material Condition" editable="bottom" sample="1">
+                    <field name="name"/>
+                    <field name="is_default"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="action_stock_transfer_material_condition" model="ir.actions.act_window">
+            <field name="name">Material Condition</field>
+            <field name="res_model">stock.transfer.material.condition</field>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No material condition found. Let's create one!
+              </p>
+            </field>
+        </record>
+        
+        <menuitem action="action_stock_transfer_material_condition" name="Material Condition" id="menu_stock_transfer_config_material_condition_menu" groups="group_stock_requisition_manager" parent="stock_requisition_config_menu" sequence="5"/>
+        
+    </data>
+</odoo>

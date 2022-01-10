@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="de_travel_request_menu_root" name="Travel Request"  active="True"
+              sequence="2"/>
+    
+    <menuitem id="ticket_allocation_menu_root" name="Ticket Allocation"   parent="de_travel_request_menu_root"
+              sequence="3"/>
+
+    <menuitem id="travel_request" name="Travel request" parent="de_travel_request_menu_root"
+              action="action_travel_request_view"
+              sequence="1"/>
+    
+     <menuitem id="ticket_allocation" name="Allocation" parent="ticket_allocation_menu_root"
+              action="action_ticket_allocation_view"
+              sequence="2"/>
+    
+     <menuitem id="ticket_balance" name="Travel Balance" parent="ticket_allocation_menu_root"
+              action="action_travel_balance_view"
+              sequence="3"/>
+
+</odoo>

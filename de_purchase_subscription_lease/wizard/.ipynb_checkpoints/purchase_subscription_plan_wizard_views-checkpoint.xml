@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="purchase_subscription_plan_wizard_form_view" model="ir.ui.view">
+        <field name="name">purchase.subscription.plan.wizard.form.view</field>
+        <field name="model">purchase.subscription.plan.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Payment Schedule">
+                
+                <group>
+                    <group>
+                        <field name="purchase_subscription_id" invisible="1"/>
+                        
+                        <label for="recurring_interval" string="Review Year"/>
+                        <div class="o_row">
+                            <field name="recurring_interval" required="1"/>
+                            <field name="recurring_interval_type" class="field_rule_type" readonly="1"/>
+                        </div>
+                        <label for="amount" />
+                        <div>
+                            <field name="amount" class="oe_inline"/>
+                            <span  class="oe_inline">%</span>
+                        </div>
+                    </group>
+                </group>
+                <group>
+                    
+                </group>
+                
+                
+                
+
+                <footer>
+                    <button name="create_payment_schedule" id="payment_schedule_open" string="Plan Schedule" type="object" context="{'open_bills': True}" class="btn-primary"/>
+                    
+                    <button string="Cancel" class="btn btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_purchase_subscription_plan_wizard" model="ir.actions.act_window">
+        <field name="name">Schedule Plan</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">purchase.subscription.plan.wizard</field>
+        <field name="view_id" ref="purchase_subscription_plan_wizard_form_view"/>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data noupdate="0">
+		<menuitem id="purchase_subscription_root_menu" name="Purchase Subscriptions" active="True" web_icon="de_purchase_subscription,static/description/icon.png" sequence="105"/>
+
+		<menuitem id="purchase_subscription_menu" name="Subscriptions" parent="purchase_subscription_root_menu" sequence="2" />
+        <menuitem id="purchase_subscription_report_menu" name="Reports" parent="purchase_subscription_root_menu" sequence="3" />
+
+        <menuitem id="purchase_subscription_config_menu" name="Configuration" parent="purchase_subscription_root_menu" sequence="5" />
+	</data>
+</odoo>
+

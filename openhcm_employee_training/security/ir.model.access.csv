@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_employee_training_course_delivery_method,access.hr.employee.training.course.delivery.method,model_hr_employee_training_course_delivery_method,,1,1,1,1,
+access_hr_employee_training_course,access.hr.employee.training.course,model_hr_employee_training_course,,1,1,1,1,
+access_hr_employee_training_session,access.hr.employee.training.session,model_hr_employee_training_session,,1,1,1,1,
+access_hr_employee_training_session_trainers,access.hr.employee.training.session.trainers,model_hr_employee_training_session_trainers,,1,1,1,1,
+access_hr_employee_training_session_participants,access.hr.employee.training.session.participants,model_hr_employee_training_session_participants,,1,1,1,1,
+access_delivery_method,access.delivery.method,model_hr_employee_training_course_delivery_method,,1,1,1,1,

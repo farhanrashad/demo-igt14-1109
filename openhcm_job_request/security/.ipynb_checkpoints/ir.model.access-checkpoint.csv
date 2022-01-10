@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_hr_job_position_request,hr.job.position.request,model_hr_job_position_request,,1,1,1,1
+access_hr_team,hr.team,model_hr_team,,1,1,1,1
+access_hr_preferences,access.hr.preferences,model_hr_preferences,,1,1,1,1
+access_job_position_stages,access.job.position.stages,model_job_position_stages,,1,1,1,1
+access_employee_hr_skill,access.employee.hr.skill,model_employee_hr_skill,,1,1,1,1

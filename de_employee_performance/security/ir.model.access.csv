@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+1,access_hr_appraisal_kra,model_hr_appraisal_kra,base.group_user,1,1,1,1
+2,access_hr_appraisal_goal_tasks,model_hr_appraisal_goal_tasks,base.group_user,1,1,1,1 
+3,access_hr_appraisal_kra_goal,model_hr_appraisal_kra_goal,base.group_user,1,1,1,1

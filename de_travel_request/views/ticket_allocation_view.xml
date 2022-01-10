@@ -1,0 +1,77 @@
+<odoo>
+    <record id="view_ticket_allocation_form" model="ir.ui.view">
+        <field name="name">ticket.allocation.form</field>
+        <field name="model">ticket.allocation</field>
+        <field name="arch" type="xml">
+            <form string="Ticket Request">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                    <button name="action_submit" string="Submit" type="object" states='draft'
+                            class='oe_highlight'/>
+                    <button name="action_refuse" string="Refuse" type="object" states='submitted'
+                            class='oe_highlight'/>
+                    <button name="action_approve" string="Approve" type="object" states='submitted'
+                            class='oe_highlight'/>
+                    <button name="action_set_to_draft" string="Set To Draft" type="object" states='submitted'/>
+                </header>
+                <sheet>
+                    <h3>
+                        <field name="name"/>
+                    </h3>
+                    <group>
+                        <group>
+                            <field name='user_id'/>
+                         
+                        </group>
+                        <group>
+                            <field name='date'/>
+                           
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Ticket Lines">
+                            <field name='allocation_line_ids'>
+                                <tree editable='bottom'>
+                                    <field name='allocation_id' invisible='1'/>
+                                    <field name='employee_id'/>
+                                    <field name='amount'/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                 <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+            </form>
+        </field>
+    </record>
+    <record id="view_ticket_allocation_tree" model="ir.ui.view">
+        <field name="name">ticket.allocation.tree</field>
+        <field name="model">ticket.allocation</field>
+        <field name="arch" type="xml">
+            <tree string="Ticket Request Tree">
+                <field name='name'/>
+                <field name='user_id'/>
+                <field name='date'/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_ticket_allocation_view" model="ir.actions.act_window">
+        <field name="name">Ticket Allocation</field>
+        <field name="res_model">ticket.allocation</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="view_ticket_allocation_tree"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create Records Here.......
+            </p>
+        </field>
+    </record>
+</odoo>

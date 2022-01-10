@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_de_fuel_project_pricing_de_fuel_project_pricing,de_fuel_project_pricing.de_fuel_project_pricing,model_de_fuel_project_pricing_de_fuel_project_pricing,base.group_user,1,1,1,1

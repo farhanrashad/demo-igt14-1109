@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<odoo>
+    <record id="purchase_order_form_inherit_team" model="ir.ui.view">
+        <field name="name">account.move.form.inherit.team</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='other_info']/group[1]" position="inside">
+                <group>
+                <field name="purchase_user_id" attrs="{'invisible':[('move_type','not in',['in_invoice','in_refund','in_receipt'])],}" />
+                <field name="purchase_team_id" attrs="{'invisible':[('move_type','not in',['in_invoice','in_refund','in_receipt'])],}" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

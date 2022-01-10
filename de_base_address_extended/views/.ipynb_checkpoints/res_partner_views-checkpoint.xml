@@ -1,0 +1,36 @@
+<odoo>
+    <data>
+        <record id="view_partner_form_inherit_extended_address" model="ir.ui.view">
+        <field name="name">view.partner.form.inherit.extended.address</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <!--
+            <xpath expr="//div[hasclass('settings')]" position="replace">
+                <field name="city_id" placeholder="City"/>
+            </xpath>
+-->
+            <xpath expr="//field[@name='country_id']" position="before">
+                <field name="town_id" placeholder="Township" class="o_address_country"/>
+                <field name="enforce_subdistricts" invisible="1"/>
+                <field name="enforce_districts" invisible="1"/>
+                <field name="subdistrict_id" placeholder="Sub District" class="o_address_state" attrs="{'invisible':[('enforce_subdistricts','!=',True)]}" />
+                <field name="district_id" placeholder="District" class="o_address_state" attrs="{'invisible':[('enforce_districts','!=',True)]}" />
+                
+                
+                <!--
+                <field name="enforce_districts" invisible="1"/>
+                <field name="district_required" invisible="1"/>
+                <field name="enforce_subdistricts" invisible="1"/>
+                <field name="subdistrict_required" invisible="1"/>
+-->
+                <!--
+                <field name="district_id" attrs="{'invisible':[('enforce_districts','!=',True)], 'required':[('district_required','=',True)]}" />
+                <field name="subdistrict_id" attrs="{'invisible':[('enforce_subdistricts','!=',True)], 'required':[('subdistrict_required','=',True)]}" />
+-->
+            </xpath>
+        </field>
+    </record>
+        
+    </data>
+</odoo>

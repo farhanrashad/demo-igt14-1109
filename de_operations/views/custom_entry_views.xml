@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_custom_entry_form_view_inherit_advance_inv" model="ir.ui.view">
+            <field name="name">account.custom.entry.form.view.inehrit.advance.inv</field>
+            <field name="model">account.custom.entry</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='create_payment']" position="after">
+                    <button name="%(de_operations.action_custom_entry_advance_payment_inv)d" string="Create Bill"
+                        type="action" class="btn-primary" context="{'create_bill':True}"  attrs="{'invisible':[('allow_advance_inv','=',False)]}"/>
+                 </xpath>
+                <xpath expr="//button[@name='action_view_invoice']" position="replace">
+                    <button type="object"  name="action_view_invoice" attrs="{'invisible': ['|',('allow_advance_inv','=',True),('invoice_count', '=', 0)]}" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Bill"/>
+                            <field name='invoice_ids' invisible="1"/>
+                    </button>
+                    <button type="object"  name="action_view_invoice" attrs="{'invisible': [('allow_advance_inv','=',False)]}" class="oe_stat_button" icon="fa-pencil-square-o">
+                            <field name="invoice_count" widget="statinfo" string="Bill"/>
+                    </button>
+                </xpath>
+                <xpath expr="//group[1]/group[2]" position="inside">
+                    <field name="allow_advance_inv" invisible="1"/>
+                </xpath>
+            </field>
+    </record>
+    
+    <record id="account_custom_entry_type_form_view_inherit_advance_inv" model="ir.ui.view">
+            <field name="name">account.custom.entry.type.form.view.inehrit.advance_inv</field>
+            <field name="model">account.custom.entry.type</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_type_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='default_product_id']" position="after">
+                    <field name="allow_advance_inv" />
+                    <field name="dp_product_id"  options="{'no_create': true}" attrs="{'invisible':[('allow_advance_inv','=',False)]}"/>
+                </xpath>
+                
+            </field>
+    </record>
+    
+</odoo>

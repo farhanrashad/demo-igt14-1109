@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--		form view for Delivery-->
+		<record id="view_delivery_method_form" model="ir.ui.view">
+			<field name="name">hr.employee.training.course.delivery.method.form</field>
+			<field name="model">hr.employee.training.course.delivery.method</field>
+			<field name="arch" type="xml">
+				<form string="Delivery Method">
+					<sheet>
+						<h1>Delivery Method</h1>
+						<group>
+							<field name="name"/>
+                        </group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+
+		<record id="view_delivery_method_tree" model="ir.ui.view">
+			<field name="name">hr.employee.training.course.delivery.method.tree</field>
+			<field name="model">hr.employee.training.course.delivery.method</field>
+			<field name="arch" type="xml">
+				<tree string="Delivery Method Tree">
+					<field name="name" />
+				</tree>
+			</field>
+		</record>
+
+		<record id="view_delivery_method_search" model="ir.ui.view">
+			<field name="name">hr.employee.training.course.delivery.method.search</field>
+			<field name="model">hr.employee.training.course.delivery.method</field>
+			<field name="arch" type="xml">
+				<search string="Delivery Method search">
+					<field name="name" />
+				</search>
+			</field>
+		</record>
+
+		
+		<record id="action_delivery_method_view" model="ir.actions.act_window">
+            <field name="name">Delivery method</field>
+            <field name="res_model">hr.employee.training.course.delivery.method</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+            <field name="search_view_id" ref="view_delivery_method_search"/>
+            <field name="view_id" ref="view_delivery_method_tree"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                   Delivery Method
+                </p>
+            </field>
+        </record>
+</odoo>
+
+

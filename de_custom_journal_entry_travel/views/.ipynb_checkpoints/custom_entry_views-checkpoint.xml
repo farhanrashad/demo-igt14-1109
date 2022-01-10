@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="account_custom_entry_form_view_inherit_travel" model="ir.ui.view">
+            <field name="name">account.custom.entry.form.view.inehrit.travel</field>
+            <field name="model">account.custom.entry</field>
+            <field name="inherit_id" ref="de_custom_journal_entry.account_custom_entry_form_view" />
+            <field name="arch" type="xml">
+                <xpath expr="//sheet[1]" position="inside">
+                    <field name="has_travel" invisible="1"/>
+                </xpath>
+                <xpath expr="//sheet[1]/group[1]" position="after">
+                    <!-- Travel header fields -->
+                    <group col="4" attrs="{'invisible':[('has_travel','==','no')]}">
+                        <field name="customer_type" attrs="{'invisible':[('has_travel','==','no')], 'required': [('has_travel','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                        <field name="date_effective" attrs="{'invisible':[('has_travel','==','no')], 'required': [('has_travel','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                        <field name="date_subscription" attrs="{'invisible':[('has_travel','==','no')], 'required': [('has_travel','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                        <field name="t_travel_by" attrs="{'invisible':[('has_travel','==','no')], 'required': [('has_travel','==','required')], 'readonly':[('stage_category','!=', 'draft')]}" />
+                    </group>
+                </xpath>
+                <xpath expr="//page[@name='custom_entry_line']/field[@name='custom_entry_line']/tree[1]" position="inside">
+                    <!-- Travel  -->
+                    <field name="t_travel_category" string="Category" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>
+                    <field name="travel_from" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>
+                    <field name="travel_to" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>     
+                    <field name="date_departure" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>
+                    <field name="date_arrival" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>             
+                    <field name="number_of_days" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>
+                    <field name="travel_reference" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>
+                    <field name="t_unit_price" string="Unit Price" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>
+                    <field name="t_extra_charges" string="Extra Charges" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/>
+                    <field name="t_amount_travel" string="Total" attrs="{'column_invisible':[('parent.has_travel','==','no')], 'required': [('parent.has_travel','==','required')]}"/> 
+                </xpath>
+                
+            </field>
+    </record>
+</odoo>

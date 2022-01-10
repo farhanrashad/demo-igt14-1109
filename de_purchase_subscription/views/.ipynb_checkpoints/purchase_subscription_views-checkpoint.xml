@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Subscription menu -->
+	<record id="purchase_subscription_view_search" model="ir.ui.view">
+        <field name="name">purchase.subscription.search</field>
+        <field name="model">purchase.subscription</field>
+        <field name="arch" type="xml">
+            <search string="Subscriptions">
+                <field name="name" string="Subscription" filter_domain="['|', ('name', 'ilike', self), ('code', 'ilike', self)]"/>
+                <field name="partner_id" operator="child_of"/>
+                <field name="user_id"/>
+                <field name="purchase_subscription_line" string="Product" filter_domain="[('purchase_subscription_line.product_id', 'ilike', self)]"/>
+                <field name="subscription_plan_id"/>
+                <filter name="my_subscriptions" string="My Subscriptions" domain="[('user_id','=',uid)]"/>
+                <filter string="Unassigned" name="contracts_not_assigned" help="Subscriptions that are not assigned to an account manager." domain="[('user_id', '=', False)]"/>
+                <separator/>
+                <filter name="open" string="Running" domain="[('stage_category','=','progress')]" help="Running Subscriptions"/>
+                <filter name="pending" string="To Renew" domain="[('stage_category','=','draft')]" help="Pending subscriptions"/>
+                <filter name="closed" string="Closed" domain="[('stage_category','=','closed')]" help="Closed subscriptions"/>
+
+                <separator/>
+               
+                <filter name="filter_date_start" date="date_start"/>
+                <filter name="filter_recurring_next_date" date="recurring_next_date"/>
+                <filter invisible="1" string="Late Activities" name="activities_overdue"
+                    domain="[('activity_ids.date_deadline', '&lt;', context_today().strftime('%Y-%m-%d'))]"
+                    help="Show all records which has next action date is before today"/>
+                <filter invisible="1" string="Today Activities" name="activities_today"
+                    domain="[('activity_ids.date_deadline', '=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter invisible="1" string="Future Activities" name="activities_upcoming_all"
+                        domain="[('activity_ids.date_deadline', '&gt;', context_today().strftime('%Y-%m-%d'))
+                        ]"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Vendor" name="vendor" domain="[]" context="{'group_by':'partner_id'}"/>
+                    <filter string="Subscription Plan" name="plan" domain="[]" context="{'group_by':'subscription_plan_id'}"/>
+                    <filter string="Stage" name="stage" domain="[]" context="{'group_by':'stage_id'}"/>
+                    <filter string="Start Date" name="start_date" domain="[]" context="{'group_by' : 'date_start'}" />
+                    <filter string="End Date" name="end_date" domain="[]" context="{'group_by' : 'date'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <record id="purchase_subscription_list_view" model="ir.ui.view">
+        <field name="name">purchase.subscription.list.view</field>
+        <field name="model">purchase.subscription</field>
+        <field name="arch" type="xml">
+            <tree string="Purchase Subscription">
+                <field name="name" readonly="1" decoration-bf="1" />
+                <field name="code" readonly="1" decoration-bf="1" optional="hide"/>
+                <field name="partner_id" readonly="1"/>
+                <field name="recurring_next_date" string="Next Invoice" widget="remaining_days" />
+                <field name="user_id" optional="show" widget="many2one_avatar_user"/>
+                <field name="activity_ids" widget="list_activity"/>
+                <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                <field name="recurring_total"/>
+                <field name="stage_id" widget="badge" />
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+    
+    <record id="purchase_subscription_kanban_view" model="ir.ui.view">
+        <field name="name">purchase.subscription.kanban.view</field>
+        <field name="model">purchase.subscription</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stage_id" class="o_kanban_mobile" sample="1">
+                <field name="user_id"/>
+                <field name="stage_id" options="{'group_by_tooltip': {'description': 'Description'}}"/>
+                <field name="subscription_plan_id"/>
+                <field name="currency_id"/>
+                <field name="activity_ids"/>
+                <field name="activity_state" />
+                <progressbar field="activity_state" colors='{"planned": "success", "today": "warning", "overdue": "danger"}' help="This bar allows to filter the opportunities based on scheduled activities."/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <strong class="float-right">
+                                    <field name="recurring_total" widget="monetary"/>
+                                </strong>
+                                <div class="o_kanban_record_title">
+                                    <field name="partner_id"/>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="name"/>
+                                </div>
+                                 <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                         <field name="activity_ids" widget="kanban_activity"/>
+                                     </div>
+                                     <div class="oe_kanban_bottom_right">
+                                        <field name="user_id" widget="many2one_avatar_user"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+        <record id="purchase_subcription_form_view" model="ir.ui.view">
+            <field name="name">purchase.subscription.form.view</field>
+	        <field name="model">purchase.subscription</field>
+            <field name="arch" type="xml">
+                <form string="Subscription">
+                    <header>
+                        <button name="button_submit" string="Submit for Approval" type="object" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['draft'])]}"/>
+                        <button name="button_confirm" type="object" string="Confirm" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+                        <button name="button_refuse" type="object" string="Refuse" class="oe_highlight" attrs="{'invisible': [('stage_category', 'not in', ['progress'])]}"/>
+
+
+                        <button string="Create Bill" name="generate_recurring_invoice" type="object" attrs="{'invisible': ['|',('invoicing_mode', '!=', 'manual'),('stage_category', '!=', 'progress')]}" class="btn-primary"/>
+  <!--                       
+                        <button string="Start" name="start_subscription" type="object" attrs="{'invisible': [('stage_category','!=', 'confirm')]}" class="btn-primary"/>
+                       
+-->
+
+<!--
+                        <field name="stage_id" widget="statusbar" />
+-->                        
+                        <field name="stage_id" widget="statusbar"  />
+
+                    </header>
+                    <sheet string="Subscription">
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button" icon="fa-book" 
+                                    name="action_subscription_invoice" type="object">
+                            <field name="subscription_invoice_count" widget="statinfo" string="Bills"/>
+                            </button>
+                        </div>
+                         <div class="oe_title">
+                        <h1>
+                            <field name="automated_sequence" invisible="1"/>
+                            <field name="name" placeholder="E.g: Purchase Subscription"
+                                attrs="{'readonly': [('automated_sequence', '=', True)]}"
+                                required="1"/>
+                        </h1>
+                    </div>
+                       
+                        <group name="main">
+                            <group>
+                                <field name="partner_id" required="1" attrs="{'readonly': [('stage_category','!=', 'draft')]}"/>                               
+                                <field name="recurring_interval_rule" widget="radio" invisible="1"/>
+                                <field name="recurring_interval_count" invisible="1"/>
+                                <field name="invoicing_mode" widget="radio" invisible="1"/>
+                                <field name="recurring_invoice_day" invisible="1"/>
+                                <field name="date_start" attrs="{'readonly': [('stage_category','!=', 'draft')]}"/>
+                                <field name="date" attrs="{'invisible':[('recurring_interval_rule','=','unlimited')],'readonly': [('stage_category','!=', 'draft')]}" />
+                                <label for="recurring_next_date" string="Date of Next Invoice" />
+                                <div class="row">
+                                    <field name="recurring_next_date" attrs="{'readonly': [('stage_category','!=', 'draft')]}"/>
+                                    <button name="generate_recurring_invoice"
+                                        string="Generate Bill"
+                                        class="oe_link"
+                                        icon="fa-long-arrow-right"
+                                        type="object"
+                                        groups="base.group_no_one"
+                                        attrs="{'invisible': [('invoicing_mode', '=', 'manual')]}"/>
+
+                                </div>
+                                <label for="billing_cycle" string="Billing Cycle" />
+                                <div class="o_row no-gutters d-flex">
+                                    <div class="o_row">
+                                        <field name="billing_cycle"/> / 
+                                        
+                                    </div>
+                                    <field name="recurring_interval_type"/>
+                                    
+                                </div>
+                                 <field name="user_id" attrs="{'readonly': [('stage_category','!=', 'draft')]}" domain="[('share', '=', False)]"/>
+                                <field name="company_id" attrs="{'readonly': [('stage_category','!=', 'draft')]}" groups="base.group_multi_company"/>
+                                <field name="currency_id" attrs="{'readonly': [('stage_category','!=', 'draft')]}" />
+                                <field name="stage_category" invisible="1" />
+                                
+                            </group>
+                            <group >
+                                <field name="subscription_date" attrs="{'readonly': [('stage_category','!=', 'draft')]}"/>
+                                <field name="subscription_plan_id" attrs="{'readonly': [('stage_category','!=', 'draft')]}"/>
+                                <field name="subscription_type_id" attrs="{'readonly': [('stage_category','!=', 'draft')]}"/>
+                               
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Subscription Lines" name="subscription_lines">
+                                <field name="purchase_subscription_line">
+                                        <tree editable="bottom">
+                                            <field name="product_id" domain="[('purchase_subscription', '=', True), '|', ('company_id', '=', False), ('company_id', '=', parent.company_id)]" context="{'default_purchase_subscription': True}"/>
+                                            <field name="name" optional="show"/>
+                                            <field name="quantity"/>
+                                            <field name="product_uom_category_id" invisible="1"/>
+                                            <field name="uom_id" string="UoM" groups="uom.group_uom"  optional="show"/>
+                                            <field name="analytic_account_id" optional="hide" groups="analytic.group_analytic_accounting"/>
+                                            <field name="analytic_tag_ids" groups="analytic.group_analytic_tags" widget="many2many_tags" optional="hide" />
+
+                                            <field name="price_unit" widget="monetary" />
+                                            <field name="discount" groups="product.group_discount_per_so_line" optional="show"/>
+                                            <field name="price_subtotal" widget="monetary" groups="account.group_show_line_subtotals_tax_excluded"/>
+                                            <field name="currency_id" invisible="1"/>
+                                        </tree>
+                                </field>
+                                <group name="note_group" col="6" class="mt-2 mt-md-0">
+                                    <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="recurring_price" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                                            <label for="recurring_total"/>
+                                        </div>
+                                        <field name="recurring_total" nolabel="1" class="oe_subtotal_footer_separator" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                    </group>
+                                    <div class="oe_clear"/>
+                                </group>
+                                <group name="billed_group" col="6" class="mt-2 mt-md-0">
+                                     <group class="oe_subtotal_footer oe_right" colspan="2" name="sale_total">
+                                        <field name="recurring_billed_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="recurring_paid_total" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="billable_amount" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+
+                                    </group>
+                                </group>
+                            </page>
+                             <page string="Changes" id="logs">
+                                <field name="subscription_log_ids">
+                                    <tree decoration-muted="event_type == '2_snapshot'" decoration-success="event_type == '1_change' and amount_signed &gt; 0" decoration-danger="event_type == '3_churn'" decoration-warning="event_type == '1_change' and amount_signed &lt; 0" editable="bottom">
+                                        <field name="create_date"/>
+                                        <field name="event_type"/>
+                                        <field name="amount_signed"/>
+                                        <field name="user_id"/>
+                                        <field name="recurring_monthly"/>
+                                        <field name="percentage" widget="percentage"/>
+                                        <field name="category" groups="base.group_no_one"/>
+                                        <field name="currency_id" invisible="1"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Other Info" id="others">
+                                <group>
+                                    <group>
+                                        <field name="code" />
+                                        <field name="payment_term_id" />
+                                    </group>
+                                    <group>
+                                        <field name="analytic_account_id"/>
+                                        <field name="analytic_tag_ids" widget="many2many_tags"/>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Subscription Invoices" id="subscription_invoices">
+                                <field name="subscription_invoice_ids">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="invoice_date" />
+                                        <field name="invoice_date_due" />
+                                        <field name="ref" />
+                                         <field name="invoice_user_id" optional="hide" invisible="context.get('default_move_type') not in ('out_invoice', 'out_refund','out_receipt')" string="Sales Person" widget="many2one_avatar_user"/>
+                    <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" optional="show"/>
+                    <field name="amount_untaxed_signed" string="Tax Excluded" sum="Total" optional="show"/>
+                    <field name="amount_tax_signed" string="Tax" sum="Total" optional="hide"/>
+                    <field name="amount_total_signed" string="Total" sum="Total" decoration-bf="1" optional="show"/>
+                    <field name="amount_residual_signed" string="Amount Due" sum="Amount Due" optional="hide"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="company_currency_id" invisible="1"/>
+                    <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-info="state == 'draft'" optional="show"/>
+                    <field name="payment_state" widget="badge" decoration-danger="payment_state == 'not_paid'" decoration-warning="payment_state in ('partial', 'in_payment')" decoration-success="payment_state in ('paid', 'reversed')" attrs="{'invisible': [('payment_state', 'in', ('invoicing_legacy'))]}"/>
+                    <field name="move_type" invisible="context.get('default_move_type', True)"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <!-- Attachment preview -->
+                    <div class="o_attachment_preview" />
+                    <!-- Chatter -->
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" groups="base.group_user"/>
+                        <field name="activity_ids"/>
+                        <field name="message_ids"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+	
+		<record id="purchase_subscription_view_cohort" model="ir.ui.view">
+            <field name="name">purchase.subscription.cohort</field>
+            <field name="model">purchase.subscription</field>
+            <field name="arch" type="xml">
+                <cohort string="Subscription" date_start="date_start" date_stop="date" interval="month" sample="1"/>
+            </field>
+        </record>
+		
+		<record id="action_purchase_subscription" model="ir.actions.act_window">
+			<field name="name">Subscriptions</field>
+			<field name="res_model">purchase.subscription</field>
+			<field name="type">ir.actions.act_window</field>
+			<field name="view_mode">kanban,tree,form,pivot,graph,cohort,activity</field>
+            <field name="context">{"search_default_my_subscriptions":1}</field>
+            <field name="domain">[]</field>
+            <field name="search_view_id" eval='False'/>
+			<field name="help" type="html">
+				<p class="o_view_nocontent_smiling_face">
+					Create a new Subscription
+				</p>
+                <p>
+                    Create subscriptions to manage recurring billing &amp; payments. Subscriptions can be time-bounded or not. In case of a limited period, they are flagged as to be renewed one month from the end date. </p>
+<p>
+Subscriptions can be automatically generated from sales orders in Sales or eCommerce apps. To do so, set a subscription template on your subscription products.
+                </p>
+			</field>
+		</record>
+		
+
+		<menuitem id="purchase_subscription_purchase_subscription_menu" name="Subscriptions" parent="purchase_subscription_menu" action="action_purchase_subscription" sequence="1" />
+		
+			
+</odoo>
+
+

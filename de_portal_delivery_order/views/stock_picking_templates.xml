@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <template id="portal_layout_delivery_order" name="Portal layout: Order menu entry" inherit_id="portal.portal_breadcrumbs" priority="25">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'delivery' or delivery" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not delivery else ''}">
+                <a t-if="delivery" t-attf-href="/delivery/orders?{{ keep_query() }}">Transfers</a>
+                <t t-else="">Transfers</t>
+            </li>
+            <li t-if="delivery" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                <t t-esc="delivery.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home_delivery" name="delivery_order" customize_show="True" inherit_id="portal.portal_my_home" priority="25">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Transfers</t>
+                <t t-set="url" t-value="'/delivery/orders'"/>
+                <t t-set="placeholder_count" t-value="'delivery_count'"/>
+            </t>
+        </xpath>  
+    </template>
+
+    <template id="portal_my_deliveries" name="Delivery Order">
+         <t t-set="foo" t-value="2 + 1"/>
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Transfers</t>
+            </t>
+            <t t-if="not grouped_delivery">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no Transfers.
+                </div>
+            </t>
+            <t t-if="grouped_delivery">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_delivery" t-as="deliveries">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left">No#</th>
+                                <th class="text-left">Reference</th>
+                                <th class="text-left">Partner</th>
+                                <th class="text-left">Schedule Date</th>
+                                <th class="text-left">Source Document</th>
+                                <th class="text-left">Status</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="deliveries" t-as="delv">
+                              <t t-if="delv.user_id.id==uid" >       
+                                <tr>
+                                    <td class="text-left">
+                                          <a t-attf-href="/delivery/order/#{delv.id}?{{ keep_query() }}">#<span t-field="delv.id"/></a>
+                                    </td>
+                                     <td>
+                                        <a t-attf-href="/delivery/order/#{delv.id}?{{ keep_query() }}"><span t-field="delv.name"/></a>
+                                    </td>
+                                     <td class="text-left">
+                                        <span t-esc="delv.partner_id.name" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="delv.scheduled_date" />
+                                    </td>
+                                    <td class="text-left">
+                                        <span t-esc="delv.origin" />
+                                    </td>
+                                    
+                                    <td class="text-center">
+                                  
+                                                <t t-if="delv.state == 'draft'">
+                                                    <i class="badge badge-pill badge-info" >Draft</i>
+                                                </t>
+                                                <t t-if="delv.state == 'waiting'">
+                                                    <i class="badge badge-pill badge-info" >Waiting Another Operation</i>
+                                                </t>
+                                                <t t-if="delv.state == 'confirmed'">
+                                                    <i class="badge badge-pill badge-info" >Waiting</i>
+                                                </t>
+                                                <t t-if="delv.state == 'assigned'">
+                                                    <i class="badge badge-pill badge-info" >Ready</i>
+                                                </t>
+                                                <t t-if="delv.state == 'done'">
+                                                    <i class="badge badge-pill badge-info" >Done</i>
+                                                </t>
+                                               <t t-if="delv.state == 'cancel'">
+                                                    <i class="badge badge-pill badge-info" >Cancelled</i>
+                                                </t>                                            
+
+                                    </td>	
+
+                                </tr>
+                            </t>
+                            </t>
+                            <tr>
+
+                            </tr>   
+                        </tbody>
+                    </t>
+                </t>
+            </t>   
+        </t>
+    </template>
+    
+    <template id="portal_my_delivery" name="My Delivery">
+        <t t-call="portal.portal_layout">
+             <t t-set="o_portal_fullwidth_alert" >
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#model=stock.picking&amp;id=%s&amp;view_type=form' % (delivery.id)"/>
+                </t> 
+            </t>
+          
+            <div id="optional_placeholder"></div>
+            <t t-call="portal.portal_record_layout">
+                <t t-set="card_header">
+                    <div id="optional_placeholder"></div>
+                    <div class="container">
+                      <div class="card">
+                        <div class="card-header">
+                                <div class="row">
+                                    <div class="col-lg-11">
+                                        <h5 class="d-flex mb-1 mb-md-0 row">
+                                            <span t-field="delivery.partner_id.name" class="col-8 text-truncate"/>
+                                            <small class="text-muted d-none d-md-inline"> (#<span t-field="delivery.id"/>)</small>
+                                            <div class="col-3 col-md-3 text-left">
+                                              <small class="text-right">State:</small>
+
+                                                    <span t-field="delivery.state" class=" badge badge-pill badge-info" title="Current stage of this Delivery Order"/>
+
+                                            </div>
+                                        </h5>
+                                    </div>
+                                    <t t-set="prev_record" t-value="1" /> 
+                                    <t t-set="next_record" t-value="2" /> 
+                                    <div style="float:right; text-align:right; width:0ox; margin-right:0px;" class=" btn-group col-lg-1" role="group">
+                                    <h5>  
+                                        <t t-if="pre_id">
+                                            <a role="button"  t-attf-href="/order/pre/#{delivery.id}?" ><i style="margin-right:10px; align:right" class="fa fa-chevron-left" role="img" aria-label="Previous" title="Previous"></i></a>
+                                        </t>
+                                        <t t-else="">
+                                            <a role="button"  t-att-class="disabled"  ><i style="margin-right:10px; align:right; color:#B8B7B0" class="fa fa-chevron-left" aria-label="Previous" title="Previous"></i></a>
+
+                                        </t>
+                                        <t t-if="next_id">
+                                            <a role="button" t-attf-href="/order/next/#{delivery.id}?" ><i class="fa fa-chevron-right" role="img" aria-label="Next" title="Next"></i></a>
+                                        </t>
+                                        <t t-else="">
+                                            <a role="button"  t-att-class="disabled"  ><i style="color:#B8B7B0" class="fa fa-chevron-right" aria-label="Next" title="Next"></i></a>
+                                        </t>
+                                    </h5>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                </t>
+               <t t-set="card_body">          
+                    <div class="row mb-5">
+                        <div class="col-12 col-md-6 mb-1">
+                            <span t-field="delivery.name" />
+                        </div>
+                        <div class="col-12 col-md-6" t-if="delivery.id">
+                            <strong>Partner:</strong> <span t-field="delivery.partner_id.name" />
+                        </div>
+                    </div>
+                     <div class="row mb-12">
+                         <div class="col-12 col-md-12 pb-2">
+                            <div class="row">
+                                <div class="col-md-5"> <strong>Operation Type : </strong>
+                                    <t t-if="delivery.picking_type_id">
+                                        <span t-esc="delivery.picking_type_id.name"/>
+                                    </t>
+                                </div>
+                                <div class="col-md-5"> <strong>Schedule Date : </strong>
+                                    <t t-if="delivery.scheduled_date">
+                                        <span t-esc="delivery.scheduled_date"/>
+                                    </t>
+                                </div>
+                                <div class="col-md-5"> <strong>Source Document : </strong>
+                                    <t t-if="delivery.origin">
+                                        <span t-esc="delivery.origin"/>
+                                    </t>
+                                </div>
+                            </div>
+                             <div class="row"> 
+                                <table class="table-striped table">
+                                <thead style="font-size:12px;">
+                                    <tr>
+                                        <h4>
+                                            <b>
+                                        <th class="text-left">Product</th>
+                                        <th class="text-left">Initial Demand</th>
+                                        <th class="text-left">Done</th>
+                                        <th class="text-left">UOM</th>
+                                        
+                                            </b>
+                                        </h4>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="delivery.move_ids_without_package" t-as="stock_line">
+
+
+                                        <tr>
+                                            <td><span t-esc="stock_line.product_id.name"/></td>
+                                            <td><span t-esc="stock_line.product_uom_qty"/></td>
+                                            <td><span t-esc="stock_line.quantity_done"/></td>
+                                            <td><span t-esc="stock_line.product_uom.name"/></td>
+                                        </tr>
+
+                                    </t>
+                                </tbody>
+                            </table>   
+                                 
+                                
+                            </div>
+                        </div>
+                       
+                    </div> 
+                   
+                  
+                        
+                    <div class="row"> 
+                        <div t-attf-class="col-12 col-lg-12  mb-md-0 ">
+                            <hr class="mb-1"/>
+                            <div class="d-flex my-2">
+                                <strong>Document</strong>
+                            </div>
+                            <t t-if="delivery.name">                                        
+                                <div class="py-1 px-2 bg-100 small" t-field="delivery.name"/>
+                            </t>
+                        </div> 
+                    </div>
+
+                </t> 
+            </t>
+            <div class="mt32">
+                <h4><strong>Message and communication history</strong></h4>
+                <t t-call="portal.message_thread">
+                    <t t-set="object" t-value="delivery"/>
+                    <t t-set="pid" t-value="pid"/>
+                    <t t-set="hash" t-value="hash"/>
+                </t>
+            </div>
+        </t>
+    </template>
+    
+    
+    
+    
+    
+    
+
+     <template id="create_payslip" name="My Create">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+                <t t-call="portal.portal_table">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Now you can also create new Payslips from here. Good Luck</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>  
+                                <div class="container">
+                                        <div class="row">
+                                            <div class="col-md-8 col-xs-12 col-md-offset-2 sell-page-contact">
+                                                <form id="saleForm" data-toggle="validator" action="/delivery/order/save" class="mt32">
+                                                    <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                                                        <div  class="col-xl">
+                                                                <strong class="d-block mb-2">Payslip Name:</strong>
+                                                                <input name="payslip_name" type="text" class="form-control o_website_form_input"/>
+                                                        </div>
+                                                        <div style="float:right;"  class="col-xl">
+                                                                <strong class="d-block mb-2">Reference:</strong>
+                                                            <input name="payslip_number" type="text" class="form-control o_website_form_input"/>
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                                                        <div  class="col-xl">
+                                                                <strong class="d-block mb-2">Date start:</strong>
+                                                                <input name="date_start" type="date" required="required" class="form-control o_website_form_input"/>
+                                                        </div>
+                                                        <div style="float:right;"  class="col-xl">
+                                                                <strong class="d-block mb-2">Date End:</strong>
+                                                            <input name="date_end" type="date" required="required" class="form-control o_website_form_input"/>
+                                                        </div>
+                                                    </div>
+                                        <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                                                        <div  class="col-xl">
+                                                          <label for="environment">Employee:</label>
+                                                              <select class="form-control" name="payslip_emp_id">
+                                                                    <t t-foreach="emps" t-as="emp">
+                                                                        <option t-att-value="emp.id">
+                                                                            <t t-esc="emp.name"/>
+                                                                        </option>
+                                                                    </t>
+                                                            </select>
+                                                    </div>
+                                                     <div style="float:right;"  class="col-xl">
+                                                          <label for="environment">Structure:</label>
+                                                              <select class="form-control" name="payslip_structure_id">
+                                                                    <t t-foreach="structure" t-as="struct">
+                                                                        <option t-att-value="struct.id">
+                                                                            <t t-esc="struct.name"/>
+                                                                        </option>
+                                                                    </t>
+                                                            </select>
+                                                    </div>
+                                        </div>
+                                                    <div class="form-group row form-field o_website_form_custom o_website_form_required_custom">
+                                                        <div class="col-md-2">
+                                                            <button type="submit"  class="btn btn-primary pull-left">Save</button>
+                                                        </div>
+                                                        <div class="col-md-7">
+                                                            <t t-if="success_flag" t-call="portal.portal_docs_entry">
+                                                                <t t-set="title" style="color:green">Approval has been Saved Success fully</t>
+                                                            </t>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <a href="/delivery/orders"><div class="btn btn-warning pull-right" style="float:right; height:35px;line-height:100%;">Back To All Order</div></a> 
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </t>
+                </t>
+        </template> 
+
+</odoo>
+
+
+

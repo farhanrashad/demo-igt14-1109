@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <report
+                id="account_move_line_report"
+                model="account.move.line.wizard"
+                string="Account Move Line Report"
+                report_type="xlsx"
+                name="de_report_journal_items.account_move_line_report_xlsx"
+                file="Account Move Line Report"
+        />
+    </data>
+</odoo>
