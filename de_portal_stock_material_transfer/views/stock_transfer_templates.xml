@@ -95,7 +95,7 @@
                                 <a t-attf-href="/stock/material/edit/#{stock_material.id}?" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Edit</div> </a> 
                             </t>
                             </t>
-                            <t t-if="stock_material.stage_id.state_category in ('cancel','Cancel')">  
+                            <t t-if="stock_material.stage_id.stage_category in ('cancel','Cancel')">  
                                 <a t-attf-href="/stock/material/resubmit/#{stock_material.id}?" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Re-Submit</div> </a> 
                             </t>               
                             
