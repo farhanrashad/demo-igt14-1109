@@ -163,8 +163,7 @@ def stock_material_type_categ_page_content(transfer_category, transfer_type,loca
 
 class CreateStockMaterial(http.Controller):
     
-    
-    
+ 
     @http.route('/stock/material/edit/save',type="http", website=True, auth='user')
     def stockmaterial_line_template(self, **kw):
         materialline = request.env['stock.transfer.order'].search([('id', '=', int(kw.get('stock_transfer_id')))])
@@ -476,6 +475,21 @@ class CustomerPortal(CustomerPortal):
             'filterby': filterby,
         })
         return request.render("de_portal_stock_material_transfer.portal_stock_materials", values)
+
+
+    @http.route(['/stock/material/resubmit/<int:material_id>'], type='http', auth="public", website=True)
+    def portal_stock_material_resubmit(self, material_id, access_token=None, **kw):
+
+        try:
+            task_sudo = request.env['stock.transfer.order'].sudo().search([('id', '=', material_id)])
+            task_sudo.update({
+                  'stage_id': request.env['stock.transfer.order.stage'].sudo().search([('stage_category','=','draft')], limit=1).id,
+            }) 
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        values = self._stock_material_get_page_view_values(task_sudo, access_token, **kw)
+        return request.render("de_portal_stock_material_transfer.portal_stock_material", values) 
 
     @http.route(['/stock/material/<int:material_id>'], type='http', auth="public", website=True)
     def portal_stock_material(self, material_id, access_token=None, **kw):
