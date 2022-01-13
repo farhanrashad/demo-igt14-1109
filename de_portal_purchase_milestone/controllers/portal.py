@@ -162,12 +162,13 @@ class PortalChatter(http.Controller):
                 record = request.env[res_model].browse(res_id)
                 message_values = {'res_id': res_id, 'model': res_model}
                 attachments = record._message_post_process_attachments([], attachment_ids, message_values)
-
+                
                 if attachments.get('attachment_ids'):
-                    if record.purchase_id:
-                        record.update({
-                           'is_purchase_attachment': True
-                       }) 
+                    if res_model == 'project.task'and record.purchase_id:
+                        if record.purchase_id:
+                            record.update({
+                              'is_purchase_attachment': True
+                            }) 
                     message.sudo().write(attachments)
 
         return request.redirect(url)
