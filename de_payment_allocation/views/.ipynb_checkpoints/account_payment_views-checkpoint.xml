@@ -9,12 +9,14 @@
                 <xpath expr='//field[@name="date"]' position='after'>
                      <field name='reconcile_amount' invisible='0' />
                     <field name='reconciled' invisible='0' />
+                    <field name='matching_move_id' invisible='1' />
                 </xpath>
-                <xpath expr='//field[@name="move_id"]' position='after'>
-                     <field name='payment_move_id' invisible='1'  readonly='1'/>
-                </xpath>
+                
                  <xpath expr='//header' position='inside'>
                      <button name="action_reconcile" string="Reconcile" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'posted'),('reconciled','=',True)]}"/>
+                     
+                    <button name="action_generate_journal_entry" string="Matching Entry" type="object" class="oe_highlight" />
+
                      
                      <button name="action_process_openitems" string="Process Open Items" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state', '=', 'posted'),('reconciled','=',True)]}"/>
                      <button name="action_process_openitems" string="Process Open Items" type="object" invisible="1" attrs="{'invisible': ['|',('state', '!=', 'posted'),('reconciled','=',True)]}"/>
@@ -102,7 +104,7 @@
                              </group>
                          </page>
                          <page string='Journal Items'>
-                             <field name='payment_move_line_ids' />
+                             <field name='matching_move_line_ids' />
                              <!--
                                  <tree>
                                      <field name='id' invisible="1"/>
