@@ -15,9 +15,6 @@
                  <xpath expr='//header' position='inside'>
                      <button name="action_reconcile" string="Reconcile" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state', '!=', 'posted'),('reconciled','=',True)]}"/>
                      
-                    <button name="action_generate_journal_entry" string="Matching Entry" type="object" class="oe_highlight" />
-
-                     
                      <button name="action_process_openitems" string="Process Open Items" type="object" class="oe_highlight" attrs="{'invisible': ['|',('state', '=', 'posted'),('reconciled','=',True)]}"/>
                      <button name="action_process_openitems" string="Process Open Items" type="object" invisible="1" attrs="{'invisible': ['|',('state', '!=', 'posted'),('reconciled','=',True)]}"/>
 
