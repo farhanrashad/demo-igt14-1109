@@ -20,8 +20,8 @@ import warnings
 class AccountMove(models.Model):
     _inherit = 'account.move'
     
-    entry_payment_id = fields.Many2one('account.payment', string='Entry Payment')
     reconcile_amount = fields.Float(string='Reconcile Amount', compute='_compute_reconcile_amount')
+    
     
     def _compute_reconcile_amount(self):
         for entry in self:
@@ -44,7 +44,7 @@ class AccountMoveLine(models.Model):
     allocation_move_line_id = fields.Many2one('account.move.line', string='Move Line')
     reconcile_amount = fields.Float(string='Reconcile Amount',  compute='_compute_reconcile_amount')
     is_reconciled = fields.Boolean(string='Is Reconcile', store=True)
-    
+    matched_payment_id = fields.Many2one('account.payment', string='Matched Payment', copy=False)
     
     
     def _compute_reconcile_amount(self):

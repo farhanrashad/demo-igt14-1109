@@ -11,8 +11,8 @@ class AccountPayment(models.Model):
     debit_allocation_ids = fields.One2many('account.payment.debit.allocation', 'payment_id', string='Debit Lines', copy=False) 
     credit_allocation_ids = fields.One2many('account.payment.credit.allocation', 'payment_id', string='Credit Lines', copy=False) 
     
-    payment_move_id = fields.Many2one('account.move', string='Entry')
-    payment_move_line_ids = fields.Many2many('account.move.line', string='Journal Items', domain="[('move_id','=',payment_move_id)]", compute='_compute_move_lines')
+    #payment_move_id = fields.Many2one('account.move', string='Entry')
+    #payment_move_line_ids = fields.Many2many('account.move.line', string='Journal Items', domain="[('move_id','=',payment_move_id)]", compute='_compute_move_lines')
 
     writeoff_account_id = fields.Many2one('account.account', string='Writeoff Account')
     writeoff_label = fields.Char(string='Label', default='Write-Off')
@@ -29,15 +29,17 @@ class AccountPayment(models.Model):
     exchange_rate = fields.Char(string='Exchange Rate', compute='_compute_all_exchange')
     last_exchange_rate = fields.Char(string='Last Exchange Rate', readonly="1", compute='_compute_all_exchange')
     
-    reconciled = fields.Boolean(string='Reconciled')
+    reconciled = fields.Boolean(string='Reconciled',copy=False)
     
-    
+    matching_move_id = fields.Many2one('account.move', string='Matching Entry', copy=False)
+    matching_move_line_ids = fields.Many2many('account.move.line', string='Journal Items', domain="[('move_id','=',matching_move_id)]", compute='_compute_move_lines')
+
     def _compute_move_lines(self):
-        if self.payment_move_id:
-            for move in self.payment_move_id:
-                self.payment_move_line_ids = move.line_ids
+        if self.matching_move_id:
+            for move in self.matching_move_id:
+                self.matching_move_line_ids = move.line_ids + self.move_id.line_ids
         else:
-            self.payment_move_line_ids = False
+            self.matching_move_line_ids = False
                     
     def action_generate_journal_entry(self):
         for payment in self:
@@ -48,25 +50,32 @@ class AccountPayment(models.Model):
             debit_sum = credit_sum = 0.0
             amount = 0
             total_debit_diff = total_credit_diff = 0
-            line_ids = []
+            line_ids = update_line_ids = []
             exchange_diff_currency = 0
             temp = ''
-            if payment.payment_move_id:
-                if payment.payment_move_id == 'draft':
-                    payment.payment_move_id.unlink()
+            #if payment.move_id:
+            #    if payment.move_id == 'draft':
+            #        payment.move_id.line_ids.filtered(lambda line: line.account_id.id == self.destination_account_id.id).unlink()
+                    #payment.payment_move_id.unlink()
+            if payment.matching_move_id:
+                if payment.matching_move_id.state == 'posted':
+                    payment.matching_move_id.button_draft()
+                    payment.matching_move_id.button_cancel()
+                else:
+                    payment.matching_move_id.unlink()
                     
             if not (payment.currency_id.id == payment.company_id.currency_id.id):
                 amount = payment.currency_id._get_conversion_rate(payment.currency_id, payment.company_id.currency_id,payment.company_id, fields.date.today()) * payment.amount
             else:
                 amount = payment.amount
-                
+            journal_id = self.env['account.journal'].search([('type','=','general')],limit=1)
             move_dict = {
-                'journal_id': self.journal_id.id,
+                'journal_id': journal_id.id, #self.journal_id.id,
                 'date': self.date,
                 'state': 'draft',
-                'entry_payment_id': self.id, #to be deleted
                 'currency_id': self.currency_id.id,
                 'move_type': 'entry',
+                'payment_id': payment.id,
             }
             payment_display_name = {
                 'outbound-customer': _("Customer Reimbursement"),
@@ -81,16 +90,18 @@ class AccountPayment(models.Model):
             if payment.payment_type == 'inbound':
                 #generate cash/bank line for outgoing payment - credit line
                 line_ids.append([0,0,{
-                    'name': self.ref or default_line_name,
-                    'ref': self.name,
+                    'name': payment.ref or default_line_name,
+                    'ref': payment.name,
                     #'move_line_id': payment_entry.id, 
                     'debit': round(payment.amount_total_signed,2),
                     'credit': 0.0,
-                    'account_id': payment.journal_id.payment_debit_account_id.id,
+                    #'account_id': payment.journal_id.payment_debit_account_id.id,
+                    'account_id': payment.destination_account_id.id,
                     'payment_id': payment.id,
                     'currency_id': payment.currency_id.id,
-                    'amount_currency':  round(payment.amount,2),
+                    'amount_currency':  payment.amount,
                     'partner_id': payment.partner_id.id,
+                    'matched_payment_id': payment.id,
                     'payment_id': payment.id,
                 }])
                 temp += 'payment==' + str(round(payment.amount_total_signed,2)) + ' credit=' + str(0) + ' amount currency=' + str(round(payment.amount,2)) + '\n'
@@ -101,16 +112,18 @@ class AccountPayment(models.Model):
             if payment.payment_type == 'outbound':
                 #generate cash/bank line for outgoing payment - credit line
                 line_ids.append([0,0,{
-                    'name': self.ref or default_line_name,
-                    'ref': self.name,
+                    'name': payment.ref or default_line_name,
+                    'ref': payment.name,
                     #'move_line_id': payment_entry.id, 
                     'debit': 0.0,
                     'credit': round(payment.amount_total_signed,2),
-                    'account_id': payment.journal_id.payment_debit_account_id.id,
+                    #'account_id': payment.journal_id.payment_credit_account_id.id,
+                    'account_id': payment.destination_account_id.id,
                     'payment_id': payment.id,
                     'currency_id': payment.currency_id.id,
-                    'amount_currency':  round(payment.amount * -1,2),
+                    'amount_currency':  payment.amount * -1,
                     'partner_id': payment.partner_id.id,
+                    'matched_payment_id': payment.id,
                     'payment_id': payment.id,
                 }])
             # --------------------------------------------
@@ -121,13 +134,13 @@ class AccountPayment(models.Model):
                     line_ids.append([0,0,{
                         'name': line.move_line_id.name,
                         #'move_line_id': payment_entry.id,
-                        'ref': line.move_line_id.ref,
+                        'ref': line.move_line_id.move_id.name,
                         'debit': 0.0,
                         'credit': round(abs(line.allocated_amount),2),
                         'account_id': line.account_id.id,
                         'payment_id': payment.id,
                         'currency_id': payment.currency_id.id,
-                        'amount_currency':  round(line.allocated_amount_currency * -1,2),
+                        'amount_currency':  line.allocated_amount_currency * -1,
                         'payment_id': payment.id,
                         'allocation_move_line_id': line.move_line_id.id,
                         'partner_id': payment.partner_id.id,
@@ -140,14 +153,14 @@ class AccountPayment(models.Model):
                 if line.is_allocate:
                     line_ids.append([0,0,{
                         'name': line.move_line_id.name,
-                        'ref': line.move_line_id.ref,
+                        'ref': line.move_line_id.move_id.name,
                         #'move_line_id': payment_entry.id,
                         'debit': round(abs(line.allocated_amount),2),
                         'credit': 0.0,
                         'account_id': line.account_id.id,
                         'payment_id': payment.id,
                         'currency_id': payment.currency_id.id,
-                        'amount_currency':  round(line.allocated_amount_currency,2),
+                        'amount_currency':  line.allocated_amount_currency,
                         'payment_id': payment.id,
                         'allocation_move_line_id': line.move_line_id.id,
                         'partner_id': payment.partner_id.id,
@@ -165,13 +178,14 @@ class AccountPayment(models.Model):
             if payment.writeoff_account_id:
                 line_ids.append([0,0,{
                     'name': payment.writeoff_label,
+                    'ref': payment.name,
                     #'move_line_id': payment_entry.id,
                     'debit': round(abs(total_debit_diff),2),
                     'credit': round(abs(total_credit_diff),2),
                     'account_id': payment.writeoff_account_id.id,
                     'payment_id': payment.id,
                     'currency_id': payment.currency_id.id,
-                    'amount_currency': round(payment.diff_amount_currency,2),
+                    #'amount_currency': round(payment.diff_amount_currency,2),
                     'payment_id': payment.id,
                     'partner_id': payment.partner_id.id,
                 }])
@@ -179,32 +193,42 @@ class AccountPayment(models.Model):
             #raise ValidationError(_(temp))
             move_dict['line_ids'] = line_ids
             move = self.env['account.move'].create(move_dict)
-            payment.payment_move_id=move.id
-            payment.move_id = move.id
+            payment.matching_move_id = move.id
+            payment.matching_move_id._post(soft=False)
+            #payment.move_id.write(move_dict)
+            #payment.payment_move_id=move.id
+            #payment.move_id = move.id
     
     def action_post(self):
         ''' draft -> posted '''
-        self.action_generate_journal_entry()
         self.move_id._post(soft=False)
+        self.action_generate_journal_entry()
+        self.action_reconcile()
+        
+        
     
     def action_reconcile(self):
         for payment in self:
-            #if payment.payment_move_id.state == 'draft':
-            #payment.payment_move_id.sudo().action_post()
-            if  self.credit_allocation_ids or self.debit_allocation_ids:
-                #Outbound Reconcilliation
-                #payment_debit_line =  payment_credit_line = reconcile_amount = reconcile_amount_currency = 0 
-                payment_line = self.payment_move_id.line_ids.filtered(lambda line: line.account_id.id == self.destination_account_id.id)
-                
-                sorted_lines = payment_line
-                involved_lines = debit_line = credit_line = payment_line
+            if payment.credit_allocation_ids or payment.debit_allocation_ids:
+                payment_line = self.move_id.line_ids.filtered(lambda line: line.account_id.id == payment.destination_account_id.id) 
+                #sorted_lines = payment_line
+                #involved_lines = debit_line = credit_line = payment_line
                 debit_lines = credit_lines = payment_line
-                sorted_lines = self.env['account.move.line']
+                #sorted_lines = self.env['account.move.line']
                 
-                domain = [('account_internal_type', 'in', ('receivable', 'payable')), ('reconciled', '=', False),('move_id', '=', payment.payment_move_id.id)]
-                debit_lines += payment.payment_move_id.line_ids.filtered(lambda line: line.account_id.id == self.destination_account_id.id)
-                debit_lines += payment.debit_allocation_ids.move_line_id.filtered_domain(domain)
-                credit_lines = payment.credit_allocation_ids.move_line_id.filtered_domain(domain)
+                domain = [('account_internal_type', 'in', ('receivable', 'payable')), ('reconciled', '=', False)]
+                if payment.payment_type == 'outbound':
+                    debit_lines += payment.move_id.line_ids.filtered(lambda line: line.account_id.id == self.destination_account_id.id)
+                    credit_lines += payment.matching_move_id.line_ids.filtered(lambda line: line.account_id.id == self.destination_account_id.id and line.matched_payment_id.id == payment.id)
+                elif payment.payment_type == 'inbound':
+                    credit_lines += payment.move_id.line_ids.filtered(lambda line: line.account_id.id == self.destination_account_id.id)
+                    debit_lines += payment.matching_move_id.line_ids.filtered(lambda line: line.account_id.id == self.destination_account_id.id and line.matched_payment_id.id == payment.id)
+                #debit_lines += payment.debit_allocation_ids.filtered(lambda line: line.is_allocate == True).move_line_id.filtered_domain(domain)
+                #credit_lines = payment.credit_allocation_ids.filtered(lambda line: line.is_allocate == True).move_line_id.filtered_domain(domain)
+                for account in payment.move_id.line_ids.account_id.filtered(lambda x: x.internal_type in ['receivable','payable']):
+                            (debit_lines + credit_lines)\
+                                .filtered_domain([('account_id', '=', account.id), ('reconciled', '=', False)])\
+                                .reconcile()
                 
                 # --------------------------------------------
                 # Reconcile entries for outoing payment
@@ -213,17 +237,17 @@ class AccountPayment(models.Model):
                     #sorted_lines = self.sorted(key=lambda line: (line.date_maturity or line.date, line.currency_id))
                     for line in self.debit_allocation_ids.filtered(lambda line: line.is_allocate == True):
                         debit_line = line.move_line_id
-                        credit_line = self.env['account.move.line'].search([('allocation_move_line_id','=',line.move_line_id.id),('move_id','=',payment.payment_move_id.id)])
+                        credit_line = self.env['account.move.line'].search([('allocation_move_line_id','=',line.move_line_id.id),('move_id','=',payment.matching_move_id.id)])
                         (credit_line + debit_line)\
                             .filtered_domain([('account_id', '=', line.account_id.id), ('reconciled', '=', False)])\
                             .reconcile()
                     for line in self.credit_allocation_ids.filtered(lambda line: line.is_allocate == True):
                         credit_line = line.move_line_id
-                        debit_line = self.env['account.move.line'].search([('allocation_move_line_id','=',line.move_line_id.id),('move_id','=',payment.payment_move_id.id)])
+                        debit_line = self.env['account.move.line'].search([('allocation_move_line_id','=',line.move_line_id.id),('move_id','=',payment.matching_move_id.id)])
                         (debit_line + credit_line)\
                             .filtered_domain([('account_id', '=', line.account_id.id), ('reconciled', '=', False)])\
                             .reconcile()
-                    for account in payment.move_id.line_ids.account_id.filtered(lambda x: x.internal_type in ['receivable','payable']):    
+                    for account in payment.move_id.line_ids.account_id.filtered(lambda x: x.internal_type in ['receivable','payable']):
                             (debit_lines + credit_lines)\
                                 .filtered_domain([('account_id', '=', account.id), ('reconciled', '=', False)])\
                                 .reconcile()
@@ -244,10 +268,10 @@ class AccountPayment(models.Model):
                     #            .reconcile()
             payment.update({
                 'is_reconciled': True,
-                'reconciled': True
+                #'reconciled': True
             })
                     
-    @api.depends('debit_allocation_ids.allocated_amount', 'credit_allocation_ids.allocated_amount')
+    @api.depends('debit_allocation_ids.allocated_amount', 'credit_allocation_ids.allocated_amount','amount','payment_type')
     def _total_all_currency(self):
         debit_total = 0.0
         credit_total = 0.0   
@@ -268,25 +292,33 @@ class AccountPayment(models.Model):
                 'diff_amount_currency': (debit_total - credit_total),
             })
     
-    @api.depends('debit_allocation_ids.allocated_amount', 'credit_allocation_ids.allocated_amount')
+    #@api.depends('debit_allocation_ids.allocated_amount', 'credit_allocation_ids.allocated_amount','amount_total_signed','payment_type')
     def _total_all(self):
         debit_total = 0.0
-        credit_total = 0.0   
-        for payment in self:    
-            for dr_line in payment.debit_allocation_ids:
-                if dr_line.is_allocate == True:
-                    debit_total += dr_line.allocated_amount
-            for cr_line in payment.credit_allocation_ids:
-                if cr_line.is_allocate == True:
-                    credit_total += cr_line.allocated_amount
+        credit_total = 0.0
+        writeoff_amt = 0.0
+        diff_amt = 0.0
+        for payment in self:
+            debit_total = sum(payment.debit_allocation_ids.filtered(lambda line: line.is_allocate == True).mapped('allocated_amount'))
+            credit_total = sum(payment.credit_allocation_ids.filtered(lambda line: line.is_allocate == True).mapped('allocated_amount'))
             if payment.payment_type == 'inbound':
                 credit_total += payment.amount_total_signed
-            if payment.payment_type == 'outbound':
-                debit_total += payment.amount_total_signed    
+            #elif payment.payment_type == 'outbound':
+            else:
+                debit_total += payment.amount_total_signed
+            
+            diff_amt = (debit_total - credit_total)
+            
+            if payment.writeoff_account_id:
+                writeoff_amt = abs(debit_total - credit_total)
+                #if diff_amt > 0:
+                #    diff_amt -= writeoff_amt
+                #else:
+                #    diff_amt += writeoff_amt
             payment.update({
                 'debit_total': debit_total,
                 'credit_total': credit_total,
-                'diff_amount': (debit_total - credit_total),
+                'diff_amount': diff_amt,
             })
             
     
