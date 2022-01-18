@@ -95,7 +95,9 @@
                                 <a t-attf-href="/stock/material/edit/#{stock_material.id}?" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Edit</div> </a> 
                             </t>
                             </t>
-                             
+                            <t t-if="stock_material.stage_id.stage_category in ('cancel','Cancel')">  
+                                <a t-attf-href="/stock/material/resubmit/#{stock_material.id}?" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; ">Re-Submit</div> </a> 
+                            </t>               
                             
                             <h5 class="d-flex mb-1 mb-md-0 row">
                                 <span t-field="stock_material.name" class="col-9 text-truncate"/>
@@ -166,6 +168,8 @@
                                 <th class="text-left">Project</th>
                                 <th class="text-left">Schedule Date</th>
                                 <th class="text-left">Supplier</th>
+                                <th class="text-left">Location From</th>
+                                <th class="text-left">Location To</th>
                             </tr>
                         <t t-foreach="stock_material.stock_transfer_order_line" t-as="line">
                                <tr>
@@ -185,14 +189,20 @@
 
                                         <span t-esc="line.project_id.name" />
                                     </td>
-                            <td class="sechdule">
+                                  <td class="sechdule">
 
                                         <span t-esc="line.date_scheduled" />
                                     </td>
-                            <td class="supplier">
+                                   <td class="supplier">
 
                                         <span t-esc="line.supplier_id.name" />
                                     </td>
+                                    <td class="location_from">
+                                        <span t-esc="line.location_src_id.name" />
+                                    </td>
+                                    <td class="location_to">
+                                        <span t-esc="line.location_dest_id.name" />
+                                    </td> 
                                </tr>
 
                         </t>
@@ -211,6 +221,8 @@
                                 <th class="text-left">Quantity</th>
                                 <th class="text-left">Project</th>
                                 <th class="text-left">Schedule Date</th>
+                                <th class="text-left">Location From</th>
+                                <th class="text-left">Location To</th>
                             </tr>
                           <t t-foreach="stock_material.stock_transfer_return_line" t-as="line">
                                <tr>
@@ -259,6 +271,12 @@
 
                                         <span t-esc="line.date_scheduled" />
                                     </td>
+                                   <td class="location_from">
+                                        <span t-esc="line.location_src_id.name" />
+                                    </td>
+                                    <td class="location_to">
+                                        <span t-esc="line.location_dest_id.name" />
+                                    </td> 
                                    
                                    <td class="lineid">
 
