@@ -290,15 +290,17 @@
                                             </label>
                                             <div class="col-sm">
                                                <select id='linesrclist' class="form-control  o_website_form_input" name="location_src_id" readonly="1" required="1">
-                                                   <option value='blank'></option>
-                                                   <t t-foreach="src_lists" t-as="srclist">
+                                                   <option t-att-value='stock_material.location_src_id.id'>
+                                                       <t t-esc="stock_material.location_src_id.name"  /> 
+                                                   </option>
+<!--                                                    <t t-foreach="src_lists" t-as="srclist">
                                                 <option t-att-value="srclist.id">
                                                   <t t-if='srclist.location_id'>   
                                                     <t t-esc="srclist.location_id.name"  />/ 
                                                   </t>    
                                                       <t t-esc="srclist.name"  /> 
                                                 </option>
-                                            </t>
+                                            </t> -->
                                        </select>
                                                 
                                             </div>
@@ -312,7 +314,9 @@
                                         </label>
                                         <div class="col-sm">
                                                  <select id='linedestinationloc' class="form-control  o_website_form_input" name="location_dest_id" readonly="1" required="1">
-                                                     <option value='blank'></option>
+                                                   <option t-att-value='stock_material.location_dest_id.id'>
+                                                       <t t-esc="stock_material.location_dest_id.name"  /> 
+                                                   </option>
                                                      <t t-foreach="destination_lists" t-as="destlist">
                                                 <option t-att-value="destlist.id">
                                                   <t t-if='destlist.location_id'>     
@@ -525,8 +529,10 @@
                                             </label>
                                             <div class="col-sm">
                                                     <select id="returnlinesrclist" class="form-control  o_website_form_input" name="location_src_id" readonly="1" required="1">
-                                                        <option value='blank'></option>
-                                                        <t t-foreach="return_src_lists" t-as="srclist">
+                                                     <option t-att-value='stock_material.location_dest_id.id'>
+                                                       <t t-esc="stock_material.location_dest_id.name"  /> 
+                                                   </option>  
+                                                    <t t-foreach="return_src_lists" t-as="srclist">
                                                 <option t-att-value="srclist.id">
                                                   <t t-if='srclist.location_id'>       
                                                     <t t-esc="srclist.location_id.name"  />/ 
@@ -546,7 +552,26 @@
                                         </label>
                                         <div class="col-sm">
                                                  <select id="retunrnlinedestloc" class="form-control  o_website_form_input" name="location_dest_id" readonly="1" required="1">
-                                                     <option value='blank'></option>
+                                                     <t t-if='not stock_material.stock_transfer_order_line'>  
+                                                          <option t-att-value='stock_material.location_src_id.id'>
+                                                            <t t-esc="stock_material.location_src_id.name"  /> 
+                                                          </option>
+                                                        </t>
+                                                        
+                                                        <t t-if='stock_material.stock_transfer_order_line'>
+                                                           <t t-set='final_loc'  t-value='0'/>
+                                                            <t t-set='final_loc_name'  t-value='0'/> 
+                                                           <t t-foreach="stock_material.stock_transfer_order_line" t-as="srcline"> 
+                                                          <t t-set='final_loc'  t-value='srcline.location_dest_id.id'/>
+                                                          <t t-set='final_loc_name'  t-value='srcline.location_dest_id.name'/>      
+                                                        </t> 
+                                                            <option t-att-value='final_loc'>
+                                                            <t t-esc="final_loc_name"  /> 
+                                                          </option>
+                                                        </t>
+                                                            
+                                                     
+                                                     
                                                      <t t-foreach="return_destination_lists" t-as="destlist">
                                                     <option t-att-value="destlist.id">
                                                       <t t-if='destlist.location_id'> 
