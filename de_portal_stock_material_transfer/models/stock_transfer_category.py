@@ -27,6 +27,8 @@ class ProjectProject(models.Model):
 
 class TransferOrder(models.Model):
     _inherit = 'stock.transfer.order'
+    
+    is_stock_submit_material = fields.Boolean(string='Material Submitted')
 
 class TransferOrderLine(models.Model):
     _inherit = 'stock.transfer.order.line'
