@@ -67,12 +67,27 @@
                     <field name="product_id" required="1" context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view'}" widget="many2one_barcode" domain="[('hr_expense_sheet_type_id','=',hr_expense_sheet_type_id),('expense_type_id','=',expense_type_id)]"/>
                 </xpath>
                 <xpath expr="//field[@name='total_amount']" position="after">
+                    <field name="company_currency_id" />
                     <field name="expense_approved" groups="hr_expense.group_hr_expense_team_approver,hr_expense.group_hr_expense_manager"/>
                 </xpath>
             </field>
         </record>
         
         <!-- HR Expense Sheet -->
+        <record model="ir.ui.view" id="view_hr_expense_sheet_tree_inherit">
+            <field name="name">view.hr.expense.sheet.tree.inherit</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="total_approved" />
+                    <field name="company_currency_id" optional="hide"/>
+                    <field name="total_amount_signed" options="{'currency_field': 'company_currency_id'}" optional="hide"/>
+                    <field name="total_approved_signed" options="{'currency_field': 'company_currency_id'}" optional="hide"/>
+                </xpath>
+            </field>
+        </record>
+        
         <record model="ir.ui.view" id="view_hr_expense_sheet_form_inherit_advance">
             <field name="name">view.hr.expense.sheet.form.inherit.advance</field>
             <field name="model">hr.expense.sheet</field>
@@ -109,6 +124,8 @@
                     <group name="advance_detail" string="Adance Details">
                         <field name="sheet_ref" readonly="1"/>
                         <field name="currency_id" required="1" options="{'no_create':True}"/>
+                        <field name="company_currency_id" required="1" options="{'no_create':True}"/>
+                        
                         <field name="hr_salary_advance_id" options="{'no_create':True}" domain="[('employee_id','=',employee_id),('state','=','paid')]"/>
                     </group>
                 </xpath>
@@ -132,14 +149,14 @@
                                 <field name="unit_amount" optional="hide" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
                                 <field name="company_id" invisible="1"/>
                                 <field name="tax_ids" optional="show" widget="many2many_tags" groups="account.group_account_readonly" context="{'default_company_id': company_id}" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
-                                <field name="total_amount" options="{'currency_field': 'currency_id'}" />
+                                <field name="total_amount" options="{'currency_field': 'currency_id'}" optional="show"/>
                                 <field name="amount_approved" options="{'currency_field': 'currency_id'}" groups="hr_expense.group_hr_expense_team_approver,hr_expense.group_hr_expense_manager" attrs="{'readonly':[('parent.state','not in',('exp_approve','approve','submit'))]}"/>
-                                <field name="total_amount_company" optional="hide" options="{'currency_field': 'company_currency_id'}" groups="base.group_multi_currency"/>
-                                <field name="amount_approved_signed" optional="hide" groups="base.group_multi_currency" />
+                                <field name="currency_id" optional="hide"/>
+                                <field name="total_amount_signed" optional="hide" options="{'currency_field': 'company_currency_id'}" groups="base.group_multi_currency"/>
+                                <field name="amount_approved_signed" optional="hide" options="{'currency_field': 'company_currency_id'}" groups="base.group_multi_currency" />
 
-                                <field name="company_currency_id" invisible="1"/>
+                                <field name="company_currency_id" optional="hide"/>
                                 
-                                <field name="currency_id" optional="hide" readonly="1"/>
                                 <field name="is_refused" invisible="True"/>
                                 <field name="remarks" attrs="{'readonly':[('parent.state','not in',('approve','submit'))]}"/>
                                 <field name="fin_remarks" attrs="{'readonly':[('parent.state','not in',('exp_approve'))]}"/>
@@ -162,9 +179,9 @@
                         </div>
                         <field name="total_amount" nolabel="1" invisible="1" class="oe_subtotal_footer_separator"/>
                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                            <label for="total_approved_amount"/>
+                            <label for="total_approved_signed"/>
                         </div>
-                        <field name="total_approved_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
+                        <field name="total_approved_signed" nolabel="1" class="oe_subtotal_footer_separator"/>
                         <!--
                         <field name="amount_residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', 'not in', ('post', 'done'))]}"/>
 -->
