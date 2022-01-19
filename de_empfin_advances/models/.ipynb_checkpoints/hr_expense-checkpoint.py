@@ -40,24 +40,31 @@ class HrExpenseSheet(models.Model):
         ('cancel', 'Refused')
     ], string='Status', index=True, readonly=True, tracking=True, copy=False, default='draft', required=True, help='Expense Report State')
     
-    
+    currency_id = fields.Many2one('res.currency', string='Currency', readonly=True, states={'draft': [('readonly', False)]})
+    company_currency_id = fields.Many2one(string='Company Currency', readonly=True, related='company_id.currency_id')
     hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
     
     hr_expense_sheet_type_id  = fields.Many2one('hr.expense.sheet.type', string='Expense Type')
     
-    total_currency_amount = fields.Float(string='Total curr.Amount', compute='_compute_curr_amount', store=True, tracking=True)
-    
-    total_approved_amount = fields.Monetary('Approved Amount', currency_field='currency_id', compute='_compute_approved_amount', store=True, tracking=True)
-    
-    @api.depends('expense_line_ids.total_amount')
-    def _compute_curr_amount(self):
-        for sheet in self:
-            sheet.total_currency_amount = sum(sheet.expense_line_ids.mapped('total_amount'))
+    total_approved = fields.Monetary('Total Approved', currency_field='currency_id', compute='_compute_all_amount', store=True, tracking=True)
+
+    total_amount_signed = fields.Monetary(string='Total Signed', compute='_compute_curr_amount',  tracking=True, currency_field='company_currency_id')
+    total_approved_signed = fields.Monetary('Approved Signed', currency_field='company_currency_id', compute='_compute_approved_amount',  tracking=True)
     
     @api.depends('expense_line_ids.amount_approved')
+    def _compute_all_amount(self):
+        for sheet in self:
+            sheet.total_approved = sum(sheet.expense_line_ids.mapped('amount_approved'))
+            
+    @api.depends('expense_line_ids.total_amount_signed')
+    def _compute_curr_amount(self):
+        for sheet in self:
+            sheet.total_amount_signed = sum(sheet.expense_line_ids.mapped('total_amount_signed'))
+    
+    @api.depends('expense_line_ids.amount_approved_signed')
     def _compute_approved_amount(self):
         for sheet in self:
-            sheet.total_approved_amount = sum(sheet.expense_line_ids.mapped('amount_approved'))
+            sheet.total_approved_signed = sum(sheet.expense_line_ids.mapped('amount_approved_signed'))
             
     @api.model
     def create(self, vals):
@@ -353,11 +360,13 @@ class HrExpense(models.Model):
     expense_approved = fields.Boolean(string='Is Approved', default=True)
     remarks = fields.Char(string='Remarks')
     fin_remarks = fields.Char(string='Finance Remarks')
-    company_currency_id = fields.Many2one(string='Company Currency', readonly=True, related='company_id.currency_id')
+    company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True, states={'draft': [('readonly', False)], 'refused': [('readonly', False)]})
+    company_currency_id = fields.Many2one('res.currency', string="Report Company Currency", related='company_id.currency_id', store=False, readonly=False)
 
-    total_amount_company = fields.Monetary("Total (Company Currency)", compute='_compute_total_amount_company', store=True, currency_field='company_currency_id')
     
-    amount_approved_signed = fields.Monetary("Approved Signed", compute='_compute_total_approved_company', currency_field='company_currency_id')
+    total_amount_signed = fields.Monetary("Total Signed", compute='_compute_total_signed_all', store=True, currency_field='company_currency_id')
+    
+    amount_approved_signed = fields.Monetary("Approved Signed", compute='_compute_total_signed_all', store=True, currency_field='company_currency_id')
 
 
     """
@@ -384,15 +393,21 @@ class HrExpense(models.Model):
     # --------------------------------------------
     # calculate amount in company currency
     # --------------------------------------------
-    def _compute_total_approved_company(self):
+    @api.depends('company_currency_id','company_id','amount_approved','currency_id','total_amount')
+    def _compute_total_signed_all(self):
         for expense in self:
-            amount = 0
-            if expense.company_currency_id:
-                date_expense = expense.date
-                amount = expense.currency_id._convert(
-                    expense.amount_approved, expense.company_id.currency_id,
-                    expense.company_id, date_expense or fields.Date.today())
-            expense.amount_approved_signed = amount
+            amount = approved = 0
+            if not (expense.currency_id.id == expense.company_id.currency_id.id):
+                amount = expense.currency_id._convert(expense.total_amount, expense.company_currency_id, expense.company_id, fields.date.today())
+                approved = expense.currency_id._convert(expense.amount_approved, expense.company_currency_id, expense.company_id, fields.date.today())
+
+            #if expense.company_currency_id:
+            #    date_expense = expense.date
+            #    amount = expense.currency_id._convert(
+            #        expense.amount_approved, expense.company_id.currency_id,
+            #        expense.company_id, date_expense or fields.Date.today())
+            expense.total_amount_signed = amount
+            expense.amount_approved_signed = approved
             
     @api.depends('date', 'total_amount', 'company_currency_id','amount_approved')
     def _compute_total_amount_company(self):
