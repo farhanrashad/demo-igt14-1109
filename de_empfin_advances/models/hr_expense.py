@@ -40,16 +40,16 @@ class HrExpenseSheet(models.Model):
         ('cancel', 'Refused')
     ], string='Status', index=True, readonly=True, tracking=True, copy=False, default='draft', required=True, help='Expense Report State')
     
-    currency_id = fields.Many2one('res.currency', string='Currency', readonly=True, states={'draft': [('readonly', False)]})
-    company_currency_id = fields.Many2one(string='Company Currency', readonly=True, related='company_id.currency_id')
+    #currency_id = fields.Many2one('res.currency', string='Currency', readonly=True, states={'draft': [('readonly', False)]})
+    #company_currency_id = fields.Many2one(string='Company Currency', readonly=True, related='company_id.currency_id')
     hr_salary_advance_id  = fields.Many2one('hr.salary.advance', string='Advances Request', domain='[("employee_id","=", employee_id), ("state","in", ("paid","close"))]')
     
     hr_expense_sheet_type_id  = fields.Many2one('hr.expense.sheet.type', string='Expense Type')
     
     total_approved = fields.Monetary('Total Approved', currency_field='currency_id', compute='_compute_all_amount', store=True, tracking=True)
 
-    total_amount_signed = fields.Monetary(string='Total Signed', compute='_compute_curr_amount',  tracking=True, currency_field='company_currency_id')
-    total_approved_signed = fields.Monetary('Approved Signed', currency_field='company_currency_id', compute='_compute_approved_amount',  tracking=True)
+    #total_amount_signed = fields.Monetary(string='Total Signed', compute='_compute_curr_amount',  tracking=True, currency_field='company_currency_id')
+    #total_approved_signed = fields.Monetary('Approved Signed', currency_field='company_currency_id', compute='_compute_approved_amount',  tracking=True)
     
     @api.depends('expense_line_ids.amount_approved')
     def _compute_all_amount(self):
@@ -360,15 +360,22 @@ class HrExpense(models.Model):
     expense_approved = fields.Boolean(string='Is Approved', default=True)
     remarks = fields.Char(string='Remarks')
     fin_remarks = fields.Char(string='Finance Remarks')
-    company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True, states={'draft': [('readonly', False)], 'refused': [('readonly', False)]})
-    company_currency_id = fields.Many2one('res.currency', string="Report Company Currency", related='company_id.currency_id', store=False, readonly=False)
+    #company_id = fields.Many2one('res.company', string='Company', required=True, readonly=True, states={'draft': [('readonly', False)], 'refused': [('readonly', False)]})
+    company_currency_id1 = fields.Many2one('res.currency', string="Company Currency", readonly=False, compute='_get_company_currency',store=True)
 
     
-    total_amount_signed = fields.Monetary("Total Signed", compute='_compute_total_signed_all', store=True, currency_field='company_currency_id')
+    #total_amount_signed = fields.Monetary("Total Signed", compute='_compute_total_signed_all', store=True, currency_field='company_currency_id')
     
-    amount_approved_signed = fields.Monetary("Approved Signed", compute='_compute_total_signed_all', store=True, currency_field='company_currency_id')
+    #amount_approved_signed = fields.Monetary("Approved Signed", compute='_compute_total_signed_all', store=True, currency_field='company_currency_id')
 
 
+    @api.depends('company_id')
+    def _get_company_currency(self):
+        for expense in self:
+            expense.update({
+                'company_currency_id1': expense.company_id.currency_id.id
+            })
+            
     @api.depends('total_amount')
     def _compute_amount_approved(self):
         for line in self:
