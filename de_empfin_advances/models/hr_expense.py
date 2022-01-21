@@ -356,7 +356,7 @@ class HrExpense(models.Model):
     hr_expense_sheet_type_id  = fields.Many2one('hr.expense.sheet.type', related='sheet_id.hr_expense_sheet_type_id')
     expense_type_id = fields.Many2one('hr.expense.type', string='Expense Category', copy=False)
     
-    amount_approved = fields.Monetary(string='Approved Amount', compute='_compute_amount_approved', store=True)
+    amount_approved = fields.Monetary(string='Approved Amount', )
     expense_approved = fields.Boolean(string='Is Approved', default=True)
     remarks = fields.Char(string='Remarks')
     fin_remarks = fields.Char(string='Finance Remarks')
@@ -369,13 +369,13 @@ class HrExpense(models.Model):
     amount_approved_signed = fields.Monetary("Approved Signed", compute='_compute_total_signed_all', store=True, currency_field='company_currency_id')
 
 
-    """
     @api.depends('total_amount')
     def _compute_amount_approved(self):
         for line in self:
             line.update({
                 'amount_approved': line.total_amount,
             })
+    """
     #@api.depends('product_id', 'company_id')
     def _compute_from_product_id_company_id(self):
         for expense in self.filtered('product_id'):
@@ -408,17 +408,6 @@ class HrExpense(models.Model):
             #        expense.company_id, date_expense or fields.Date.today())
             expense.total_amount_signed = amount
             expense.amount_approved_signed = approved
-            
-    @api.depends('date', 'total_amount', 'company_currency_id','amount_approved')
-    def _compute_total_amount_company(self):
-        for expense in self:
-            amount = 0
-            if expense.company_currency_id:
-                date_expense = expense.date
-                amount = expense.company_currency_id._convert(
-                    expense.amount_approved, expense.currency_id,
-                    expense.company_id, date_expense or fields.Date.today())
-            expense.total_amount_company = amount
             
     # --------------------------------------------
     # Prepare Journal Entry
