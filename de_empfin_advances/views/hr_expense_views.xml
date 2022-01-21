@@ -124,7 +124,7 @@
                     <group name="advance_detail" string="Adance Details">
                         <field name="sheet_ref" readonly="1"/>
                         <field name="currency_id" required="1" options="{'no_create':True}"/>
-                        <field name="company_currency_id" required="1" options="{'no_create':True}"/>
+                        <field name="company_currency_id" invisible="1" options="{'no_create':True}"/>
                         
                         <field name="hr_salary_advance_id" options="{'no_create':True}" domain="[('employee_id','=',employee_id),('state','=','paid')]"/>
                     </group>
@@ -179,9 +179,9 @@
                         </div>
                         <field name="total_amount" nolabel="1" invisible="1" class="oe_subtotal_footer_separator"/>
                         <div class="oe_subtotal_footer_separator oe_inline o_td_label">
-                            <label for="total_approved_signed"/>
+                            <label for="total_approved"/>
                         </div>
-                        <field name="total_approved_signed" nolabel="1" class="oe_subtotal_footer_separator"/>
+                        <field name="total_approved" nolabel="1" class="oe_subtotal_footer_separator"/>
                         <!--
                         <field name="amount_residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', 'not in', ('post', 'done'))]}"/>
 -->
