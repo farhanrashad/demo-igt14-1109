@@ -88,9 +88,19 @@
            <t t-name="website.stockmaterialform1-stockmaterialform1">
            <t t-call="website.layout">
            <div id="wrap" class="oe_structure oe_empty">
-           <section class="s_quotes_carousel_wrapper o_colored_level" data-vxml="001" data-vcss="001" data-snippet="s_quotes_carousel" data-name="Quotes" style="">
-             <div class="s_card card bg-white w-100" data-snippet="s_card" data-name="Card">   
-              <div class="card-header" style="height:50px;">
+               <div class="container mb64">
+                    <div class="container o_portal_sidebar">
+                        <div class="row mt16 o_portal_sale_sidebar">
+                            <div class="col-lg-auto d-print-none">
+                                <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
+                                    this is sidebar
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg justify-content-end" id="order_content">
+                                <div class="card pb-5" id="portal_order_content">
+                                    
+            
+              <div class="pb-2 pt-3 card-header bg-white" id="introduction" >
                   <t t-if='stock_material.stage_id.stage_category=="draft"'>
                       <t t-if='stock_material.is_stock_submit_material==False'>
                         <a t-attf-href="/action/submit/stock/#{stock_material.id}?" > <div class="btn btn-primary pull-left" style="height:30px; line-height:100%; margin-left:5px;color:white;">Submit</div> </a>  
@@ -101,7 +111,7 @@
                   </t>
                   <span class='pull-right'>status: <i class="badge badge-pill badge-info" > <t t-esc='stock_material.stage_id.name' /> </i> </span>
               </div> 
-                 <div class="card-body container border rounded shadow" style='box-shadow:3px;'>
+                 <div class="card-body" >
                     <p class='pull-left'><span t-esc='stock_material.name'/></p> 
                     <br/>
                     <p class="card-text">
@@ -201,21 +211,14 @@
                           </div>
                          </div>
                         </div> 
+                        <section style="page-break-inside: auto;" class="mt32" id="details">
+                            <h3>Products</h3>
                         
-                        <div class="o_notebook" data-name="_default_">
-                          <div class="o_notebook_headers">
-                              <ul class="nav nav-tabs">
-                                  <li class="nav-item">
-                                    <a data-toggle="tab" disable_anchor="true" href="#notebook_page_33378" class="nav-link active" role="tab">Product Lines</a>
-                                  </li>
-                              </ul>
-                          </div>   
-                        </div>   
-                        &#160;&#160;&#160;&#160;&#160;
-                        
-                       
+
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <!--
                         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+-->
                          <t t-if='stock_material.is_stock_submit_material==False'>
                          <t t-if='stock_material.stage_id.stage_category=="draft"'>   
                         <form id="product_material_form_line" data-toggle="validator" action="/stock/material/line/save" method="post"  enctype="multipart/form-data">
@@ -420,7 +423,7 @@
 
                         </t>
                      </table>  
-                        
+                        </section>
                       <t t-if="returnable=='1'">  
                         <div class="o_notebook" data-name="_default_">
                           <div class="o_notebook_headers">
@@ -687,9 +690,12 @@
                 </div>
                </small>
               </div>
-                 
-             </div> 
-            </section> 
+
+        </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
            </div>
           </t> 
         </t>     
