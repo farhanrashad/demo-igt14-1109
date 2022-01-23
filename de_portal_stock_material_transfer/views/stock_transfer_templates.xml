@@ -93,7 +93,6 @@
                         <div class="row mt16 o_portal_sale_sidebar">
                             <div class="col-lg-auto d-print-none">
                                 <div class="card bg-white mb-4 sticky-top" id="sidebar_content">
-                                    this is sidebar
                                 </div>
                             </div>
                             <div class="col-12 col-lg justify-content-end" id="order_content">
@@ -214,11 +213,58 @@
                         <section style="page-break-inside: auto;" class="mt32" id="details">
                             <h3>Products</h3>
                         
+                            <table class="table table-sm" id="stockTable">
+                                <thead class="bg-100">
+                            <tr >
+                                <th class="text-left">Product</th>
+                                <th class="text-left">Description</th>
+                                <th class="text-left">Quantity</th>
+                                <th class="text-left">Project</th>
+                                <th class="text-left">Schedule Date</th>
+                                <th class="text-left">Supplier</th>
+                                <th class="text-left">Location From</th>
+                                <th class="text-left">Location To</th>
+                            </tr>
+                                </thead>
+                        <t t-foreach="stock_material.stock_transfer_order_line" t-as="line">
+                            <tbody>
+                               <tr>
+                                     <td class="product">
 
+                                        <span t-esc="line.product_id.name" />
+                                    </td>
+                                   <td class="description">
+
+                                        <span t-esc="line.name" />
+                                    </td>
+                                  <td class="quantity">
+
+                                        <span t-esc="line.product_uom_qty" />
+                                    </td>
+                                <td class="project">
+
+                                        <span t-esc="line.project_id.name" />
+                                    </td>
+                                  <td class="sechdule">
+
+                                        <span t-esc="line.date_scheduled" />
+                                    </td>
+                                   <td class="supplier">
+
+                                        <span t-esc="line.supplier_id.name" />
+                                    </td>
+                                    <td class="location_from">
+                                        <span t-esc="line.location_src_id.name" />
+                                    </td>
+                                    <td class="location_to">
+                                        <span t-esc="line.location_dest_id.name" />
+                                    </td> 
+                               </tr>
+                            </tbody>
+
+                        </t>
+                     </table>  
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <!--
-                        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
--->
                          <t t-if='stock_material.is_stock_submit_material==False'>
                          <t t-if='stock_material.stage_id.stage_category=="draft"'>   
                         <form id="product_material_form_line" data-toggle="validator" action="/stock/material/line/save" method="post"  enctype="multipart/form-data">
@@ -376,26 +422,61 @@
                 </form>
                              </t>
                              </t>
-                      <table class="table table-sm tabel-responsive" id="stockTable">
-                            <tr style='background-color:#875A7B; color:white;'>
+                      
+                        </section>
+                      <t t-if="returnable=='1'"> 
+                          <section style="page-break-inside: auto;" class="mt32" id="details">
+                            <h3>Return Products</h3>
+                              
+                         <table class="table table-sm" id="returnstockTable">
+                              <th class="bg-100">
+                            <tr >
                                 <th class="text-left">Product</th>
                                 <th class="text-left">Description</th>
+                                 <th class="text-left">IGT Serial No</th>
+                                <th class="text-left">OEM Serial No</th>
                                 <th class="text-left">Quantity</th>
                                 <th class="text-left">Project</th>
                                 <th class="text-left">Schedule Date</th>
-                                <th class="text-left">Supplier</th>
                                 <th class="text-left">Location From</th>
                                 <th class="text-left">Location To</th>
                             </tr>
-                        <t t-foreach="stock_material.stock_transfer_order_line" t-as="line">
+                              </th>
+                          <t t-foreach="stock_material.stock_transfer_return_line" t-as="line">
+                              <tbody class="sale_tbody">
                                <tr>
                                      <td class="product">
-
+                                        <t t-if="edit_material==True">
+                                         <select id="selectid" class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
+                                            <t t-foreach="product_lists" t-as="plist">
+                                                <option t-att-value="plist.id">
+                                                    <t t-esc="plist.product_tmpl_id.name"  />
+                                                </option>
+                                            </t>
+                                       </select>
+                                      </t>    
                                         <span t-esc="line.product_id.name" />
                                     </td>
                                    <td class="description">
-
+                                         
                                         <span t-esc="line.name" />
+                                     
+                                    </td>
+                                   <td class="igt_barcode">
+                                        <t t-if="edit_material==True">
+                                        <input type="float" class="form-control s_website_form_input" name="igt_barcode"  t-att-value="line.igt_barcode"  multiple="true" />
+                                      </t>    
+                                      <t t-if="edit_material==False">
+                                        <span t-esc="line.igt_barcode" />
+                                      </t>     
+                                    </td>
+                                   <td class="oem_barcode">
+                                         <t t-if="edit_material==True">
+                                        <input type="float" class="form-control s_website_form_input" name="oem_barcode"  t-att-value="line.oem_barcode"  multiple="true" />
+                                      </t>    
+                                      <t t-if="edit_material==False">
+                                        <span t-esc="line.oem_barcode" />
+                                      </t>     
                                     </td>
                                   <td class="quantity">
 
@@ -405,36 +486,27 @@
 
                                         <span t-esc="line.project_id.name" />
                                     </td>
-                                  <td class="sechdule">
+                                   <td class="sechdule">
 
                                         <span t-esc="line.date_scheduled" />
                                     </td>
-                                   <td class="supplier">
-
-                                        <span t-esc="line.supplier_id.name" />
-                                    </td>
-                                    <td class="location_from">
+                                   <td class="location_from">
                                         <span t-esc="line.location_src_id.name" />
                                     </td>
                                     <td class="location_to">
                                         <span t-esc="line.location_dest_id.name" />
                                     </td> 
+                                   
+                                   <td class="lineid">
+
+                                        <input type="hidden" class="form-control s_website_form_input" name="id"  t-att-value="line.id"  multiple="true" />
+                                    </td>
+
                                </tr>
+                              </tbody>
 
                         </t>
-                     </table>  
-                        </section>
-                      <t t-if="returnable=='1'">  
-                        <div class="o_notebook" data-name="_default_">
-                          <div class="o_notebook_headers">
-                              <ul class="nav nav-tabs">
-                                  <li class="nav-item">
-                                    <a data-toggle="tab" disable_anchor="true" href="#notebook_page_33378" class="nav-link active" role="tab">Return Lines</a>
-                                  </li>
-                              </ul>
-                          </div>   
-                        </div>   
-                        &#160;&#160;&#160;&#160;&#160;
+                     </table>
                           <t t-if='stock_material.is_stock_submit_material==False'>
                           <t t-if='stock_material.stage_id.stage_category=="draft"'> 
                               
@@ -596,82 +668,8 @@
                          </form>
                               </t>
                           </t>
-                          <table class="table table-sm tabel-responsive" id="returnstockTable">
-                            <tr style='background-color:#875A7B; color:white;'>
-                                <th class="text-left">Product</th>
-                                <th class="text-left">Description</th>
-                                 <th class="text-left">IGT Serial No</th>
-                                <th class="text-left">OEM Serial No</th>
-                                <th class="text-left">Quantity</th>
-                                <th class="text-left">Project</th>
-                                <th class="text-left">Schedule Date</th>
-                                <th class="text-left">Location From</th>
-                                <th class="text-left">Location To</th>
-                            </tr>
-                          <t t-foreach="stock_material.stock_transfer_return_line" t-as="line">
-                               <tr>
-                                     <td class="product">
-                                        <t t-if="edit_material==True">
-                                         <select id="selectid" class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
-                                            <t t-foreach="product_lists" t-as="plist">
-                                                <option t-att-value="plist.id">
-                                                    <t t-esc="plist.product_tmpl_id.name"  />
-                                                </option>
-                                            </t>
-                                       </select>
-                                      </t>    
-                                        <span t-esc="line.product_id.name" />
-                                    </td>
-                                   <td class="description">
-                                         
-                                        <span t-esc="line.name" />
-                                     
-                                    </td>
-                                   <td class="igt_barcode">
-                                        <t t-if="edit_material==True">
-                                        <input type="float" class="form-control s_website_form_input" name="igt_barcode"  t-att-value="line.igt_barcode"  multiple="true" />
-                                      </t>    
-                                      <t t-if="edit_material==False">
-                                        <span t-esc="line.igt_barcode" />
-                                      </t>     
-                                    </td>
-                                   <td class="oem_barcode">
-                                         <t t-if="edit_material==True">
-                                        <input type="float" class="form-control s_website_form_input" name="oem_barcode"  t-att-value="line.oem_barcode"  multiple="true" />
-                                      </t>    
-                                      <t t-if="edit_material==False">
-                                        <span t-esc="line.oem_barcode" />
-                                      </t>     
-                                    </td>
-                                  <td class="quantity">
-
-                                        <span t-esc="line.product_uom_qty" />
-                                    </td>
-                                <td class="project">
-
-                                        <span t-esc="line.project_id.name" />
-                                    </td>
-                                   <td class="sechdule">
-
-                                        <span t-esc="line.date_scheduled" />
-                                    </td>
-                                   <td class="location_from">
-                                        <span t-esc="line.location_src_id.name" />
-                                    </td>
-                                    <td class="location_to">
-                                        <span t-esc="line.location_dest_id.name" />
-                                    </td> 
-                                   
-                                   <td class="lineid">
-
-                                        <input type="hidden" class="form-control s_website_form_input" name="id"  t-att-value="line.id"  multiple="true" />
-                                    </td>
-
-                               </tr>
-
-                        </t>
-                     </table>
-                          
+                         
+                          </section>
                         </t>   
                     </p>    
                  </div> 
