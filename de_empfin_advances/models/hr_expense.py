@@ -56,15 +56,6 @@ class HrExpenseSheet(models.Model):
         for sheet in self:
             sheet.total_approved = sum(sheet.expense_line_ids.mapped('amount_approved'))
             
-    @api.depends('expense_line_ids.total_amount_signed')
-    def _compute_curr_amount(self):
-        for sheet in self:
-            sheet.total_amount_signed = sum(sheet.expense_line_ids.mapped('total_amount_signed'))
-    
-    @api.depends('expense_line_ids.amount_approved_signed')
-    def _compute_approved_amount(self):
-        for sheet in self:
-            sheet.total_approved_signed = sum(sheet.expense_line_ids.mapped('amount_approved_signed'))
             
     @api.model
     def create(self, vals):
@@ -235,11 +226,11 @@ class HrExpenseSheet(models.Model):
             
             for expense in sheet.expense_line_ids:
                 if not (expense.currency_id.id == expense.company_id.currency_id.id):
-                    debit = expense.company_currency_id._convert(expense.amount_approved, expense.currency_id, expense.company_id, fields.date.today())                    
+                    amount = expense.currency_id._convert(expense.amount_approved, expense.company_id.currency_id, expense.company_id, fields.date.today())                    
                 else:
-                    debit = expense.amount_approved
+                    amount = expense.amount_approved
                 
-                debit = expense.company_currency_id._convert(expense.amount_approved, expense.currency_id, expense.company_id, fields.date.today())                    
+                #debit = expense.company_currency_id._convert(expense.amount_approved, expense.currency_id, expense.company_id, fields.date.today())                    
 
                 partner_id = expense.employee_id.sudo().address_home_id.commercial_partner_id.id
                 
@@ -250,7 +241,7 @@ class HrExpenseSheet(models.Model):
                     'account_id': account_src.id,
                     'amount_currency': expense.amount_approved,
                     'currency_id': sheet.currency_id.id,
-                    'debit': expense.amount_approved_signed,
+                    'debit': amount,
                     'credit': 0,
                     'partner_id': partner_id,
                     'quantity': expense.quantity,
@@ -262,7 +253,8 @@ class HrExpenseSheet(models.Model):
                     'expense_id': expense.id,
                     'date': fields.Datetime.now(),
                 }])
-                credit += expense.amount_approved_signed
+                #credit += expense.amount_approved_signed
+                balance += amount
                 balance_currency += expense.amount_approved
             lines_data.append([0,0,{
                 'name': str(self.name) + ' ' ,
@@ -270,7 +262,7 @@ class HrExpenseSheet(models.Model):
                 'amount_currency': balance_currency * -1,
                 'currency_id': sheet.currency_id.id,
                 'debit': 0,
-                'credit': credit,
+                'credit': balance,
                 'partner_id': partner_id,
                 'quantity': 1,
                 'date': fields.Datetime.now(),
