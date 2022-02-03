@@ -241,6 +241,30 @@ class CreateStockMaterial(http.Controller):
         }
         record = request.env['stock.transfer.order'].sudo().create(material_val) 
         return request.redirect('/stock/material/%s'%(record.id))
+    
+    
+    
+    
+    
+    
+    @http.route(['/stock/material/line/del/<int:line_id>'], type='http', auth="public", website=True)
+    def del_stock_material_line(self,line_id=None,**kw):
+        stock_trf_line = request.env['stock.transfer.order.line'].sudo().search([('id','=',line_id)])
+        for f in stock_trf_line:
+            record_id =  f.stock_transfer_order_id
+            f.unlink()
+        return request.redirect('/stock/material/%s'%(int(record_id)))
+    
+    
+    @http.route(['/stock/material/line/return/del/<int:line_id>'], type='http', auth="public", website=True)
+    def del_stock_material_line_return(self,line_id=None,**kw):
+        stock_trf_line = request.env['stock.transfer.return.line'].sudo().search([('id','=',line_id)])
+        for f in stock_trf_line:
+            record_id =  f.stock_transfer_order_id
+            f.unlink()
+        return request.redirect('/stock/material/%s'%(int(record_id)))
+    
+    
 
 
     @http.route('/stock/material/line/save', type="http", auth="public", website=True)
@@ -317,7 +341,7 @@ class CustomerPortal(CustomerPortal):
         return_destination_lists = request.env['stock.location'].sudo().search([])
         transporter_lists = request.env['res.partner'].sudo().search([])
         supplier_lists = request.env['res.partner'].sudo().search([])
-        project_lists = request.env['project.project'].sudo().search([]) 
+        project_lists = request.env['project.project'].sudo().search([])
         if stock_material.transfer_order_category_id.action_type == 'returnable':
             returnable = '1'
         values = {

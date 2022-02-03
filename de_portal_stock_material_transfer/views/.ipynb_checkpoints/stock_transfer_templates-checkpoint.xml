@@ -210,6 +210,7 @@
                           </div>
                          </div>
                         </div> 
+                        
                         <section style="page-break-inside: auto;" class="mt32" id="details">
                             <h3>Products</h3>
                         
@@ -224,6 +225,7 @@
                                 <th class="text-left">Supplier</th>
                                 <th class="text-left">Location From</th>
                                 <th class="text-left">Location To</th>
+                                  <th class="text-left"></th>
                             </tr>
                                 </thead>
                         <t t-foreach="stock_material.stock_transfer_order_line" t-as="line">
@@ -231,14 +233,12 @@
                                <tr>
                                      <td class="product">
 
-                                        <span t-esc="line.product_id.name" />
+                                        <span t-esc="line.product_id.display_name" />
                                     </td>
                                    <td class="description">
-
                                         <span t-esc="line.name" />
                                     </td>
                                   <td class="quantity">
-
                                         <span t-esc="line.product_uom_qty" />
                                     </td>
                                 <td class="project">
@@ -259,46 +259,78 @@
                                     <td class="location_to">
                                         <span t-esc="line.location_dest_id.name" />
                                     </td> 
+                                   <td>
+							<a t-attf-href="/stock/material/line/del/#{line.id}?{{ keep_query() }}">
+								
+                            <span class="fa fa-trash-o" />
+							</a>
+						</td>
+                                   
+                                   
+                                   
                                </tr>
                             </tbody>
-
                         </t>
                      </table>  
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                          <t t-if='stock_material.is_stock_submit_material==False'>
                          <t t-if='stock_material.stage_id.stage_category=="draft"'>   
-                        <form id="product_material_form_line" data-toggle="validator" action="/stock/material/line/save" method="post"  enctype="multipart/form-data">
+                       
+                             
+                             <form id="product_material_form_line" data-toggle="validator" action="/stock/material/line/save" method="post"  enctype="multipart/form-data">
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+                                            <script>
+                                               $(document).ready(function () {
+                                                  $('select').selectize({
+                                                      sortField: 'text'
+                                                  });
+                                              });
+                                            </script>
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <input type="hidden" name="record_id" t-att-value="stock_material.id"/>
+                                 
+                                 
                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                     <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
                                         <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="line_product">
-                                                         <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Product</span>
-                                            </label>
-                                        <div class="col-sm">
-                                            <select id='lineproduct' class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
-                                            
-                                             <t t-foreach="product_lists" t-as="plist">
-                                                <option t-att-value="plist.id">
-                                                    <t t-esc="plist.product_tmpl_id.name"  />
-                                                </option>
-                                             </t>
-                                        </select>     
-                                                </div>
+                                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="line_product">
+                                                             <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Product</span>
+                                                        </label>
+                                                    <div class="col-sm">
+                                                        <select id='lineproduct' class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
+                                                         <t t-foreach="product_lists" t-as="plist">
+                                                            <option t-att-value="plist.id">
+                                                                <t t-esc="plist.product_tmpl_id.display_name"  />
+                                                            </option>
+                                                         </t>
+                                                        </select>     
+                                                    </div>
                                             </div>
-                                        </div>
-
-                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                    </div>
+                                
+                                
+                                
+                                
+                                 <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
                                 <div class="row s_col_no_resize s_col_no_bgcolor">
-                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="manager_desc">
-                                                <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Description</span>
-                                        </label>
-                                        <div class="col-sm">
-                                                 <input id='linename' type="text" class="form-control s_website_form_input" name="name"    />                          
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="line_supplier">
+                                                 <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Supplier</span>
+                                            </label>
+                                            <div class="col-sm">
+                                               <option></option>
+                                               <select id='linesupplier' class="form-control  o_website_form_input" name="supplier_id" readonly="1" required="1">
+                                                <t t-foreach="supplier_lists" t-as="supplierlist">
+                                                    <option t-att-value="supplierlist.id">
+                                                        <t t-esc="supplierlist.name"  />
+                                                    </option>
+                                                </t>
+                                             </select>
+                                                
+                                            </div>
+                                           </div>
                                         </div>
-                                  </div>
-                                </div>
                                </div>
                              
                                  <div class="s_website_form_rows row s_col_no_bgcolor">
@@ -308,7 +340,7 @@
                                                          <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Quantity</span>
                                             </label>
                                             <div class="col-sm">
-                                               <input id='lineproductuom' type="float" class="form-control s_website_form_input" name="product_uom_qty"    />  
+                                               <input id='lineproductuom' type="float" value="1" style="text-align:right;" class="form-control s_website_form_input" name="product_uom_qty"    />  
                                             </div>
                                            </div>
                                         </div>
@@ -381,36 +413,37 @@
                                </div>
                              
                              <div class="s_website_form_rows row s_col_no_bgcolor">
-                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="line_supplier">
-                                                         <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Supplier</span>
-                                            </label>
-                                            <div class="col-sm">
-                                               <option></option>
-                                               <select id='linesupplier' class="form-control  o_website_form_input" name="supplier_id" readonly="1" required="1">
-                                                <t t-foreach="supplier_lists" t-as="supplierlist">
-                                                    <option t-att-value="supplierlist.id">
-                                                        <t t-esc="supplierlist.name"  />
-                                                    </option>
-                                                </t>
-                                             </select>
-                                                
-                                            </div>
-                                           </div>
-                                        </div>
+                                   
 
                                 <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
-                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                    <div class="row s_col_no_resize s_col_no_bgcolor">
                                         <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="blank">
                                                 <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'></span>
                                         </label>
                                         <div class="col-sm">
                                             
                                         </div>
-                                  </div>
+                                    </div>
                                 </div>
                                </div>
+                                  <div class="s_website_form_rows row s_col_no_bgcolor">
+                                 
+                                  <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                                <div class="row s_col_no_resize s_col_no_bgcolor">
+                                        <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="manager_desc">
+                                                <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Description</span>
+                                        </label>
+                                        <div class="col-sm">
+                                                 <textarea id='linename' type="text" class="form-control s_website_form_input" name="name"    />                          
+                                        </div>
+                                  </div>
+                                </div>
+                                          </div>
+                                 
+                                 
+                                 
+                                 
+                                 
                 
                                                 
                                     <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
@@ -440,6 +473,7 @@
                                 <th class="text-left">Schedule Date</th>
                                 <th class="text-left">Location From</th>
                                 <th class="text-left">Location To</th>
+                                  <th class="text-left"></th>
                             </tr>
                               </th>
                           <t t-foreach="stock_material.stock_transfer_return_line" t-as="line">
@@ -450,12 +484,12 @@
                                          <select id="selectid" class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
                                             <t t-foreach="product_lists" t-as="plist">
                                                 <option t-att-value="plist.id">
-                                                    <t t-esc="plist.product_tmpl_id.name"  />
+                                                    <t t-esc="plist.product_tmpl_id.display_name"  />
                                                 </option>
                                             </t>
                                        </select>
                                       </t>    
-                                        <span t-esc="line.product_id.name" />
+                                        <span t-esc="line.product_id.display_name" />
                                     </td>
                                    <td class="description">
                                          
@@ -496,6 +530,11 @@
                                     <td class="location_to">
                                         <span t-esc="line.location_dest_id.name" />
                                     </td> 
+                                    <td>
+							<a t-attf-href="/stock/material/line/return/del/#{line.id}?{{ keep_query() }}">
+                                <span class="fa fa-trash-o" />
+							</a>
+						</td>
                                    
                                    <td class="lineid">
 
@@ -511,6 +550,16 @@
                           <t t-if='stock_material.stage_id.stage_category=="draft"'> 
                               
                           <form id="return_product_material_form_line" data-toggle="validator" action="/stock/material/return/line/save" method="post"  enctype="multipart/form-data">
+                               <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+                                            <script>
+                                               $(document).ready(function () {
+                                                  $('select').selectize({
+                                                      sortField: 'text'
+                                                  });
+                                              });
+                                            </script>
                               <input type="hidden" name="record_id" t-att-value="stock_material.id"/>
                               <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                              <div class="s_website_form_rows row s_col_no_bgcolor">
@@ -523,7 +572,7 @@
                                                 <select id="returnlineproduct" class="form-control  o_website_form_input" name="product_id" readonly="1" required="1">
                                                      <t t-foreach="product_lists" t-as="plist">
                                                         <option t-att-value="plist.id">
-                                                            <t t-esc="plist.product_tmpl_id.name"  />
+                                                            <t t-esc="plist.product_tmpl_id.display_name"  />
                                                         </option>
                                                      </t>
                                                </select>    
@@ -573,16 +622,7 @@
                                 </div>
                                </div>
                                <div class="s_website_form_rows row s_col_no_bgcolor">
-                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="desc">
-                                                         <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Description</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                <input id='returnlinename' type="text" class="form-control s_website_form_input" name="name"  />   
-                                            </div>
-                                           </div>
-                                        </div>
+                                   
 
                                 <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
                                 <div class="row s_col_no_resize s_col_no_bgcolor">
@@ -590,37 +630,15 @@
                                                 <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Quantity</span>
                                         </label>
                                         <div class="col-sm">
-                                                <input id='returnlineqty' type="float" class="form-control s_website_form_input" name="product_uom_qty"   />
+                                                <input id='returnlineqty' type="float" value="1" style="text-align:right;" class="form-control s_website_form_input" name="product_uom_qty"   />
                                         </div>
                                   </div>
                                 </div>
-                               </div>
-                        
-                                <div class="s_website_form_rows row s_col_no_bgcolor">
-                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
-                                        <div class="row s_col_no_resize s_col_no_bgcolor">
-                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="return_src_loc">
-                                                         <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Source Location</span>
-                                            </label>
-                                            <div class="col-sm">
-                                                    <select id="returnlinesrclist" class="form-control  o_website_form_input" name="location_src_id" readonly="1" required="1">
-                                                     <option t-att-value='stock_material.location_dest_id.id'>
-                                                       <t t-esc="stock_material.location_dest_id.name"  /> 
-                                                   </option>  
-                                                    <t t-foreach="return_src_lists" t-as="srclist">
-                                                <option t-att-value="srclist.id">
-                                                  <t t-if='srclist.location_id'>       
-                                                    <t t-esc="srclist.location_id.name"  />/ 
-                                                  </t> 
-                                                  <t t-esc="srclist.name"  />  
-                                                </option>
-                                            </t>
-                                       </select>
-                                            </div>
-                                           </div>
-                                        </div>
-
-                                <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                   
+                                   
+                                    
+                                    
+                                      <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
                                 <div class="row s_col_no_resize s_col_no_bgcolor">
                                         <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="return_src_loc">
                                                 <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Destination Location</span>
@@ -659,7 +677,55 @@
                                         </div>
                                   </div>
                                 </div>
+                                   
+                                   
+                                   
+                                   
                                </div>
+                        
+                                <div class="s_website_form_rows row s_col_no_bgcolor">
+                                    <div class="form-group col-6 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="return_src_loc">
+                                                         <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Source Location</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                    <select id="returnlinesrclist" class="form-control  o_website_form_input" name="location_src_id" readonly="1" required="1">
+                                                     <option t-att-value='stock_material.location_dest_id.id'>
+                                                       <t t-esc="stock_material.location_dest_id.name"  /> 
+                                                   </option>  
+                                                    <t t-foreach="return_src_lists" t-as="srclist">
+                                                <option t-att-value="srclist.id">
+                                                  <t t-if='srclist.location_id'>       
+                                                    <t t-esc="srclist.location_id.name"  />/ 
+                                                  </t> 
+                                                  <t t-esc="srclist.name"  />  
+                                                </option>
+                                            </t>
+                                       </select>
+                                            </div>
+                                           </div>
+                                        </div>
+                                    
+                                    
+
+                              
+                               </div>
+                               <div class="row s_col_no_resize s_col_no_bgcolor">
+                              
+                               <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
+                                        <div class="row s_col_no_resize s_col_no_bgcolor">
+                                            <label class="col-form-label col-sm-auto s_website_form_label" style="width: 200px" for="desc">
+                                                         <span class="s_website_form_label_content" style='color:rgb(61, 66, 70);'>Description</span>
+                                            </label>
+                                            <div class="col-sm">
+                                                <textarea id='returnlinename' type="text" class="form-control s_website_form_input" name="name"  />   
+                                            </div>
+                                           </div>
+                                        </div>
+                                </div>
+                              
+                              
                                 <div class="form-group col-12 s_website_form_submit" data-name="Submit Button">
                                     <div style="width: 200px;" class="s_website_form_label"></div>
                                     <button type="submit" class="btn btn-primary">Add Line</button>
@@ -750,6 +816,16 @@
                                 <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
                                     <div class="container">
                                         <form id="portal_expense_form" data-toggle="validator" action="/stock/material/type/categ/">
+                                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+                                            <script>
+                                               $(document).ready(function () {
+                                                  $('select').selectize({
+                                                      sortField: 'text'
+                                                  });
+                                              });
+                                            </script>
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
                                                     <div class="row s_col_no_resize s_col_no_bgcolor">
@@ -805,6 +881,7 @@
     <template id="stock_transfer_type_categ_Create" name="stock transfer type categ">
         <t t-call="portal.portal_layout">
             <div id="wrap">
+                 
                 <div class="oe_structure" data-oe-model="ir.ui.view" data-oe-id="2052" data-oe-field="arch" data-oe-xpath="/t[1]/t[1]/div[1]/div[1]">
                     <section class="s_title parallax s_parallax_is_fixed bg-white-100 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
                         <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/website.s_banner_default_image'); background-position: 50% 0;"></span>
@@ -833,6 +910,16 @@
                                 <section class="s_website_form" data-vcss="001" data-snippet="s_website_form">
                                     <div class="container">
                                         <form id="portal_stock_material_form" data-toggle="validator" action="/stock/material/transfer/categ/">
+                                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/js/standalone/selectize.min.js" integrity="sha256-+C0A5Ilqmu4QcSPxrlGpaZxJ04VjsRjKu+G82kl5UJk=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css" integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
+                                            <script>
+                                               $(document).ready(function () {
+                                                  $('select').selectize({
+                                                      sortField: 'text'
+                                                  });
+                                              });
+                                            </script>
                                             <div class="s_website_form_rows row s_col_no_bgcolor">
                                                 <div class="form-group col-12 s_website_form_field" data-type="char" data-name="Field">
                                                     <div class="row s_col_no_resize s_col_no_bgcolor">
