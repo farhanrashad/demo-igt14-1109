@@ -46,15 +46,20 @@ class HrExpenseSheet(models.Model):
     
     hr_expense_sheet_type_id  = fields.Many2one('hr.expense.sheet.type', string='Expense Type')
     
-    total_approved = fields.Monetary('Total Approved', currency_field='currency_id', compute='_compute_all_amount', store=True, tracking=True)
+    total_approved = fields.Monetary('Total Approved', currency_field='currency_id', compute='_compute_all_amount', store=True, digits='Account')
 
     #total_amount_signed = fields.Monetary(string='Total Signed', compute='_compute_curr_amount',  tracking=True, currency_field='company_currency_id')
     #total_approved_signed = fields.Monetary('Approved Signed', currency_field='company_currency_id', compute='_compute_approved_amount',  tracking=True)
     
     @api.depends('expense_line_ids.amount_approved')
     def _compute_all_amount(self):
+        amount = 0
         for sheet in self:
-            sheet.total_approved = sum(sheet.expense_line_ids.mapped('amount_approved'))
+            amount = 0
+            for line in sheet.expense_line_ids:
+                amount += line.amount_approved
+            sheet.total_approved = amount
+            #sheet.total_approved = sum(sheet.expense_line_ids.mapped('amount_approved'))
             
             
     @api.model
@@ -348,7 +353,7 @@ class HrExpense(models.Model):
     hr_expense_sheet_type_id  = fields.Many2one('hr.expense.sheet.type', related='sheet_id.hr_expense_sheet_type_id')
     expense_type_id = fields.Many2one('hr.expense.type', string='Expense Category', copy=False)
     
-    amount_approved = fields.Monetary(string='Approved Amount', )
+    amount_approved = fields.Monetary(string='Approved Amount', digits='Account')
     expense_approved = fields.Boolean(string='Is Approved', default=True)
     remarks = fields.Char(string='Remarks')
     fin_remarks = fields.Char(string='Finance Remarks')
