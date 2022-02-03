@@ -46,7 +46,7 @@ class HrExpenseSheet(models.Model):
     
     hr_expense_sheet_type_id  = fields.Many2one('hr.expense.sheet.type', string='Expense Type')
     
-    total_approved = fields.Monetary('Total Approved', currency_field='currency_id', compute='_compute_all_amount', store=True, digits='Account')
+    total_approved = fields.Monetary('Total Approved', currency_field='currency_id', compute='_compute_all_amount', store=True, digits=(12, 6), default=0.01)
 
     #total_amount_signed = fields.Monetary(string='Total Signed', compute='_compute_curr_amount',  tracking=True, currency_field='company_currency_id')
     #total_approved_signed = fields.Monetary('Approved Signed', currency_field='company_currency_id', compute='_compute_approved_amount',  tracking=True)
