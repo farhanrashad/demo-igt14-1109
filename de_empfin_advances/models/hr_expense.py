@@ -57,7 +57,7 @@ class HrExpenseSheet(models.Model):
         for sheet in self:
             amount = 0
             for line in sheet.expense_line_ids:
-                amount += line.amount_approved
+                amount += abs(line.amount_approved)
             sheet.total_approved = amount
             #sheet.total_approved = sum(sheet.expense_line_ids.mapped('amount_approved'))
             
