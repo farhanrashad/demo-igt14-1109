@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Expense Sheet Type -->
+        <record id="hr_expense_sheet_type_form_view" model="ir.ui.view">
+            <field name="name">hr.expense.sheet.type.form.view</field>
+            <field name="model">hr.expense.sheet.type</field>
+            <field name="arch" type="xml">
+                <form string="Advance">
+                	<sheet>
+                        <div class="oe_title oe_left">
+                            <h1>
+                            <field name="name" class="oe_inline" placeholder="Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="journal_id" required="1" options="{'no_create': True,'no_open':True}" />
+                                <field name="move_type" required="1" />
+                                <field name="group_id" options="{'no_create': True,'no_open':True}" />
+                            </group>
+                        </group>
+		            </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_expense_sheet_type_tree_view">
+            <field name="name">hr.expense.sheet.type.tree.view</field>
+            <field name="model">hr.expense.sheet.type</field>
+            <field name="arch" type="xml">
+                <tree string=" Expense type">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        
+        <record id="action_hr_expense_sheet_type" model="ir.actions.act_window">
+            <field name="name">Expense Type</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.expense.sheet.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create Expense Type
+                </p>
+            </field>
+        </record>       
+
+        <menuitem id="menu_hr_expense_sheet_type" action="action_hr_expense_sheet_type" parent="hr_expense.menu_hr_expense_configuration" name="Expense Type" sequence="2" />
+        
+         <!-- HR Expense -->
+        <record model="ir.ui.view" id="hr_expense_view_form_inherit">
+            <field name="name">hr.expense.view.form.inherit</field>
+            <field name="model">hr.expense</field>
+            <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='product_id']" position="before">
+                    <field name="hr_salary_advance_id" domain="[('employee_id','=',employee_id),('state','=','paid')]" options="{'no_create':True}" readonly="1"/>
+                    <field name="advance_line_id" domain="[('advance_id','=',hr_salary_advance_id),('state','=','paid')]" options="{'no_create':True}" attrs="{'readonly':[('state','!=','draft')],'required':[('hr_salary_advance_id','!=',False)]}"/>
+                    <field name="hr_expense_sheet_type_id" invisible="0"/>
+                    <field name="expense_type_id" required="1"/>
+                </xpath>
+                <xpath expr="//field[@name='product_id']" position="replace">
+                    <field name="product_id" required="1" context="{'default_can_be_expensed': 1, 'tree_view_ref': 'hr_expense.product_product_expense_tree_view'}" widget="many2one_barcode" domain="[('hr_expense_sheet_type_id','=',hr_expense_sheet_type_id),('expense_type_id','=',expense_type_id)]"/>
+                </xpath>
+                <xpath expr="//field[@name='total_amount']" position="after">
+                    <field name="company_currency_id" />
+                    <field name="expense_approved" groups="hr_expense.group_hr_expense_team_approver,hr_expense.group_hr_expense_manager"/>
+                </xpath>
+            </field>
+        </record>
+        
+        <!-- HR Expense Sheet -->
+        <record model="ir.ui.view" id="view_hr_expense_sheet_tree_inherit">
+            <field name="name">view.hr.expense.sheet.tree.inherit</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="before">
+                    <field name="total_approved" />
+                </xpath>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="view_hr_expense_sheet_form_inherit_advance">
+            <field name="name">view.hr.expense.sheet.form.inherit.advance</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='approve_expense_sheets']" position="replace">
+                    <button name="approve_expense_sheets" states="submit" string="Approve" type="object" groups="hr_expense.group_hr_expense_team_approver" class="oe_highlight o_expense_sheet_approve"/>
+                    <button name="approve_expense_category" states="approve" string="Approve Category" type="object" groups="hr_expense.group_hr_expense_team_approver" class="oe_highlight o_expense_sheet_approve"/>
+                    <button name="approve_expense_finance" states="exp_approve" string="Approve by Finance" type="object" groups="hr_expense.group_hr_expense_team_approver" class="oe_highlight o_expense_sheet_approve"/>
+                    
+                    <button name="%(hr_expense.hr_expense_refuse_wizard_action)d" states="exp_approve,fin_approve" context="{'hr_expense_refuse_model':'hr.expense.sheet'}" string="Refuse" type="action" groups="hr_expense.group_hr_expense_team_approver" />
+
+                </xpath>
+                <xpath expr="//button[@name='action_sheet_move_create']" position="replace">
+                    <button name="action_sheet_move_create" string="Post Journal Entries" type="object" class="oe_highlight o_expense_sheet_post" attrs="{'invisible': [('state', '!=', 'fin_approve')]}" invisible="1" groups="account.group_account_invoice"/>
+                    
+                    <button name="action_sheet_create_entry" string="Post Journal Entries" type="object" class="oe_highlight o_expense_sheet_post" attrs="{'invisible': [('state', '!=', 'fin_approve')]}" groups="account.group_account_invoice"/>
+
+
+                </xpath>
+                <xpath expr="//button[@name='action_register_payment']" position="replace" />
+                <!--
+                    <button name="action_register_payment" type="object" class="oe_highlight o_expense_sheet_pay" attrs="{'invisible': [('state', '!=', 'post')]}" context="{'dont_redirect_to_payments': True}" string="Register Payment" groups="account.group_account_invoice"/>
+                </xpath>
+-->
+                <xpath expr="//group[1]/group[1]" position="inside">
+                    
+                    <field name="hr_expense_sheet_type_id" required="1" options="{'no_create':True}"/>
+                </xpath>
+                <xpath expr="//field[@name='state']" position="replace">
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submit,approve,exp_approve,fin_approve,post,payment"/>
+                </xpath>
+                <xpath expr="//group[@name='employee_details']" position="after">
+                    <group name="advance_detail" string="Adance Details">
+                        <field name="sheet_ref" readonly="1"/>
+                        <field name="currency_id" required="1" options="{'no_create':True}"/>
+                        
+                        <field name="hr_salary_advance_id" options="{'no_create':True}" domain="[('employee_id','=',employee_id),('state','=','paid')]"/>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='expense_line_ids']" position="replace">
+                    
+                    <field name="expense_line_ids" nolabel="1" domain="[('state', '=', 'draft'), ('employee_id', '=', employee_id), ('company_id', '=', company_id), ('currency_id', '=', currency_id)]" options="{'reload_on_button': True}" context="{'form_view_ref' : 'hr_expense.hr_expense_view_form_without_header', 'default_company_id': company_id, 'default_employee_id': employee_id, 'default_hr_salary_advance_id': hr_salary_advance_id, 'default_hr_expense_sheet_type_id': hr_expense_sheet_type_id, 'default_currency_id': currency_id}" attrs="{'readonly':[]}"> 
+                    
+                            <tree decoration-danger="is_refused" editable="bottom">
+                                <field name="date" optional="show" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
+                                <field name="name" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
+                                <field name="state" invisible="1"/>
+                                <field name="reference" optional="hide"/>
+                                 <field name="project_id" string="Site"/>
+                                <field name="analytic_account_id" optional="show" domain="['|', ('company_id', '=', parent.company_id), ('company_id', '=', False)]" groups="analytic.group_analytic_accounting"/>
+                                <field name="analytic_tag_ids" optional="hide" widget="many2many_tags" groups="analytic.group_analytic_tags"/>
+                                <field name="account_id" optional="hide"/>
+                                <field name="message_unread" invisible="1"/>
+                                <field name="attachment_number" string=" "/>
+                                <button name="action_get_attachment_view" string="View Attachments" type="object" icon="fa-paperclip"/>
+                                <field name="quantity" optional="hide" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
+                                <field name="unit_amount" optional="hide" widget="monetary" options="{'currency_field': 'currency_id'}" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
+                                <field name="company_id" invisible="1"/>
+                                <field name="tax_ids" optional="show" widget="many2many_tags" groups="account.group_account_readonly" context="{'default_company_id': company_id}" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
+                                <field name="total_amount" options="{'currency_field': 'currency_id'}" optional="show"/>
+                                <field name="total_amount_company" optional="hide" groups="base.group_multi_currency"/>
+                                <field name="amount_approved" options="{'currency_field': 'currency_id'}" groups="hr_expense.group_hr_expense_team_approver,hr_expense.group_hr_expense_manager" attrs="{'readonly':[('parent.state','not in',('exp_approve','approve','submit'))]}"/>
+                                <field name="currency_id" optional="hide"/>
+
+                                <field name="company_currency_id" optional="hide"/>
+                                
+                                <field name="is_refused" invisible="True"/>
+                                <field name="remarks" attrs="{'readonly':[('parent.state','not in',('approve','submit'))]}"/>
+                                <field name="fin_remarks" attrs="{'readonly':[('parent.state','not in',('exp_approve'))]}"/>
+                                <field name="expense_approved" />
+                           </tree>
+                        </field>
+                </xpath>
+                <xpath expr="//field[@name='date']" position="before">
+                    <field name="hr_expense_sheet_type_id" invisible="1"/>
+                    <field name="expense_type_id" required="1" options="{'no_create':True}" attrs="{'readonly':[('parent.state','not in',('draft'))]}"/>
+                    <field name="advance_line_id" domain="[('advance_id','=',hr_salary_advance_id),('state','=','paid')]" options="{'no_create':True}" attrs="{'required':[('parent.hr_salary_advance_id','!=',False)],'readonly':[('parent.state','not in',('draft'))]}"/>
+                    <field name="product_id" options="{'no_create':True}" domain="[('hr_expense_sheet_type_id','=',hr_expense_sheet_type_id),('expense_type_id','=',expense_type_id)]" attrs="{'required':[('expense_type_id','!=',False)],'readonly':[('parent.state','not in',('draft'))]}"/>
+                    <field name="hr_salary_advance_id" invisible="1"/>
+                    
+                 </xpath>
+                <xpath expr="//group[@name='expense_total']" position="inside">
+                        
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="total_approved"/>
+                        </div>
+                        <field name="total_approved" nolabel="1" class="oe_subtotal_footer_separator"/>
+                        <!--
+                        <field name="amount_residual" class="oe_subtotal_footer_separator" attrs="{'invisible': [('state', 'not in', ('post', 'done'))]}"/>
+-->
+                </xpath>
+                <xpath expr="//field[@name='amount_residual']" position="attributes">
+                    <attribute name="invisible">True</attribute>
+                </xpath>
+                <!--
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='expenses']/group[@name='expense_total']" position="after">
+                    <group class="oe_subtotal_footer oe_right" colspan="2" name="expense_currency_total">
+                        <div class="oe_subtotal_footer_separator oe_inline o_td_label">
+                            <label for="total_currency_amount"/>
+                        </div>
+                        
+                        <field name="total_currency_amount" nolabel="1" class="oe_subtotal_footer_separator"/>
+                    </group>
+                </xpath>
+-->
+            </field>
+        </record>
+        <!--
+        <record model="ir.ui.view" id="view_hr_expense_sheet_tree_inherit_ref">
+            <field name="name">view.hr.expense.sheet.tree.inherit.ref</field>
+            <field name="model">hr.expense.sheet</field>
+            <field name="inherit_id" ref="hr_expense.view_hr_expense_sheet_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="employee_id" position="before">
+                    <field name="sheet_ref" />
+                </xpath>
+            </field>
+        </record>
+        -->
+        
+        <!-- HR Expense Category -->
+        <record id="hr_expense_category_form_view" model="ir.ui.view">
+            <field name="name">hr.expense.category.form.view</field>
+            <field name="model">hr.expense.type</field>
+            <field name="arch" type="xml">
+                <form string="Expense Category">
+                	<sheet>
+                        <div class="oe_title oe_left">
+                            <h1>
+                            <field name="name" class="oe_inline" placeholder="Name"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="group_id" options="{'no_create': True,'no_open':True}" />
+                            </group>
+                        </group>
+		            </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="hr_expense_category_tree_view">
+            <field name="name">hr.expense.category.tree.view</field>
+            <field name="model">hr.expense.type</field>
+            <field name="arch" type="xml">
+                <tree string=" Expense Category">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        
+        <record id="action_hr_expense_type" model="ir.actions.act_window">
+            <field name="name">Expense Category</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">hr.expense.type</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Create Expense Type
+                </p>
+            </field>
+        </record>       
+
+        <menuitem id="menu_hr_expense_type" action="action_hr_expense_type" parent="hr_expense.menu_hr_expense_configuration" name="Expense Category" sequence="3" />
+        
+       
+    </data>
+</odoo>

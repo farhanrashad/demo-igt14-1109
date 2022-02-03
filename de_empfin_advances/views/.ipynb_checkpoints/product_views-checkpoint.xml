@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+         <!-- HR Expense -->
+        <record model="ir.ui.view" id="product_product_expense_form_view_inherit_expense">
+            <field name="name">product.product.expense.form.view.inherit.expense</field>
+            <field name="model">product.product</field>
+            <field name="inherit_id" ref="hr_expense.product_product_expense_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/group[1]" position="inside">
+                    <field name="hr_expense_sheet_type_id" options="{'no_create':True}" />
+                    <field name="expense_type_id" options="{'no_create':True}" />
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
