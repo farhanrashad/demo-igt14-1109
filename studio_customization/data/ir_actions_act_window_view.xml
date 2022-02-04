@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.custom_entry_type_pe_b957849f-6f1b-433a-bce0-4052eb859670" model="ir.actions.act_window.view" context="{'studio': True}">
+    <field name="act_window_id" ref="de_custom_journal_entry_penalty.action_penalty_type_dashboard"/>
+    <field name="multi" eval="False"/>
+    <field name="sequence" eval="False"/>
+    <field name="view_id" ref="de_custom_journal_entry_penalty.custom_entry_type_penalty_dashboard_view_kanban"/>
+    <field name="view_mode">kanban</field>
+  </record>
+  <record id="studio_customization.false_dffe432e-ed7e-4e20-a275-e8976249b1ee" model="ir.actions.act_window.view" context="{'studio': True}">
+    <field name="act_window_id" ref="de_custom_journal_entry_penalty.action_penalty_type_dashboard"/>
+    <field name="multi" eval="False"/>
+    <field name="sequence">1</field>
+    <field name="view_id" eval="False"/>
+    <field name="view_mode">form</field>
+  </record>
+</odoo>

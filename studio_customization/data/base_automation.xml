@@ -1,0 +1,1043 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.add_transaction_stag_5b836804-3bca-4782-af79-591a75891ace" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.add_transaction_stag_67daf35a-52a5-447f-98f8-689390b22ad7"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[["stage_category","=","draft"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.add_transaction_stag_9d9163fb-a300-49fa-a93b-2817be7eebb0" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.add_transaction_stag_9cec0d24-d319-4357-a960-ce51eb531489"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[["stage_category","=","draft"]]</field>
+    <field name="filter_pre_domain">[]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.add_transaction_stag_a995368a-f4b0-4984-bc0b-f5068c1ca97b" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.add_transaction_stag_ecc2d864-ae7c-42d8-be1e-a87dec2c861e"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain">[]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_stock_material_transfer.field_stock_transfer_order__location_src_id')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_change</field>
+  </record>
+  <record id="studio_customization.add_transaction_stag_bd38ad89-27c0-4891-9808-383de04e16b6" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.add_transaction_stag_dc10643c-f01a-4fc5-996a-99e814720748"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain">[]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.add_transaction_stag_d4481fda-8dbc-4bd3-aca1-f10dc65ad833" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.add_transaction_stag_8aeb047d-a354-42ab-805c-d0ddf0423ca4"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[["stage_category","=","draft"]]</field>
+    <field name="filter_pre_domain">[]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.assign_date_for_orde_ebd8b451-4031-4c2a-a7d9-429dd713c267" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.assign_date_for_orde_6348f2b9-f539-44a8-9dd9-5d22a01f69b9"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_stock_material_transfer.field_stock_transfer_order__date_delivered'), ref('de_stock_material_transfer.field_stock_transfer_order__delivery_deadline')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type">hour</field>
+    <field name="trigger">on_change</field>
+  </record>
+  <record id="studio_customization.assign_partner_to_jo_c82c036c-34c9-4293-97c5-8d88aaaccd02" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.assign_partner_to_jo_6eb135b8-396c-4a1f-bacc-756aaf507fe2"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create</field>
+  </record>
+  <record id="studio_customization.assign_stages_for_on_92ac6795-c0f7-4a2e-92eb-2c9f1dbdd53c" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.assign_stages_for_on_105b39c0-7b95-40e0-bc64-120dd9769e7c"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create</field>
+  </record>
+  <record id="studio_customization.auto_submit_request__8929a44b-edd2-470a-8167-136e3abf9539" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.auto_submit_request__44d8e5fc-faea-4150-825d-dbe373f5e593"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain">[["stage_id.stage_category","=","draft"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.automate_approval_st_86ebae9b-9da7-4f2c-a242-9cbdf4f205b5" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.automate_approval_st_ad7d8238-cd04-4f04-819c-a4a0f8bca9a1"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.change_status_partia_067503ba-ee84-4fc0-af36-eb0badf9b302" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.change_status_partia_1721780e-d2a3-4791-a90e-c4fd0301fd1e"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[["state","=","done"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.create_default_analy_7b18bfa9-1637-4c1f-ade5-dbcc929a3489" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.create_default_analy_f5dd022f-874d-4769-9af0-d4fb4920f9b5"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.create_workflow_for__81d7723d-748b-4a8e-ad51-f0e8cda0ccb4" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.create_workflow_for__4f7952ba-b32b-4e20-af66-c91c083e8a61"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[["project_id.name","=","HOTO"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.custom_entry_data_up_4082cd0f-0a43-4537-89f8-c16bde976420" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.custom_entry_data_up_ffd9d6d7-c566-4ffc-9dab-71d406d78de6"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.destination_location_7c59ee99-e943-4e5e-b24d-36b678a6d3ee" model="base.automation" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.duplicate_project_bb6251eb-4ccd-4c2b-8e8f-4207847c457f" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.duplicate_project_b0819444-4d9c-4124-ab56-8a00d5378eef"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.duplication_of_descr_8ff741f8-c5e5-4823-848c-e4579fe37331" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.duplication_of_descr_6ee77637-1039-4170-bf9f-c12ed790e308"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">["|","|",["state","=","confirmed"],["state","=","hr_approval"],["state","=","finance_approval"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.electricity_exceptio_bb934b15-eb7f-4110-a177-ef509e31b372" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.electricity_exceptio_38bcf7a0-f8c9-485a-a57d-f3c705c9c9f1"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain">[["stage_id.stage_code","=","AP"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.electricity_update_c_0b2f89ab-3042-4155-babd-7d7c765564ba" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.electricity_update_c_466f95aa-3506-492c-9951-493acd4359d9"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain">[["custom_entry_id.x_studio_entry_sequence","=","EB"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.electricity_update_c_3db9e1ca-32a4-486f-a206-548932b6047c" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.electricity_update_c_0a67ae44-8a38-4de6-b45e-012d1c820c86"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain">[["custom_entry_id.x_studio_entry_sequence","=","EB"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.employee_advance_lin_3ef71607-76d6-4091-a0b7-572c018f9c0d" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.employee_advance_lin_8bd2b8e0-984a-4c42-aa84-414be0d87fb2"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.employee_cost_center_a9338986-3cbf-4652-bb2d-71dd77759627" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.employee_cost_center_a56c5bea-1287-4310-a192-19fe19a4c6ed"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.expense_approval_con_dab8aa71-e95e-4813-a5c1-d7954daf88ea" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.expense_approval_con_4b2d4ee8-9777-4f46-83ad-70241a7319b8"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">["|","|",["state","=","approve"],["state","=","exp_approve"],["state","=","fin_approve"]]</field>
+    <field name="filter_pre_domain">[]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.expense_sheet_eee780b4-e443-412a-9b56-ff5ebb094f45" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.expense_sheet_6adc4346-40dd-42b5-88e7-375af965c06c"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.expense_udpate_904f8624-3efe-425d-8ac7-17ba07e9df00" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.expense_udpate_6d35cdc0-9f98-4193-89d0-3447400928fc"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.faulty_replacement_q_ed73e2cd-ff40-4046-847e-b4db5cf792be" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.faulty_replacement_q_f73058fc-1bd5-4f12-afac-88593c950bc8"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.fuel_product_and_qua_7cbfa16b-80d3-42a7-97b1-763719942055" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.fuel_product_and_qua_15e6e62d-d6ae-4d30-9cd2-614b8afd5f8b"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.generate_name_automa_53d99b0e-84e7-4e36-bab9-033092401787" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.generate_name_automa_1261f26f-4f15-441b-8d8b-b4cb34731a37"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.generate_name_automa_9c61fdb3-73f8-41ac-9338-eb5a4f1206d0" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.generate_name_automa_5f5dfb2c-44f8-4f31-be12-c5b1f963d2c4"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.generate_name_automa_b0f8fa74-eb66-4a16-9405-33fff5563467" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.generate_name_automa_1542ff26-0dc0-4cc7-8ba7-6273ff4a64b0"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.generate_penalty_on__9022a5a9-0bf2-4a45-9e3f-432020f56eb3" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.generate_penalty_on__f3700c61-f67c-4936-951a-9fb5973ddfae"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run">2022-02-03 19:35:07</field>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" ref="de_stock_material_transfer.field_stock_transfer_order__order_deadline"/>
+    <field name="trg_date_range">30</field>
+    <field name="trg_date_range_type">day</field>
+    <field name="trigger">on_time</field>
+  </record>
+  <record id="studio_customization.grn_and_invoice_reje_82f4a278-1679-4a44-bf54-9b00487807ec" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.grn_and_invoice_reje_a94d93a7-6130-4e9c-8197-75c625e73f66"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain">[]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.grn_and_invoice_reje_e302e67b-32e1-4f3c-87bd-5541e5b6b48f" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.grn_and_invoice_reje_c5892e0d-b259-45d8-9a4a-22827f950777"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain">[["state","=","done"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.lease_data_354a142f-a9aa-467a-941e-f1d45561fd84" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.lease_data_e259403c-b8cc-4c0a-855a-364156e9bf92"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.milestone_approvals__7bbcd0ea-967f-4395-a47e-c7d7b8a18740" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_approvals__4614050d-0281-456d-a4af-6d513e6bd769"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.milestone_invoices_3df7dd95-14e7-4aa6-827b-4171ec504bf6" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_invoices_7f82834c-e951-4a8c-bf68-bf0d59851aef"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.milestone_invoices_d_1f06743b-33b6-4827-8b58-3252a929cd6d" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_invoices_d_fa015d06-359d-49f6-aa03-c0e07da57f94"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.milestone_invoices_d_28345cd0-d1dc-4607-bb1a-ba7b790eebd0" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_invoices_d_e2e81acd-87ae-47ca-975d-51e7d3baafd4"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[["payment_state","=","in_payment"]]</field>
+    <field name="filter_pre_domain">["&amp;",["state","=","posted"],"|",["payment_state","=","not_paid"],["payment_state","=","partial"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.milestone_invoices_d_be888f60-dc7e-4fb5-9094-68528b0ce66d" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_invoices_d_7dc78348-eb97-41dc-8255-0fad363866e5"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[["payment_state","=","in_payment"]]</field>
+    <field name="filter_pre_domain">["&amp;",["state","=","posted"],"|",["payment_state","=","not_paid"],["payment_state","=","partial"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.milestone_picking_da_cb2c17ac-c6da-4a44-82fa-511e3794e323" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_picking_da_9f500b9c-e75e-4f34-a928-a498f4d45cc5"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain">["|",["state","=","assigned"],["state","=","confirmed"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.milestone_task_stage_2f40c2da-7542-44d4-8108-1476789c2629" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_task_stage_fac22481-0cf0-46be-b352-874f2cb2f045"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_portal_purchase_milestone.field_project_task__is_purchase_attachment')])]"/>
+    <field name="trg_date_id" ref="project.field_project_task____last_update"/>
+    <field name="trg_date_range">1</field>
+    <field name="trg_date_range_type">minutes</field>
+    <field name="trigger">on_change</field>
+  </record>
+  <record id="studio_customization.milestone_task_stage_86aa11b2-c54e-40a5-97a0-0628851ac658" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_task_stage_3c803937-6d2f-4b61-b409-ced5655f8d67"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run">2022-02-03 19:35:07</field>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" ref="project.field_project_task____last_update"/>
+    <field name="trg_date_range">1</field>
+    <field name="trg_date_range_type">minutes</field>
+    <field name="trigger">on_time</field>
+  </record>
+  <record id="studio_customization.milestone_task_updat_087f912c-6284-4aba-951e-8fd1025ef438" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.milestone_task_updat_4a0d915c-6f64-46aa-b3b0-3d43f41fdeee"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.payment_989efcde-b576-40ca-b4fb-0cab88925c1c" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.payment_8ef4829c-daba-4187-8b79-ab3f4437571d"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.penalty_invoices_ser_44959b3a-ad63-4398-9291-d06c2c049f0e" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.penalty_invoices_ser_c55ec10c-c4e4-48a9-a21e-2d98317b8af7"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain">[["custom_entry_id.custom_entry_type_id.move_type","=","in_refund"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.penalty_invoices_ser_e8214023-c05f-47ea-a7da-112fd856154b" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.penalty_invoices_ser_92e6de94-b0c9-40b4-98f0-c06dec2e37d0"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.purchase_order_refer_52a0ece4-bf4f-4c85-81b0-8e04af8a763c" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.purchase_order_refer_d9983e8c-bf07-4c50-8955-e74b24af6c1b"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.restrict_deletion_at_b9688700-d9be-4abc-9a5f-9b8f8ead2b3f" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.restrict_deletion_at_abc74b33-45d3-4403-803c-f502922242fb"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[["stage_category","=","closed"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_unlink</field>
+  </record>
+  <record id="studio_customization.restrict_product_dup_0888e519-556c-4293-a1c3-c40d12fe0e91" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.restrict_product_dup_325be0da-e1ad-46d7-bcaa-50b46f7f1e21"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.restrict_product_dup_36e074de-2625-4482-b41c-c02421e7dc2a" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.restrict_product_dup_91c54a65-f9c2-4207-881e-cbe0280466b3"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.restrict_product_dup_99098dad-859f-4be5-8740-84b23c620351" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.restrict_product_dup_063d36f4-74a8-40b0-853c-9d1f94dae0b3"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.site_duplication_exc_8a7a86fc-801f-4df7-aab8-0df710df3db6" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.site_duplication_exc_00fe7f71-06f6-4559-a299-199d97e61a15"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('studio_customization.new_text_purchase_re_541b6a9f-fecc-4612-a157-748916241c2a')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_change</field>
+  </record>
+  <record id="studio_customization.spmrf_stage_change_f_65657002-7013-46d6-960f-1a9bc6696544" model="base.automation" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.spmrf_stage_change_o_0dc95235-ca5e-4602-8b9b-019035f67e84" model="base.automation" context="{'studio': True}">
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create</field>
+  </record>
+  <record id="studio_customization.stage_change_after_a_e0cede4c-6d0d-4485-b79c-de08ba7f904a" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.stage_change_after_a_1562fed8-6662-4646-9ed3-8351dd5f58be"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain">["|",["x_studio_entry_sequence","=","FF"],["x_studio_entry_sequence","=","FD"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.stock_not_found_1f208383-48d1-48d9-86a6-3a491e7f9f06" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.stock_not_found_472df910-29d1-47ca-8dac-79f9873f2509"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[["stage_id.stage_category","=","progress"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.stock_not_found_9d2961b6-7dc2-4f22-8c41-9297e87c324a" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.stock_not_found_0565d6a2-91ce-47e4-a6d2-eff02d847490"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[["transfer_order_category_id.code","=","FR"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.temporarily_sequence_87c9fdfc-7914-4a1c-b6d7-eedf9f0b1b4d" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.temporarily_sequence_e1b8451e-c695-42b9-8193-d0502a811577"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_custom_journal_entry.field_account_custom_entry__stage_id')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.temporarily_stage_as_9f7c226d-1322-4a69-837a-f981f210ea3c" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.temporarily_stage_as_257bc637-e0d8-4053-a1c5-b6e303d34923"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create</field>
+  </record>
+  <record id="studio_customization.transaction_selectio_a756c200-0278-4812-bcc5-94f65c27696a" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.transaction_selectio_74caa187-5fe4-4f89-ac02-f0355e29dc0e"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_advances_f3ccfc3f-5fee-4671-bab1-a02d8cfc6d6f" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_advances_8fbabc00-07c4-4477-83cf-7e0ed3f24e99"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">["&amp;",["state","=","posted"],"|",["payment_state","=","paid"],["payment_state","=","in_payment"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.update_advances_invo_83ee0f7c-2998-4e0a-8a7b-147e4ac49c01" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_advances_invo_c5bfcffa-733a-42fa-b1d0-634038381ebd"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_advances_invo_e5f937b3-083f-4bf9-bdee-c1ad853f4539" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_advances_invo_f7102e26-c2a2-46ae-92f6-85f5502547be"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_data_7722dbdf-e291-4eaf-857c-d711324cb054" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_data_82f7684c-b3c1-48c6-b828-ed97e61fe20b"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_data_b4fbb696-ff75-4542-92ad-0321be4bf2d5" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_data_32767936-fc2f-4f0b-bf71-b2ad4f850b26"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_data_for_trav_0baef044-c856-441f-b7ef-f26cc4749013" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_data_for_trav_8dd4f2d3-24ad-4f98-a1ec-5fd365b03254"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[["move_type","=","in_refund"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_custom_journal_entry.field_account_custom_entry__custom_entry_line'), ref('de_custom_journal_entry_om.field_account_custom_entry__om_amount_final_total')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_change</field>
+  </record>
+  <record id="studio_customization.update_data_for_trav_f0c821ed-514a-4098-8594-246e52d23370" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_data_for_trav_353e9eef-4970-4918-a269-66651f537780"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_data_for_vehi_76582beb-980b-4e95-abdc-3be85dbe6744" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_data_for_vehi_afbc43a6-53b3-4382-8651-65557118dab4"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_delivery_date_af053e80-23af-4da9-9bcb-487242fc34e6" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_delivery_date_b47dcf0e-1ae8-40a5-8de3-9bb231d18efd"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.update_fuel_drawn_da_05c3657f-b8c7-4fbd-a50b-fa6a11eb2940" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_fuel_drawn_da_783c0e6b-521c-4f5b-a55a-96f2afce1100"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_fuel_drawn_da_dd9232a8-bf36-49a7-a2ed-3393de8b944b" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_fuel_drawn_da_cdebc6b1-9e1f-4f53-b4ca-878a3d4fcd78"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_fuel_drawn_da_e17b956e-f4cd-49d1-9c4f-eea8993a2865" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_fuel_drawn_da_7f89d128-bd44-4897-8c79-3988a46f6591"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">[["stage_category","!=","closed"]]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_header_record_d10a6940-ee64-499c-a90c-0ffae840041e" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_header_record_06c4b250-9338-431f-b07f-4a45b8a7e40c"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create</field>
+  </record>
+  <record id="studio_customization.update_import_mode_5f393139-7caa-4a37-8af8-63b64e5ec0bb" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_import_mode_1a3935da-88cd-44ca-ac16-15cbc2f71b96"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.update_import_status_a4530332-7498-46a7-be27-325c1eadafb1" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_import_status_76282656-0de2-47b1-9d6d-b2ccc5bb968c"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_portal_custom_journal_entry.field_account_custom_entry__correction_reason')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type">hour</field>
+    <field name="trigger">on_change</field>
+  </record>
+  <record id="studio_customization.update_line_from_req_2766ec09-39ef-4fd9-83d0-84cfea787ede" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_line_from_req_89c69d27-00e8-45fa-a364-b3a12eaa3462"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_name_field_fo_bd7507c8-a325-40e3-9977-9dc9a7dbd414" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_name_field_fo_d806d347-c8bb-48fd-92ca-d4947117cb83"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_oem_serial_nu_d1b0c742-f628-448a-af3c-6c02433c4a3c" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_oem_serial_nu_bc7393dd-b980-472e-a08f-58cc08278a92"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_project_histo_cb482731-d4ea-40cc-a739-4dd9ffd40e42" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_project_histo_e4f7ebf2-8c94-4b55-8a2f-fc6c0228de7c"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain">["&amp;",["x_studio_entry_sequence","=","EB"],["stage_category","=","progress"]]</field>
+    <field name="filter_pre_domain">[["x_studio_entry_sequence","=","EB"]]</field>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.update_sequence_80e54a83-a1c9-425b-88d5-4cd3ab0db2e1" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_sequence_2d0a9b0a-5b49-4efc-a0ce-e6de9c49a508"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('stock.field_stock_production_lot__product_id')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type">hour</field>
+    <field name="trigger">on_change</field>
+  </record>
+  <record id="studio_customization.update_site_on_trans_9c5da7d6-3b15-458a-9246-75ef0540cbcf" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_site_on_trans_3f0a2756-2f60-4c61-8a05-3f37a96e1e6a"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_source_a8f1c1fa-f170-4d74-9ccd-ffd2e58f1d41" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_source_219fc483-d528-4201-a548-56dde1b0c051"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_write</field>
+  </record>
+  <record id="studio_customization.update_stock_locatio_6a500c7f-1164-41e6-8a08-bf34ed26a031" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_stock_locatio_b3fef215-3441-441b-8e88-bfc984f23504"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.update_stock_locatio_dc246a80-81f3-4140-884c-b4484b9a3f7f" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.update_stock_locatio_e91c6206-bcd5-4699-b429-c889f5fbdad8"/>
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.warning_on_grn_with__4fd01d9f-9cdc-4769-960c-8db20c62cd6d" model="base.automation" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="filter_domain" eval="False"/>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.yearly_constraint_on_5fb64fe5-b70e-458e-815c-d8dfb48505f2" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.yearly_constraint_on_2ce0ae20-63a9-410e-b6a1-158e9d80df2f"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_requisition_workflow.field_purchase_requisition__stage_category')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+  <record id="studio_customization.yearly_constraint_on_7997e563-f933-494d-92bf-7de7d937e414" model="base.automation" context="{'studio': True}">
+    <field name="action_server_id" ref="studio_customization.yearly_constraint_on_d13522f0-c3e6-4e81-b318-f3185d2ad01a"/>
+    <field name="active" eval="False"/>
+    <field name="filter_domain">[]</field>
+    <field name="filter_pre_domain" eval="False"/>
+    <field name="last_run" eval="False"/>
+    <field name="on_change_field_ids" eval="[(6, 0, [ref('de_requisition_workflow.field_purchase_requisition__stage_category')])]"/>
+    <field name="trg_date_id" eval="False"/>
+    <field name="trg_date_range" eval="False"/>
+    <field name="trg_date_range_type" eval="False"/>
+    <field name="trigger">on_create_or_write</field>
+  </record>
+</odoo>

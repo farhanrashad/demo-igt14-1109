@@ -1,0 +1,80 @@
+The following relational data haven't been exported because they either refer
+to a model that Studio doesn't export, or have no XML id:
+
+Record: studio_customization.3rd_party_billing_se_5b346823-9e97-4fc1-b0ff-d5784976cfb8
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 291, 519) ('Administrator', 'Arunkumar Peringattu Thankappan', 'Thiri Hmone')
+
+Record: studio_customization.internal_requisition_29342efe-30c7-46a5-96c2-044a0f0a9dac
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 312, 330, 400, 414, 421, 486, 519, 549) ('Administrator', 'Aung Zay Ya', 'Cho Thet Su', 'Kyaw Naing Win', 'L. Lay Lay Mee', 'May Myat Thu', 'Saw Thiri Khin', 'Thiri Hmone', 'Yekhaing lin')
+
+Record: studio_customization.internal_requisition_5e636cbe-3d3c-4908-b35a-7b409aa0501b
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 312, 519, 569, 549) ('Administrator', 'Aung Zay Ya', 'Thiri Hmone', 'Ye Khaing Lin', 'Yekhaing lin')
+
+Record: studio_customization.internal_requisition_913b2e54-9b45-4137-a707-326bac8ea29c
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 519) ('Administrator', 'Thiri Hmone')
+
+Record: studio_customization.top_up_admin_approva_334b7e7c-b9eb-489a-ae0f-9483c63b45d0
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 449, 506, 519) ('Administrator', 'Nant Hnin Kyi Kyi Oo', 'Thaw Dar Win', 'Thiri Hmone')
+
+Record: studio_customization.top_up_hr_approval_6de2cbac-ea00-4947-be3c-b2c29af290d7
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 519) ('Administrator', 'Thiri Hmone')
+
+Record: studio_customization.top_up_lm_approval_ce480e25-fe00-4154-8743-8cfd114eafec
+Model: res.groups
+Field: users
+Type: many2many
+Value: res.users(2, 506, 519) ('Administrator', 'Thaw Dar Win', 'Thiri Hmone')
+
+Record: studio_customization.update_import_status_76282656-0de2-47b1-9d6d-b2ccc5bb968c
+Model: ir.actions.server
+Field: fields_lines
+Type: one2many
+Value: ir.server.object.lines(1386,) ('ir.server.object.lines,1386')
+
+Record: studio_customization.destination_location_7c59ee99-e943-4e5e-b24d-36b678a6d3ee
+Model: base.automation
+Field: action_server_id
+Type: many2one
+Value: ir.actions.server(1533,) ('Destination Location update of I&C order type')
+
+Record: studio_customization.spmrf_stage_change_f_65657002-7013-46d6-960f-1a9bc6696544
+Model: base.automation
+Field: action_server_id
+Type: many2one
+Value: ir.actions.server(1524,) ('SPMRF Stage Change for return product')
+
+Record: studio_customization.spmrf_stage_change_o_0dc95235-ca5e-4602-8b9b-019035f67e84
+Model: base.automation
+Field: action_server_id
+Type: many2one
+Value: ir.actions.server(1539,) ('SPMRF Stage Change on submit')
+
+Record: studio_customization.warning_on_grn_with__4fd01d9f-9cdc-4769-960c-8db20c62cd6d
+Model: base.automation
+Field: action_server_id
+Type: many2one
+Value: ir.actions.server(1532,) ('Warning on GRN With Purchase Order line Quantity')
+
+Record: studio_customization.access_hoto_tasks_op_d485543b-93ae-427b-8ba7-d0c3315df7ee
+Model: ir.model.access
+Field: group_id
+Type: many2one
+Value: res.groups(610,) ('Operations Team')

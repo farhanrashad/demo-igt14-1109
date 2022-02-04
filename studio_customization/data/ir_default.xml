@@ -1,0 +1,38 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.active_project_task__0ecec2c2-2087-4448-a060-222e8d3cbfa2" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="studio_customization.active_project_task__973cc1a2-c6be-4dbb-915d-ede8e3e3c616"/>
+    <field name="condition" eval="False"/>
+    <field name="json_value">true</field>
+  </record>
+  <record id="studio_customization.approved_salary_adva_bf6de99c-a5a8-4617-ab89-c266f3beb4e4" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="de_empfin_advances.field_hr_salary_advance_line__approved"/>
+    <field name="condition" eval="False"/>
+    <field name="json_value">"True"</field>
+  </record>
+  <record id="studio_customization.is_approved_expense_5e0fe083-7675-4e0a-8eea-95359da4e8a3" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="de_empfin_advances.field_hr_expense__expense_approved"/>
+    <field name="condition" eval="False"/>
+    <field name="json_value">"True"</field>
+  </record>
+  <record id="studio_customization.new_integer_custom_e_a980ac2b-4c92-4ca2-b086-8d75e3ecf3ed" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="studio_customization.new_integer_custom_e_7e8b7267-3abe-4311-a01c-b477d59d8d98"/>
+    <field name="condition" eval="False"/>
+    <field name="json_value">"0"</field>
+  </record>
+  <record id="studio_customization.new_integer_project_25b8cd57-6eec-4b8a-a3c1-9c36fa3b3d12" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="studio_customization.new_integer_project_a05ac6e7-dcbd-4071-83b3-04f87b08b13a"/>
+    <field name="condition" eval="False"/>
+    <field name="json_value">"0"</field>
+  </record>
+  <record id="studio_customization.new_integer_project__5983bdfd-7416-499d-b084-33f5ff1e7a3c" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="studio_customization.new_integer_project__e639228f-7572-4e3e-99db-dceab5080cd2"/>
+    <field name="condition" eval="False"/>
+    <field name="json_value">"0"</field>
+  </record>
+  <record id="studio_customization.sequence_project_tas_9805c261-9b59-4d41-a22a-6d193ae976cb" model="ir.default" context="{'studio': True}">
+    <field name="field_id" ref="studio_customization.sequence_project_tas_a5f8e238-8078-44b6-b039-3b40e4dd5378"/>
+    <field name="condition" eval="False"/>
+    <field name="json_value">10</field>
+  </record>
+</odoo>

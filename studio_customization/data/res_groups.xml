@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.3rd_party_billing_se_5b346823-9e97-4fc1-b0ff-d5784976cfb8" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">3rd Party Billing / Second Approval (Fleet)</field>
+    <field name="share" eval="False"/>
+  </record>
+  <record id="studio_customization.internal_requisition_29342efe-30c7-46a5-96c2-044a0f0a9dac" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Stock Availability check by WH</field>
+    <field name="share" eval="False"/>
+  </record>
+  <record id="studio_customization.internal_requisition_5e636cbe-3d3c-4908-b35a-7b409aa0501b" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Verification by WH</field>
+    <field name="share" eval="False"/>
+  </record>
+  <record id="studio_customization.internal_requisition_913b2e54-9b45-4137-a707-326bac8ea29c" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Verify By Asset Management</field>
+    <field name="share" eval="False"/>
+  </record>
+  <record id="studio_customization.top_up_admin_approva_334b7e7c-b9eb-489a-ae0f-9483c63b45d0" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Top Up / Admin Approval</field>
+    <field name="share" eval="False"/>
+  </record>
+  <record id="studio_customization.top_up_hr_approval_6de2cbac-ea00-4947-be3c-b2c29af290d7" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Top Up / HR Approval</field>
+    <field name="share" eval="False"/>
+  </record>
+  <record id="studio_customization.top_up_lm_approval_ce480e25-fe00-4154-8743-8cfd114eafec" model="res.groups" context="{'studio': True}">
+    <field name="color" eval="False"/>
+    <field name="comment" eval="False"/>
+    <field name="implied_ids" eval="[(6, 0, [])]"/>
+    <field name="name">Top Up / LM Approval</field>
+    <field name="share" eval="False"/>
+  </record>
+</odoo>

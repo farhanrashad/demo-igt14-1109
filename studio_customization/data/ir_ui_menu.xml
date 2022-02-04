@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="base.menu_reporting_dashboard" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" eval="False"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Dashboards</field>
+    <field name="parent_id" ref="base.menu_board_root"/>
+    <field name="sequence" eval="False"/>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_custom_journal_entry.custom_entry_config_stage_menu" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_custom_journal_entry.action_custom_entry_stage"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Stages</field>
+    <field name="parent_id" ref="de_custom_journal_entry.custom_entry_config_menu"/>
+    <field name="sequence">1</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_custom_journal_entry.menu_custom_entry_type_config_custom_entry_type" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_custom_journal_entry.action_account_custom_entry_type"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+    <field name="name">Entry Type</field>
+    <field name="parent_id" ref="de_custom_journal_entry.custom_entry_config_menu"/>
+    <field name="sequence" eval="False"/>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_custom_journal_entry_import.menu_custom_processed" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_custom_journal_entry_import.action_view_processed_entry_task"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Processed Tasks</field>
+    <field name="parent_id" ref="de_custom_journal_entry.custom_entry_config_menu"/>
+    <field name="sequence">3</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_custom_journal_entry_import.menu_custom_un_processed" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_custom_journal_entry_import.action_view_un_processed_entry_task"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Un-Process Tasks</field>
+    <field name="parent_id" ref="de_custom_journal_entry.custom_entry_config_menu"/>
+    <field name="sequence">2</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_custom_journal_entry_om.menu_custom_entry_type_config_custom_entry_om_deduction_type" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_custom_journal_entry_om.action_account_custom_entry_om_deduction_type"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [ref('account.group_account_manager')])]"/>
+    <field name="name">OM Deduction</field>
+    <field name="parent_id" ref="de_custom_journal_entry.custom_entry_config_menu"/>
+    <field name="sequence">4</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_custom_journal_entry_penalty.penalty_config_sla_rule_menu" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_custom_journal_entry_penalty.action_penalty_rule"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Penalty Rules</field>
+    <field name="parent_id" ref="de_custom_journal_entry_penalty.penalty_entry_config_menu"/>
+    <field name="sequence" eval="False"/>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_msa.msa_menu_billing_info" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_msa.action_site_billing_info_view"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Billing Info</field>
+    <field name="parent_id" ref="de_msa.msa_menu_sites"/>
+    <field name="sequence">1</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_msa.msa_menu_monthly_load_model" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_msa.action_monthly_tower_load_view"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Monthly Site Load</field>
+    <field name="parent_id" ref="de_msa.msa_menu_sites"/>
+    <field name="sequence">4</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_msa.msa_menu_monthly_power_model" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_msa.action_monthly_power_model_view"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Monthly Power Model</field>
+    <field name="parent_id" ref="de_msa.msa_menu_sites"/>
+    <field name="sequence">2</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_msa.msa_menu_monthly_sla_factor" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_msa.action_monthly_sla_factor_view"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Monthly SLA Factor</field>
+    <field name="parent_id" ref="de_msa.msa_menu_sites"/>
+    <field name="sequence">5</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_msa.msa_menu_monthly_tower_model" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_msa.action_monthly_tower_model_view"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Monthly Tower Model</field>
+    <field name="parent_id" ref="de_msa.msa_menu_sites"/>
+    <field name="sequence">3</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_operations.menu_operations_custom_entry_custom_entry" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_operations.action_operations_custom_entry"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [ref('de_custom_journal_entry.group_custom_entry_user')])]"/>
+    <field name="name">Custom Entry</field>
+    <field name="parent_id" ref="de_operations.operations_custom_entries_menu"/>
+    <field name="sequence">1</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_operations.menu_operations_penalty_custom_entry" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_operations.action_operations_custom_entry_penalty"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [ref('de_custom_journal_entry_penalty.group_operations_penalty_user')])]"/>
+    <field name="name">Penalty</field>
+    <field name="parent_id" ref="de_operations.operations_custom_entries_menu"/>
+    <field name="sequence">2</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_operations.menu_operations_site_hoto" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_operations.action_view_task_hoto"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">HOTO Sites</field>
+    <field name="parent_id" ref="de_operations.operations_custom_entries_menu"/>
+    <field name="sequence">3</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="de_report_acc_statement.report_acc_statement_report_item" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="de_report_acc_statement.action_report_acc_statement_wizard"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Account Statement</field>
+    <field name="parent_id" ref="account.menu_finance_receivables"/>
+    <field name="sequence">120</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.custom_entries_om_ra_88525abd-f319-4dd6-b8bf-80100bb08fb7" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.om_rate_56431c00-c9d0-4582-a1a0-91befa0a80a6"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">OM Rate</field>
+    <field name="parent_id" ref="de_custom_journal_entry.custom_entry_config_menu"/>
+    <field name="sequence">5</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.msa_sites_85253583-b390-4752-a6a5-78b9322a7270" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="base.action_open_website"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Sites</field>
+    <field name="parent_id" eval="False"/>
+    <field name="sequence">1</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.msa_billing_info_22ed91cc-664d-4960-b536-6082ee436fc8" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.billing_info_9b30b187-8359-4a05-aa5e-58f0196d42fe"/>
+    <field name="active" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Billing Info</field>
+    <field name="parent_id" ref="studio_customization.msa_sites_85253583-b390-4752-a6a5-78b9322a7270"/>
+    <field name="sequence" eval="False"/>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.msa_billing_info_7d91119d-4e07-4d6f-90f3-b8fbaacd7973" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.billing_info_531d42bc-5bd8-4788-a9e2-4722e870bc46"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Billing Info</field>
+    <field name="parent_id" ref="studio_customization.msa_sites_85253583-b390-4752-a6a5-78b9322a7270"/>
+    <field name="sequence" eval="False"/>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.msa_monthly_power_mo_d478990f-ef4d-4028-8cbf-823d28587240" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.monthly_power_model_5b913cdd-7bfb-4fb0-a270-2953b99b2b45"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Monthly Power Model</field>
+    <field name="parent_id" ref="studio_customization.msa_sites_85253583-b390-4752-a6a5-78b9322a7270"/>
+    <field name="sequence">1</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.msa_monthly_tower_lo_17dab492-4cb5-4b93-ac02-faf35c07e8fb" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.monthly_tower_load_a9b1ab4b-8a34-4ed3-bcd7-c4402059a024"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Monthly Tower Load</field>
+    <field name="parent_id" ref="studio_customization.msa_sites_85253583-b390-4752-a6a5-78b9322a7270"/>
+    <field name="sequence">3</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.msa_monthly_tower_mo_59cb8650-df49-4919-8978-302fa6f3681c" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.monthly_tower_model_2b7fa133-3ef9-4c82-b5e0-45cb08567cb1"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Monthly Tower Model</field>
+    <field name="parent_id" ref="studio_customization.msa_sites_85253583-b390-4752-a6a5-78b9322a7270"/>
+    <field name="sequence">2</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.msa_sites_a2173f95-5eb1-4159-8e71-05b802f3eb67" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.sites_02c6d79c-0173-4329-ad10-52616dc70fd3"/>
+    <field name="active" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Sites</field>
+    <field name="parent_id" ref="de_msa.msa_menu_sites"/>
+    <field name="sequence" eval="False"/>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.penalties_sow_33100921-dd54-4dec-a2d8-898545eaaabd" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.sow_6d1ae37c-6df1-471f-ac9c-e944f0b20e5d"/>
+    <field name="active" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">SOW</field>
+    <field name="parent_id" ref="de_custom_journal_entry_penalty.penalty_entry_config_menu"/>
+    <field name="sequence">2</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.penalties_sow_type_e35ca7a1-dea1-4d2c-a014-0cadf9101a59" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.sow_type_32f81446-1b26-4897-8e69-58100574da5c"/>
+    <field name="active" eval="False"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">SOW Type</field>
+    <field name="parent_id" ref="de_custom_journal_entry_penalty.penalty_entry_config_menu"/>
+    <field name="sequence">1</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+  <record id="studio_customization.project_project_task_296b01c5-a479-4a33-8a13-4e70a3a37b5c" model="ir.ui.menu" context="{'studio': True}">
+    <field name="action" ref="studio_customization.project_task_documen_9747d489-3924-4373-9a90-7958c5bfd40a"/>
+    <field name="active" eval="True"/>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="name">Project Task Documents</field>
+    <field name="parent_id" ref="project.menu_main_pm"/>
+    <field name="sequence">101</field>
+    <field name="web_icon" eval="False"/>
+  </record>
+</odoo>

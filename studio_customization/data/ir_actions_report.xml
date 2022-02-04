@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.stock_transfer_order_700068d7-5e66-4216-aa64-2e94a37f3e9d" model="ir.actions.report" context="{'studio': True}">
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+    <field name="binding_model_id" ref="de_stock_material_transfer_approvals.model_stock_transfer_order"/>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="model">stock.transfer.order</field>
+    <field name="multi" eval="False"/>
+    <field name="name">MRF Transfer Report</field>
+    <field name="paperformat_id" eval="False"/>
+    <field name="report_name">studio_customization.studio_report_docume_8a732abf-a577-4915-ac71-b78e9999f4f3</field>
+    <field name="report_type">qweb-pdf</field>
+  </record>
+  <record id="studio_customization.stock_transfer_order_7e323849-588e-4b38-b8bc-3fee4f3ee553" model="ir.actions.report" context="{'studio': True}">
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+    <field name="binding_model_id" ref="de_stock_material_transfer_approvals.model_stock_transfer_order"/>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="model">stock.transfer.order</field>
+    <field name="multi" eval="False"/>
+    <field name="name">MRF Report</field>
+    <field name="paperformat_id" eval="False"/>
+    <field name="report_name">studio_customization.studio_report_docume_9c8d6d3f-7641-48d7-a6ad-c7bc4a7225e2</field>
+    <field name="report_type">qweb-pdf</field>
+  </record>
+  <record id="studio_customization.stock_transfer_order_daed9dfc-3857-49b5-afca-4d6e233706e9" model="ir.actions.report" context="{'studio': True}">
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+    <field name="binding_model_id" ref="de_stock_material_transfer_approvals.model_stock_transfer_order"/>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="model">stock.transfer.order</field>
+    <field name="multi" eval="False"/>
+    <field name="name">SPMRF Transfer Report</field>
+    <field name="paperformat_id" eval="False"/>
+    <field name="report_name">studio_customization.studio_report_docume_6c45de17-98a9-4898-8db4-88464cdb3655</field>
+    <field name="report_type">qweb-pdf</field>
+  </record>
+  <record id="studio_customization.transfer_report_4365f444-cf54-4b0e-9747-be9efbeff34b" model="ir.actions.report" context="{'studio': True}">
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+    <field name="binding_model_id" ref="stock.model_stock_picking"/>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="model">stock.picking</field>
+    <field name="multi" eval="False"/>
+    <field name="name">GTN Report</field>
+    <field name="paperformat_id" eval="False"/>
+    <field name="report_name">studio_customization.studio_report_docume_64b038cb-6895-40c4-a21c-2618e7b5c7ea</field>
+    <field name="report_type">qweb-pdf</field>
+  </record>
+  <record id="studio_customization.transfer_report_982e9d9b-d5db-4904-9dc7-c4b6955b09ab" model="ir.actions.report" context="{'studio': True}">
+    <field name="attachment" eval="False"/>
+    <field name="attachment_use" eval="False"/>
+    <field name="binding_model_id" ref="stock.model_stock_picking"/>
+    <field name="binding_type">report</field>
+    <field name="binding_view_types">list,form</field>
+    <field name="groups_id" eval="[(6, 0, [])]"/>
+    <field name="model">stock.picking</field>
+    <field name="multi" eval="False"/>
+    <field name="name">Goods Receipt Note</field>
+    <field name="paperformat_id" eval="False"/>
+    <field name="report_name">studio_customization.studio_report_docume_1b9d3416-50a5-4fd4-a2d8-ec0a9ff97d95</field>
+    <field name="report_type">qweb-pdf</field>
+  </record>
+</odoo>

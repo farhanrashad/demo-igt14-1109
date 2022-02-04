@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+  <record id="studio_customization.access_custom_entry__0acae5f9-c33c-4eea-ab48-f1678630c2ca" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="de_custom_journal_entry_penalty.group_operations_penalty_user"/>
+    <field name="model_id" ref="de_msa.model_site_billing_info"/>
+    <field name="name">access.custom.entry.penalty</field>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="False"/>
+  </record>
+  <record id="studio_customization.access_custom_entry__56c61f31-d774-453f-bd99-2e68f48ba9c7" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="de_custom_journal_entry_penalty.group_operations_penalty_user"/>
+    <field name="model_id" ref="de_msa.model_monthly_power_model"/>
+    <field name="name">access.custom.entry.penalty.power.model</field>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="False"/>
+  </record>
+  <record id="studio_customization.access_custom_entry__7737a01e-e5b8-4ca7-b123-c1a02bd3196c" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="de_custom_journal_entry_penalty.group_operations_penalty_user"/>
+    <field name="model_id" ref="de_msa.model_monthly_tower_model"/>
+    <field name="name">access.custom.entry.penalty.tower.model</field>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="False"/>
+  </record>
+  <record id="studio_customization.access_hoto_tasks_op_d485543b-93ae-427b-8ba7-d0c3315df7ee" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="model_id" ref="project.model_project_task"/>
+    <field name="name">access.hoto.tasks.operations</field>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.access_project_penal_9a8d91f0-7d96-4277-8bb8-4b156d348a61" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="de_custom_journal_entry_penalty.group_operations_penalty_user"/>
+    <field name="model_id" ref="project.model_project_project"/>
+    <field name="name">access.project.penalty.user</field>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="False"/>
+  </record>
+  <record id="studio_customization.access_project_task__1d944637-2ef0-4b26-87cf-e1472286da5c" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="de_custom_journal_entry_penalty.group_operations_penalty_user"/>
+    <field name="model_id" ref="de_project_task_workflow.model_project_stage"/>
+    <field name="name">access.project.task.stages.penalty.user</field>
+    <field name="perm_create" eval="False"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="False"/>
+  </record>
+  <record id="studio_customization.lease_candidate_grou_5d4e2564-7786-4401-a232-e402a486844b" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="studio_customization.lease_candidate_a5b58c52-24c0-406b-af95-bc649161afd8"/>
+    <field name="name">Lease Candidate group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.lease_candidate_grou_c5f116a2-7c44-422c-ab9a-83d8f8831de6" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="studio_customization.lease_candidate_a5b58c52-24c0-406b-af95-bc649161afd8"/>
+    <field name="name">Lease Candidate group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.monthly_power_model__509a983a-8226-48d7-b43c-699566a2fa72" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="studio_customization.monthly_power_model_fdebe644-cebf-429d-8dbf-dcb28ff1d804"/>
+    <field name="name">Monthly Power Model group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.monthly_power_model__5d0b3b86-1212-4f2a-87ab-de537ae2eb58" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="studio_customization.monthly_power_model_fdebe644-cebf-429d-8dbf-dcb28ff1d804"/>
+    <field name="name">Monthly Power Model group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.monthly_tower_load_g_347ecaa9-d9b2-4c5f-b312-2bb079448648" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="studio_customization.monthly_tower_load_200deabd-8dfe-4ed0-84cc-a17b2ad82cb5"/>
+    <field name="name">Monthly Tower Load group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.monthly_tower_load_g_ad0b98f8-6783-4364-ab24-805906b7edea" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="studio_customization.monthly_tower_load_200deabd-8dfe-4ed0-84cc-a17b2ad82cb5"/>
+    <field name="name">Monthly Tower Load group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.monthly_tower_model__258bb19d-b66a-4469-822a-c04bd089d639" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="studio_customization.monthly_tower_model_a08272a1-5cb1-4c13-a526-1c2a2f7119d7"/>
+    <field name="name">Monthly Tower Model group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.monthly_tower_model__4e98cd7d-fa7b-4180-a498-1d1a33d1cfae" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="studio_customization.monthly_tower_model_a08272a1-5cb1-4c13-a526-1c2a2f7119d7"/>
+    <field name="name">Monthly Tower Model group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.project_task_documen_716984c3-dbec-48eb-8ce5-4f6e694ce4c9" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_system"/>
+    <field name="model_id" ref="studio_customization.project_task_documen_d187f578-1ab5-4600-911f-94efd11abffd"/>
+    <field name="name">Project Task Documents group_system</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="True"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+  <record id="studio_customization.project_task_documen_fa151447-34cb-41bc-90f8-a195925005c4" model="ir.model.access" context="{'studio': True}">
+    <field name="active" eval="True"/>
+    <field name="group_id" ref="base.group_user"/>
+    <field name="model_id" ref="studio_customization.project_task_documen_d187f578-1ab5-4600-911f-94efd11abffd"/>
+    <field name="name">Project Task Documents group_user</field>
+    <field name="perm_create" eval="True"/>
+    <field name="perm_read" eval="True"/>
+    <field name="perm_unlink" eval="False"/>
+    <field name="perm_write" eval="True"/>
+  </record>
+</odoo>
