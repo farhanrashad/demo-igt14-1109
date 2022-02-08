@@ -18,8 +18,8 @@ class AccountMove(models.Model):
     _inherit = "account.move"
     
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
-    #total_base_signed = fields.Monetary(string='Total base.Curr.', readonly=True, compute='_compute_all_currency_conversion_amount', currency_field='company_currency_id', store=True)
-    total_base_signed = fields.Float(string='Total base.Curr.')
+    total_base_signed = fields.Monetary(string='Total base.Curr.', readonly=True, compute='_compute_all_currency_conversion_amount', currency_field='company_currency_id', store=True)
+    #total_base_signed = fields.Float(string='Total base.Curr.')
 
     
     @api.depends('amount_total_signed',)
