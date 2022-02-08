@@ -19,7 +19,7 @@ class AccountMove(models.Model):
     
     company_currency_id = fields.Many2one('res.currency', related='company_id.currency_id')
     #total_base_signed = fields.Monetary(string='Total base.Curr.', readonly=True, compute='_compute_all_currency_conversion_amount', currency_field='company_currency_id', store=True)
-    total_base_signed = fields.Monetary(string='Total base.Curr.')
+    total_base_signed = fields.Float(string='Total base.Curr.')
 
     
     @api.depends('amount_total_signed',)
@@ -28,8 +28,7 @@ class AccountMove(models.Model):
             total_base_signed = 0.0
             if not (move.currency_id.id == move.company_id.currency_id.id):
                 #total_base_signed += move.currency_id._get_conversion_rate(move.currency_id, move.company_currency_id,move.company_id, move.date) * move.amount_total_signed
-                total_base_signed = move.currency_id._convert(move.amount_total_signed, move.company_id.currency_id, move.company_id, fields.date.today()) 
-
+                total_base_signed = move.currency_id._convert(move.amount_total_signed, move.company_id.currency_id, move.company_id, fields.date.today())
             else:
                 total_base_signed = move.amount_total_signed
             move.update({
