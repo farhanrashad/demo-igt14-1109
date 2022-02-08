@@ -2,7 +2,7 @@
 
 {
     'name': 'Employee Advances',
-    'version': '14.0.3.0',
+    'version': '14.0.3.1',
     'summary': 'Employee Advance Request',
     'description': """
         Helps you to manage Advance Salary Request of your company's staff.
