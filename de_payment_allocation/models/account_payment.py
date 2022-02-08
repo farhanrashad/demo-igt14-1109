@@ -65,7 +65,9 @@ class AccountPayment(models.Model):
                     payment.matching_move_id.unlink()
                     
             if not (payment.currency_id.id == payment.company_id.currency_id.id):
-                amount = payment.currency_id._get_conversion_rate(payment.currency_id, payment.company_id.currency_id,payment.company_id, fields.date.today()) * payment.amount
+                #amount = payment.currency_id._get_conversion_rate(payment.currency_id, payment.company_id.currency_id,payment.company_id, fields.date.today()) * payment.amount
+                amount = payment.currency_id._convert(payment.amount, payment.company_id.currency_id, payment.company_id, fields.date.today())                    
+
             else:
                 amount = payment.amount
             journal_id = self.env['account.journal'].search([('type','=','general')],limit=1)
@@ -353,7 +355,9 @@ class AccountPayment(models.Model):
         debit_move_lines = self.env['account.move.line'].search([('partner_id','=',self.partner_id.id),('debit','!=',0),('move_id.state','=','posted'),('account_id.reconcile','=',True),('amount_residual_currency','!=',0),('move_id','!=',self.move_id.id),('payment_id','=',False)])
         for debit_line in debit_move_lines:                
             if not (debit_line.currency_id.id == self.currency_id.id):
-                residual_amount_currency = debit_line.currency_id._get_conversion_rate(debit_line.currency_id, self.currency_id,self.company_id, fields.date.today()) * debit_line.amount_residual_currency
+                #residual_amount_currency = debit_line.currency_id._get_conversion_rate(debit_line.currency_id, self.currency_id,self.company_id, fields.date.today()) * debit_line.amount_residual_currency
+                residual_amount_currency = debit_line.currency_id._convert(debit_line.residual_amount_currency, self.company_id.currency_id, self.company_id, fields.date.today())                    
+
             else:
                 residual_amount_currency = debit_line.amount_residual_currency
                 
@@ -381,7 +385,9 @@ class AccountPayment(models.Model):
         for credit_line in credit_move_lines:
                 
             if not (credit_line.currency_id.id == self.currency_id.id):
-                residual_amount_currency = credit_line.currency_id._get_conversion_rate(credit_line.currency_id, self.currency_id,self.company_id, fields.date.today()) * credit_line.amount_residual_currency
+                #residual_amount_currency = credit_line.currency_id._get_conversion_rate(credit_line.currency_id, self.currency_id,self.company_id, fields.date.today()) * credit_line.amount_residual_currency
+                residual_amount_currency = credit_line.currency_id._convert(credit_line.residual_amount_currency, self.company_id.currency_id, self.company_id, fields.date.today())                    
+
             else:
                 residual_amount_currency = credit_line.amount_residual_currency
                 
@@ -462,7 +468,9 @@ class AccountPayment(models.Model):
     def _compute_all_exchange(self):
         exchange_rate = 0
         if not self.currency_id.id == self.company_currency_id.id:
-            exchange_rate = self.currency_id._get_conversion_rate(self.currency_id, self.company_currency_id,self.company_id, fields.date.today()) * 1
+            #exchange_rate = self.currency_id._get_conversion_rate(self.currency_id, self.company_currency_id,self.company_id, fields.date.today()) * 1
+            exchange_rate = credit_line.currency_id._convert(1, self.company_id.currency_id, self.company_id, fields.date.today())                    
+
             self.exchange_rate = '1 ' + self.company_currency_id.name + ' = ' + str(round(exchange_rate,2)) + ' ' + self.currency_id.name
             self.last_exchange_rate = 'At the operation date, the exchange rate was 1 ' + self.company_currency_id.name + ' = ' + str(round(exchange_rate,2)) + ' ' + self.currency_id.name
         else:
@@ -497,7 +505,9 @@ class AccountPaymentDebitAllocation(models.TransientModel):
     def _compute_all_currency_amount(self):
         total_allocation = 0.0
         for record in self:
-            total_allocation = record.allocation_currency_id._get_conversion_rate(record.allocation_currency_id, record.company_currency_id,record.payment_id.company_id, fields.date.today()) * float(record.allocated_amount_currency)
+            #total_allocation = record.allocation_currency_id._get_conversion_rate(record.allocation_currency_id, record.company_currency_id,record.payment_id.company_id, fields.date.today()) * float(record.allocated_amount_currency)
+            total_allocation = record.currency_id._convert(record.allocated_amount_currency, self.company_id.currency_id, self.company_id, fields.date.today())                    
+
             record.allocated_amount = float(total_allocation)
         
     @api.onchange('allocated_amount_currency')
@@ -538,7 +548,9 @@ class AccountPaymentCreditAllocation(models.TransientModel):
     def _compute_all_currency_amount(self):
         total_allocation = 0.0
         for record in self:
-            total_allocation = record.allocation_currency_id._get_conversion_rate(record.allocation_currency_id, record.company_currency_id,record.payment_id.company_id, fields.date.today()) * float(record.allocated_amount_currency)
+            #total_allocation = record.allocation_currency_id._get_conversion_rate(record.allocation_currency_id, record.company_currency_id,record.payment_id.company_id, fields.date.today()) * float(record.allocated_amount_currency)
+            total_allocation = record.currency_id._convert(record.allocated_amount_currency, self.company_id.currency_id, self.company_id, fields.date.today())                    
+
             record.allocated_amount = float(total_allocation)
         
     @api.onchange('allocated_amount_currency')
@@ -552,8 +564,11 @@ class AccountPaymentCreditAllocation(models.TransientModel):
             current_exchange = 0
             last_exchange = 0
             if not line.currency_id.id == line.allocation_currency_id.id:
-                last_exchange = line.allocation_currency_id._get_conversion_rate(line.allocation_currency_id, line.company_currency_id,line.payment_id.company_id, line.date) * 1
+                #last_exchange = line.allocation_currency_id._get_conversion_rate(line.allocation_currency_id, line.company_currency_id,line.payment_id.company_id, line.date) * 1
+                last_exchange = line.currency_id._convert(1, self.company_id.currency_id, self.company_id, fields.date.today())                    
+
                 #current_exchange = line.allocation_currency_id._get_conversion_rate(line.allocation_currency_id, line.company_currency_id,line.payment_id.company_id, fields.date.today()) * 1
-                current_exchange = line.company_currency_id._get_conversion_rate(line.company_currency_id, line.allocation_currency_id,line.payment_id.company_id, fields.date.today()) * 1
+                #current_exchange = line.company_currency_id._get_conversion_rate(line.company_currency_id, line.allocation_currency_id,line.payment_id.company_id, fields.date.today()) * 1
+                current_exchange = line.currency_id._convert(1, self.company_id.currency_id, self.company_id, fields.date.today())                    
 
             line.exchange_diff = current_exchange
