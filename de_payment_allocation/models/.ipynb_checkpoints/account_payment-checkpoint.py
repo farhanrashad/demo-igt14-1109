@@ -471,11 +471,11 @@ class AccountPayment(models.Model):
             #exchange_rate = self.currency_id._get_conversion_rate(self.currency_id, self.company_currency_id,self.company_id, fields.date.today()) * 1
             exchange_rate = self.currency_id._convert(1, self.company_id.currency_id, self.company_id, fields.date.today())                    
 
-            self.exchange_rate = '1 ' + self.company_currency_id.name + ' = ' + str(round(exchange_rate,2)) + ' ' + self.currency_id.name
-            self.last_exchange_rate = 'At the operation date, the exchange rate was 1 ' + self.company_currency_id.name + ' = ' + str(round(exchange_rate,2)) + ' ' + self.currency_id.name
+            self.exchange_rate = '1 ' + str(self.company_currency_id.name) + ' = ' + str(round(exchange_rate,2)) + ' ' + str(self.currency_id.name)
+            self.last_exchange_rate = 'At the operation date, the exchange rate was 1 ' + str(self.company_currency_id.name) + ' = ' + str(round(exchange_rate,2)) + ' ' + str(self.currency_id.name)
         else:
-            self.exchange_rate = '1 ' + self.company_currency_id.name + ' = ' + '1' + ' ' + self.currency_id.name
-            self.last_exchange_rate = '1 ' + self.company_currency_id.name + ' = ' + '1' + ' ' + self.currency_id.name
+            self.exchange_rate = '1 ' + str(self.company_currency_id.name) + ' = ' + '1' + ' ' + str(self.currency_id.name)
+            self.last_exchange_rate = '1 ' + str(self.company_currency_id.name) + ' = ' + '1' + ' ' + str(self.currency_id.name)
 
 class AccountPaymentDebitAllocation(models.TransientModel):
     _name = 'account.payment.debit.allocation'
